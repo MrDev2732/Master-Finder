@@ -1,9 +1,16 @@
 {
-  "name": "apps/backend-masterfinder",
+  "name": "backend-masterfinder",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/backend-masterfinder/backend",
   "targets": {
+    "serve": {
+      "executor": "@nxlv/python:run-commands",
+      "options": {
+        "command": "poetry run uvicorn backend.main:app --log-level info --host 0.0.0.0 --port 8000",
+        "cwd": "apps/backend-masterfinder"
+      }
+    },
     "lock": {
       "executor": "@nxlv/python:run-commands",
       "options": {

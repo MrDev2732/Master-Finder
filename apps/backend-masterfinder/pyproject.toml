@@ -21,7 +21,7 @@ readme = 'README.md'
   include = "backend"
 
   [tool.poetry.dependencies]
-  python = ">=3.9,<3.11"
+  python = ">=3.9,<=3.12.3"
 
   [tool.poetry.group.dev.dependencies]
   autopep8 = "2.0.2"
