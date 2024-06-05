@@ -2,7 +2,7 @@ import datetime
 import json
 import uuid
 
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, Float, Text
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, Float
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -45,8 +45,9 @@ class Worker(Base, BaseModel):
     contact_number = Column(String(20), nullable=False)
     email = Column(String(150), unique=True, nullable=False)
     subscription = Column(Boolean, default=False)
-    profile_description = Column(Text, nullable=True)
-    
+    profile_description = Column(String, nullable=True)
+    password_hash = Column(String(256), nullable=False)
+
     postings = relationship('Posting', back_populates='worker')
     ratings = relationship('Rating', back_populates='worker')
 
@@ -56,7 +57,8 @@ class Client(Base, BaseModel):
     
     name = Column(String(150), nullable=False)
     email = Column(String(150), unique=True, nullable=False)
-    
+    password_hash = Column(String(256), nullable=False)
+
     ratings = relationship('Rating', back_populates='client')
     comments = relationship('Comment', back_populates='client')
 
@@ -66,7 +68,7 @@ class Posting(Base, BaseModel):
     
     worker_id = Column(UUID(as_uuid=True), ForeignKey('worker.id'), nullable=False)
     job_type = Column(String(150), nullable=False)
-    description = Column(Text, nullable=True)
+    description = Column(String, nullable=True)
     
     worker = relationship('Worker', back_populates='postings')
 
@@ -89,7 +91,7 @@ class Comment(Base, BaseModel):
     
     client_id = Column(UUID(as_uuid=True), ForeignKey('client.id'), nullable=False)
     worker_id = Column(UUID(as_uuid=True), ForeignKey('worker.id'), nullable=False)
-    content = Column(Text, nullable=False)
+    content = Column(String, nullable=False)
     
     client = relationship('Client', back_populates='comments')
     rating = relationship('Rating', uselist=False, back_populates='comment')
