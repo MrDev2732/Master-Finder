@@ -17,7 +17,8 @@ def populate_workers(session: Session, n=10):
             contact_number=fake.phone_number(),
             email=fake.unique.email(),
             subscription=fake.boolean(),
-            profile_description=fake.text()
+            profile_description=fake.text(),
+            password_hash=fake.password()
         )
         session.add(worker)
     session.commit()
@@ -27,7 +28,8 @@ def populate_clients(session: Session, n=10):
     for _ in range(n):
         client = Client(
             name=fake.name(),
-            email=fake.unique.email()
+            email=fake.unique.email(),
+            password_hash=fake.password()
         )
         session.add(client)
     session.commit()
