@@ -1,23 +1,12 @@
-from os import getenv
-import hashlib
-
 from faker import Faker
 from sqlalchemy.orm import Session
-from passlib.context import CryptContext
 
 from backend.database.models import Worker, Client, Posting, Rating, Comment, Transaction
+from backend.handlers.auth import hash_password
 
 
 # Create a new Faker instance
 fake = Faker()
-
-SECRET_KEY = getenv("SECRET_KEY")
-PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
-def hash_password(password: str) -> str:
-    SALT = hashlib.sha256(SECRET_KEY.encode()).hexdigest()
-    return PWD_CONTEXT.hash(password + SALT)
 
 
 def populate_workers(session: Session, n=10):
