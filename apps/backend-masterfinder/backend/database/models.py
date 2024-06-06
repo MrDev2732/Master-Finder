@@ -46,7 +46,7 @@ class Worker(Base, BaseModel):
     email = Column(String(150), unique=True, nullable=False)
     subscription = Column(Boolean, default=False)
     profile_description = Column(String, nullable=True)
-    password_hash = Column(String(256), nullable=False)
+    password = Column(String(256), nullable=False)
 
     postings = relationship('Posting', back_populates='worker')
     ratings = relationship('Rating', back_populates='worker')
@@ -57,7 +57,7 @@ class Client(Base, BaseModel):
     
     name = Column(String(150), nullable=False)
     email = Column(String(150), unique=True, nullable=False)
-    password_hash = Column(String(256), nullable=False)
+    password = Column(String(256), nullable=False)
 
     ratings = relationship('Rating', back_populates='client')
     comments = relationship('Comment', back_populates='client')
