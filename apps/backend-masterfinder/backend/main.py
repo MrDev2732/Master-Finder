@@ -1,21 +1,26 @@
 import logging
+import hashlib
+from os import getenv
 from typing import Annotated
 from datetime import datetime, timedelta
 
 from fastapi import FastAPI, Request, Form, HTTPException, Cookie, Depends
-from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import sessionmaker, Session
+from fastapi.templating import Jinja2Templates
+from passlib.context import CryptContext
 from sqlalchemy import create_engine
-import jwt  # Reemplaza jose por pyjwt
+import jwt
 
 from backend.database.models import Base, Worker
 from backend.database.create_db import main as populate_db
 
+
 jinja2_template = Jinja2Templates(directory="templates")
 
-SECRET_KEY = 'Chupalo Yul CULIAO'
+SECRET_KEY = getenv("SECRET_KEY")
+PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
 TOKEN_SCOND_EXP = 60
 
 logging.basicConfig(level=logging.INFO,
@@ -71,9 +76,10 @@ def get_user(first_name: str, db: Session):
     return db.query(Worker).filter(Worker.first_name == first_name).first()
 
 
-def authenticate_user(password: str, password_plane: str):
-    password_clean = password.split('#')[0]
-    return password_plane == password_clean
+def verify_password(plain_password, hashed_password):
+    SALT = hashlib.sha256(SECRET_KEY.encode()).hexdigest()
+    salted_password = plain_password + SALT
+    return PWD_CONTEXT.verify(salted_password, hashed_password)
 
 
 def create_token(data: dict):
@@ -106,7 +112,7 @@ def dashboard(request: Request, db: Session = Depends(get_db), access_token: Ann
 @app.post("/workers/login")
 def login(first_name: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):
     user_data = get_user(first_name, db)
-    if user_data is None or not authenticate_user(user_data.password_hash, password):
+    if user_data is None or not verify_password(password, user_data.password):
         raise HTTPException(
             status_code=401,
             detail="Username or password no authorization"
