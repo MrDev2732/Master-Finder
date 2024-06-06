@@ -1,11 +1,23 @@
+from os import getenv
+import hashlib
+
 from faker import Faker
 from sqlalchemy.orm import Session
+from passlib.context import CryptContext
 
 from backend.database.models import Worker, Client, Posting, Rating, Comment, Transaction
 
 
 # Create a new Faker instance
 fake = Faker()
+
+SECRET_KEY = getenv("SECRET_KEY")
+PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def hash_password(password: str) -> str:
+    SALT = hashlib.sha256(SECRET_KEY.encode()).hexdigest()
+    return PWD_CONTEXT.hash(password + SALT)
 
 
 def populate_workers(session: Session, n=10):
@@ -18,7 +30,7 @@ def populate_workers(session: Session, n=10):
             email=fake.unique.email(),
             subscription=fake.boolean(),
             profile_description=fake.text(),
-            password_hash=fake.password()
+            password=hash_password('falopa')
         )
         session.add(worker)
     session.commit()
@@ -29,7 +41,7 @@ def populate_clients(session: Session, n=10):
         client = Client(
             name=fake.name(),
             email=fake.unique.email(),
-            password_hash=fake.password()
+            password=hash_password(fake.password())
         )
         session.add(client)
     session.commit()
