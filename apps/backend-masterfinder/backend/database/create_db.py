@@ -1,5 +1,10 @@
+import os
+import io
+
 from faker import Faker
 from sqlalchemy.orm import Session
+from sqlalchemy import LargeBinary
+from PIL import Image
 
 from backend.database.models import Worker, Client, Posting, Rating, Comment, Transaction
 from backend.handlers.auth import hash_password
@@ -7,6 +12,17 @@ from backend.handlers.auth import hash_password
 
 # Create a new Faker instance
 fake = Faker()
+
+def read_image_as_binary(image_path):
+    with Image.open(image_path) as img:
+        img_byte_arr = io.BytesIO()
+        img.save(img_byte_arr, format='JPEG')
+        return img_byte_arr.getvalue()
+
+# Path to your image
+image_path = os.path.join(os.path.dirname(__file__), 'img', 'EPICO.jpg')
+print("Absolute path to image:", os.path.abspath(image_path))
+image_binary = read_image_as_binary(image_path)
 
 
 def populate_workers(session: Session, n=10):
@@ -19,7 +35,8 @@ def populate_workers(session: Session, n=10):
             email=fake.unique.email(),
             subscription=fake.boolean(),
             profile_description=fake.text(),
-            password=hash_password('falopa')
+            password=hash_password('falopa'),
+            image=image_binary
         )
         session.add(worker)
     session.commit()
@@ -42,7 +59,8 @@ def populate_postings(session: Session, n=10):
         posting = Posting(
             worker_id=fake.random_element(workers).id,
             job_type=fake.job(),
-            description=fake.text()
+            description=fake.text(),
+            image=image_binary
         )
         session.add(posting)
     session.commit()

@@ -2,7 +2,7 @@ import datetime
 import json
 import uuid
 
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, Float, LargeBinary
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -38,7 +38,7 @@ class BaseModel:
 
 class Worker(Base, BaseModel):
     __tablename__ = 'worker'
-    
+
     first_name = Column(String(150), nullable=False)
     last_name = Column(String(150), nullable=False)
     rut = Column(String(20), unique=True, nullable=False)
@@ -47,6 +47,7 @@ class Worker(Base, BaseModel):
     subscription = Column(Boolean, default=False)
     profile_description = Column(String, nullable=True)
     password = Column(String(256), nullable=False)
+    image = Column(LargeBinary, nullable=True)
 
     postings = relationship('Posting', back_populates='worker')
     ratings = relationship('Rating', back_populates='worker')
@@ -54,10 +55,11 @@ class Worker(Base, BaseModel):
 
 class Client(Base, BaseModel):
     __tablename__ = 'client'
-    
+
     name = Column(String(150), nullable=False)
     email = Column(String(150), unique=True, nullable=False)
     password = Column(String(256), nullable=False)
+    image = Column(LargeBinary, nullable=True)
 
     ratings = relationship('Rating', back_populates='client')
     comments = relationship('Comment', back_populates='client')
@@ -65,22 +67,23 @@ class Client(Base, BaseModel):
 
 class Posting(Base, BaseModel):
     __tablename__ = 'posting'
-    
+
     worker_id = Column(UUID(as_uuid=True), ForeignKey('worker.id'), nullable=False)
     job_type = Column(String(150), nullable=False)
     description = Column(String, nullable=True)
-    
+    image = Column(LargeBinary, nullable=False)
+
     worker = relationship('Worker', back_populates='postings')
 
 
 class Rating(Base, BaseModel):
     __tablename__ = 'rating'
-    
+
     worker_id = Column(UUID(as_uuid=True), ForeignKey('worker.id'), nullable=False)
     client_id = Column(UUID(as_uuid=True), ForeignKey('client.id'), nullable=False)
     rating = Column(Integer, nullable=False)
     comment_id = Column(UUID(as_uuid=True), ForeignKey('comment.id'), nullable=True)
-    
+
     worker = relationship('Worker', back_populates='ratings')
     client = relationship('Client', back_populates='ratings')
     comment = relationship('Comment', back_populates='rating')
@@ -88,18 +91,18 @@ class Rating(Base, BaseModel):
 
 class Comment(Base, BaseModel):
     __tablename__ = 'comment'
-    
+
     client_id = Column(UUID(as_uuid=True), ForeignKey('client.id'), nullable=False)
     worker_id = Column(UUID(as_uuid=True), ForeignKey('worker.id'), nullable=False)
     content = Column(String, nullable=False)
-    
+
     client = relationship('Client', back_populates='comments')
     rating = relationship('Rating', uselist=False, back_populates='comment')
 
 
 class Transaction(Base, BaseModel):
     __tablename__ = 'transaction'
-    
+
     amount = Column(Float, nullable=False)
     currency = Column(String(10), nullable=False)
     payer_id = Column(String(150), nullable=False)
