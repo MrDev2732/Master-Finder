@@ -1,31 +1,46 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Worker } from '../../interfaces/worker';
-import { LoginService } from '../../services/login.service';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms'; // Importa FormsModule
+import { LoginService } from '../../../services/login.service';
 import { Router } from '@angular/router';
-import { error } from 'console';
+
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HttpClientModule, FormsModule], // Asegúrate de importar FormsModule aquí
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  styleUrls: ['./home.component.scss'],
+  providers: [LoginService]
 })
 export class HomeComponent {
-  constructor( private loginService: LoginService, private router: Router ){}
+  firstName: string = '';
+  password: string = '';
 
+  constructor(private router: Router, private loginService: LoginService) {}
 
-
-  loginUser(username: string, password: string):void{
-    this.loginService.getUser(username, password).subscribe(
-      (response: any) => {
-        const user = response.first_name
-        const password = response.password
+  login() {
+    this.loginService.login(this.firstName, this.password).subscribe({
+      next: (response) => {
+        console.log('Login successful', response);
+        this.router.navigate(['/dashboard']); // Redirige al dashboard después del login
       },
-      (error : any) => {
-        console.error('Error en el login del usuario', error);
+      error: (error) => {
+        console.error('Login failed', error);
       }
-    )
+    });
+  }
+
+  logout() {
+    this.loginService.logout().subscribe({
+      next: (response) => {
+        console.log('Logout successful', response);
+        this.router.navigate(['/']); // Redirige a la página de inicio después del logout
+      },
+      error: (error) => {
+        console.error('Logout failed', error);
+      }
+    });
   }
 }

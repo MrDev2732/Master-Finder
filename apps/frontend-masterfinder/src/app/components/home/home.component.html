@@ -1,8 +1,14 @@
-<p>home works!</p>
-<h1>Login</h1>
-    <form action="/workers/login" method="post">
-        <input type="text" name="first_name" placeholder="First Name..." required #username>
-        <input type="password" name="password" placeholder="Password..." required #password>
-        <button (click)="loginUser(username.value, password.value)">Login</button>
-    </form>
+<div>
+  <h1>Login</h1>
+  <form (ngSubmit)="login()">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" [(ngModel)]="firstName" name="firstName" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" [(ngModel)]="password" name="password" required>
+    
+    <button type="submit">Login</button>
+  </form>
 
+  <button (click)="logout()">Logout</button>
+</div>
