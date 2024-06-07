@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app.routes';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -13,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     FormsModule,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
+    AppRoutingModule,
     HttpClientModule, // Añade HttpClientModule a los imports
   ],
   providers: [],
