@@ -1,35 +1,23 @@
 from os import getenv
-
 from typing import Annotated
 
 from fastapi import APIRouter, Request, Form, HTTPException, Cookie, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
-from sqlalchemy.orm import sessionmaker, Session
-from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 import jwt
 import logging
 
 from backend.handlers.queries.user import get_user
 from backend.handlers.auth import create_token, verify_password
+from backend.database.session import get_db
 
 
 router = APIRouter()
-
-engine = create_engine("sqlite:///db.sqlite3")
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 SECRET_KEY = getenv("SECRET_KEY")
 TOKEN_SCOND_EXP = 60
 
 logger = logging.getLogger(__name__)
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @router.get("/dashboard", response_class=HTMLResponse)
