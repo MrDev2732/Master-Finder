@@ -1,0 +1,90 @@
+  
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .card {
+    border: 1px solid black;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 16px;
+    padding: 16px;
+    background-color: white;
+    max-width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card h5 {
+    color: black;
+    text-align: center;
+  }
+  
+  .card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .card p {
+    color: black;
+    font-style: italic;
+    text-align: center;
+  }
+  
+  .publicaciones-destacadas {
+    border: 0.5em solid;
+    border-image: linear-gradient(to right, rgb(255, 215, 0), rgb(255, 105, 180), rgb(0, 191, 255)) 1;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .publicaciones{
+    border: 0.2em solid black;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .parrafo{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  section {
+    padding: 60px 0;
+  }
+
+  .fondo1{
+    // background-color: #98FF98;
+    background-color: #f8f9fa;
+    transition: background-color 0.5s ease;
+  }
+
+  .fondo2{
+    //background-color: #E6E6FA;
+    background-color: #e9ecef;
+    transition: background-color 0.5s ease;
+  }
+
+  .nombret{
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
