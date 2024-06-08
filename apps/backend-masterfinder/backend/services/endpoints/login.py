@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 import jwt
 import logging
 
-from backend.handlers.queries.worker import get_worker
+from backend.handlers.queries.worker import get_worker_by_email
 from backend.handlers.auth import create_token, verify_password
 from backend.database.session import get_db
 
@@ -26,7 +26,7 @@ def dashboard(request: Request, db: Session = Depends(get_db), access_token: Ann
         return RedirectResponse("/", status_code=302)
     try:
         data_user = jwt.decode(access_token, key=SECRET_KEY, algorithms=["HS256"])
-        if get_worker(data_user["email"], db) is None:
+        if get_worker_by_email(data_user["email"], db) is None:
             return RedirectResponse("/", status_code=302)
         logger.info(f"User accessed the dashboard successfully: {access_token}")
         return HTMLResponse(content="Dashboard access confirmed", status_code=200)
@@ -44,7 +44,7 @@ def dashboard(request: Request, db: Session = Depends(get_db), access_token: Ann
 @router.post("/login", tags=["Auth"])
 def login(email: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):
     try:
-        user_data = get_worker(email, db)
+        user_data = get_worker_by_email(email, db)
         if user_data is None or not verify_password(password, user_data.password):
             raise HTTPException(
                 status_code=401,
