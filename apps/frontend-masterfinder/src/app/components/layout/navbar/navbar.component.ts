@@ -34,7 +34,6 @@ export class NavbarComponent implements AfterViewInit {
   toggleCollapse(): void {
     this.collapsed = !this.collapsed;
     this.onToggleSidenav.emit({ collapsed: this.collapsed, screemWidth: this.screemWidth });
-    console.log("abierto");
     this.updateSidenavLinkTextDisplay();
     // Guardar el estado en localStorage
     localStorage.setItem('collapsed', this.collapsed.toString());
