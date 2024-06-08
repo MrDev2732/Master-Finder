@@ -2,8 +2,6 @@ import logging
 
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from typing import List
-from backend.database.models import Posting
 from fastapi.encoders import jsonable_encoder
 import base64
 
@@ -16,8 +14,8 @@ router = APIRouter()
 logger = logging.getLogger(__name__)
 
 
-@router.get("/postings")
-def read_postings(db: Session = Depends(get_db)):
+@router.get("/all-postings", tags=["Posting"])
+def get_postings(db: Session = Depends(get_db)):
     try:
         postings = get_all_postings(db)
         # Convertir los datos a un formato seguro
