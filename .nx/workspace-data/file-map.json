@@ -1,0 +1,338 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.2.2",
+  "deps": {
+    "@angular/animations": "~18.0.0",
+    "@angular/common": "~18.0.0",
+    "@angular/compiler": "~18.0.0",
+    "@angular/core": "~18.0.0",
+    "@angular/forms": "~18.0.0",
+    "@angular/platform-browser": "~18.0.0",
+    "@angular/platform-browser-dynamic": "~18.0.0",
+    "@angular/router": "~18.0.0",
+    "@nx/angular": "19.1.1",
+    "@nxlv/python": "^18.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "6.11.2",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.3",
+    "@angular-devkit/build-angular": "~18.0.0",
+    "@angular-devkit/core": "~18.0.0",
+    "@angular-devkit/schematics": "~18.0.0",
+    "@angular-eslint/eslint-plugin": "~17.3.0",
+    "@angular-eslint/eslint-plugin-template": "~17.3.0",
+    "@angular-eslint/template-parser": "~17.3.0",
+    "@angular/cli": "~18.0.0",
+    "@angular/compiler-cli": "~18.0.0",
+    "@angular/language-service": "~18.0.0",
+    "@babel/core": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
+    "@nrwl/react": "^19.2.2",
+    "@nx/devkit": "19.1.1",
+    "@nx/eslint": "19.1.1",
+    "@nx/eslint-plugin": "19.1.1",
+    "@nx/jest": "19.1.1",
+    "@nx/js": "19.2.2",
+    "@nx/playwright": "19.1.1",
+    "@nx/react": "19.2.2",
+    "@nx/web": "19.1.1",
+    "@nx/webpack": "19.1.1",
+    "@nx/workspace": "19.1.1",
+    "@playwright/test": "^1.36.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@schematics/angular": "~18.0.0",
+    "@svgr/webpack": "^8.0.1",
+    "@swc-node/register": "~1.9.1",
+    "@swc/cli": "~0.3.12",
+    "@swc/core": "~1.5.7",
+    "@swc/helpers": "~0.5.11",
+    "@testing-library/react": "15.0.6",
+    "@types/jest": "^29.4.0",
+    "@types/node": "18.16.9",
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.3.0",
+    "@typescript-eslint/parser": "^7.3.0",
+    "babel-jest": "^29.4.1",
+    "eslint": "~8.57.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-jsx-a11y": "6.7.1",
+    "eslint-plugin-playwright": "^0.15.3",
+    "eslint-plugin-react": "7.32.2",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "jest": "^29.4.1",
+    "jest-environment-jsdom": "^29.4.1",
+    "jest-preset-angular": "~14.1.0",
+    "nx": "19.1.1",
+    "prettier": "^2.6.2",
+    "react-refresh": "^0.10.0",
+    "ts-jest": "^29.1.0",
+    "ts-node": "10.9.1",
+    "typescript": "~5.4.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [
+    {
+      "name": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "e2e"
+      }
+    },
+    {
+      "name": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "name": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview"
+      }
+    }
+  ],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".editorconfig",
+        "hash": "11532813898455409296"
+      },
+      {
+        "file": ".env",
+        "hash": "12822367642676702275"
+      },
+      {
+        "file": ".eslintignore",
+        "hash": "13404745306227114823"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "4566917484430375526"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "13659058847956290704"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "135344717789917661"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "6820402234827505055"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "17425123947026961272"
+      },
+      {
+        "file": "Pequeño Tutorial.md",
+        "hash": "13031236775854242864"
+      },
+      {
+        "file": "README.md",
+        "hash": "5269199917216599501"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "7544409015863045561"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "7473220183190921152"
+      },
+      {
+        "file": "nx.json",
+        "hash": "1135327598804913955"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "6434699567174411495"
+      },
+      {
+        "file": "package.json",
+        "hash": "15315171935713481760"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "16936441711144470533"
+      }
+    ],
+    "projectFileMap": {
+      "frontend-masterfinder": [
+        {
+          "file": "apps/frontend-masterfinder/.babelrc",
+          "hash": "13020124393823981135"
+        },
+        {
+          "file": "apps/frontend-masterfinder/.eslintrc.json",
+          "hash": "11012487992710232822"
+        },
+        {
+          "file": "apps/frontend-masterfinder/jest.config.ts",
+          "hash": "6987132902122286033"
+        },
+        {
+          "file": "apps/frontend-masterfinder/project.json",
+          "hash": "17636920910375933027"
+        },
+        {
+          "file": "apps/frontend-masterfinder/src/app/app.module.css",
+          "hash": "8887387885984320532"
+        },
+        {
+          "file": "apps/frontend-masterfinder/src/app/app.spec.tsx",
+          "hash": "9385714974436355211"
+        },
+        {
+          "file": "apps/frontend-masterfinder/src/app/app.tsx",
+          "hash": "9478061993906012175"
+        },
+        {
+          "file": "apps/frontend-masterfinder/src/app/nx-welcome.tsx",
+          "hash": "729168762476089670"
+        },
+        {
+          "file": "apps/frontend-masterfinder/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/frontend-masterfinder/src/favicon.ico",
+          "hash": "9303420814833116677"
+        },
+        {
+          "file": "apps/frontend-masterfinder/src/index.html",
+          "hash": "6767533797918246000"
+        },
+        {
+          "file": "apps/frontend-masterfinder/src/main.tsx",
+          "hash": "763379880219152615"
+        },
+        {
+          "file": "apps/frontend-masterfinder/src/styles.css",
+          "hash": "5195668842064076916"
+        },
+        {
+          "file": "apps/frontend-masterfinder/tsconfig.app.json",
+          "hash": "15147195313780277677"
+        },
+        {
+          "file": "apps/frontend-masterfinder/tsconfig.json",
+          "hash": "9850153468027031608"
+        },
+        {
+          "file": "apps/frontend-masterfinder/tsconfig.spec.json",
+          "hash": "11378287594513225419"
+        },
+        {
+          "file": "apps/frontend-masterfinder/webpack.config.js",
+          "hash": "17162966517169035526",
+          "deps": [
+            "npm:@nx/webpack",
+            "npm:@nx/react"
+          ]
+        }
+      ],
+      "backend-masterfinder": [
+        {
+          "file": "apps/backend-masterfinder/.flake8",
+          "hash": "949487659798929536"
+        },
+        {
+          "file": "apps/backend-masterfinder/.python-version",
+          "hash": "13458641776710564511"
+        },
+        {
+          "file": "apps/backend-masterfinder/README.md",
+          "hash": "9285826942550797381"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/__init__.py",
+          "hash": "15036214574332298676"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/database/__init__.py",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/database/create_db.py",
+          "hash": "8787934834841560152"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/database/img/EPICO.jpg",
+          "hash": "10159647691129222515"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/database/models.py",
+          "hash": "13372211840816032363"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/database/session.py",
+          "hash": "9049066918649323726"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/handlers/__init__.py",
+          "hash": "13579696936951633419"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/handlers/auth.py",
+          "hash": "18092850250734856196"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/handlers/queries/user.py",
+          "hash": "12643887212269567837"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/main.py",
+          "hash": "11068734399759705947"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/services/__init__.py",
+          "hash": "13579696936951633419"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/services/endpoints/login.py",
+          "hash": "8481369845765962866"
+        },
+        {
+          "file": "apps/backend-masterfinder/backend/services/endpoints/workers.py",
+          "hash": "12589370176405594554"
+        },
+        {
+          "file": "apps/backend-masterfinder/poetry.lock",
+          "hash": "8522072995107092040"
+        },
+        {
+          "file": "apps/backend-masterfinder/poetry.toml",
+          "hash": "14339757674803298900"
+        },
+        {
+          "file": "apps/backend-masterfinder/project.json",
+          "hash": "17622814127269495664"
+        },
+        {
+          "file": "apps/backend-masterfinder/pyproject.toml",
+          "hash": "692216710257760306"
+        },
+        {
+          "file": "apps/backend-masterfinder/tests/__init__.py",
+          "hash": "11320092791611181217"
+        },
+        {
+          "file": "apps/backend-masterfinder/tests/conftest.py",
+          "hash": "15374886553550515842"
+        },
+        {
+          "file": "apps/backend-masterfinder/tests/test_hello.py",
+          "hash": "15805169466251013878"
+        }
+      ]
+    }
+  }
+}
