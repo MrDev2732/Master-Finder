@@ -6,11 +6,14 @@ from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.exc import OperationalError, SQLAlchemyError
+from sqlalchemy import inspect
 
 from backend.database.models import Base, Worker
 from backend.database.create_db import main as populate_db
-from backend.services.endpoints.login import router as login_worker_router
 from backend.database.session import get_db, engine, SessionLocal
+from backend.services.endpoints.login import router as login_worker_router
+from backend.services.endpoints.posting import router as posting_router
 
 
 jinja2_template = Jinja2Templates(directory="templates")
@@ -42,20 +45,32 @@ app.add_middleware(
 
 PREFIX = "/api"
 WORKERS = f"{PREFIX}/workers"
-
+POSTINGS = f"{PREFIX}/postings"
 
 # LOGIN WORKER
 app.include_router(login_worker_router, prefix=f"{WORKERS}")
 
+# POSTINGS
+app.include_router(posting_router, prefix=f"{POSTINGS}")
+
 
 @app.on_event("startup")
 def on_startup():
-    # Crear todas las tablas
-    Base.metadata.create_all(bind=engine)
-    logger.info("Inicializando la base de datos...")
-    with SessionLocal() as session:
-        populate_db(session)
-    logger.info("La base de datos ya está inicializada.")
+    try:
+        # Verificar si la tabla 'worker' existe
+        inspector = inspect(engine)
+        if inspector.has_table("worker"):
+            logger.info("La base de datos ya existe. No se necesita inicializar.")
+        else:
+            raise Exception("La base de datos no tiene las tablas necesarias.")
+    except (OperationalError, SQLAlchemyError, Exception) as e:
+        logger.warning(f"Error al verificar la base de datos: {e}. Inicializando la base de datos...")
+        # Crear todas las tablas si la base de datos no existe
+        Base.metadata.create_all(bind=engine)
+        logger.info("Inicializando la base de datos...")
+        with SessionLocal() as session:
+            populate_db(session)
+        logger.info("La base de datos ya está inicializada.")
 
 
 @app.get("/", response_class=HTMLResponse)
