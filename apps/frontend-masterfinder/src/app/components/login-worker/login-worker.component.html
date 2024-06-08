@@ -1,0 +1,15 @@
+<p>login-worker works!</p>
+<div>
+    <h1>Login</h1>
+    <form (ngSubmit)="login()">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" [(ngModel)]="firstName" name="firstName" required>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" [(ngModel)]="password" name="password" required>
+      
+      <button type="submit">Login</button>
+    </form>
+  
+    <button (click)="logout()">Logout</button>
+  </div>
