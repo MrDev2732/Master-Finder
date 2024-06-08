@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends
 
 from backend.handlers.queries.worker import get_worker_by_email, get_all_workers
 from backend.database.session import get_db

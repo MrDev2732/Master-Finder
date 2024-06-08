@@ -1,3 +1,4 @@
+import logging
 from os import getenv
 from typing import Annotated
 
@@ -5,7 +6,6 @@ from fastapi import APIRouter, Request, Form, HTTPException, Cookie, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 import jwt
-import logging
 
 from backend.handlers.queries.worker import get_worker_by_email
 from backend.handlers.auth import create_token, verify_password
