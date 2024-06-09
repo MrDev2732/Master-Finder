@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoginService } from '../../../services/login.service';
@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class LoginWorkerComponent {
   firstName: string = '';
   password: string = '';
+  @ViewChild('container', { static: false}) container!: ElementRef;
   constructor(private loginService: LoginService, private router: Router) {}
 
   login() {
@@ -44,4 +45,13 @@ export class LoginWorkerComponent {
       }
     });
   }
+
+  onRegister() {
+    this.container.nativeElement.classList.add("active");
+  }
+
+  onLogin() {
+    this.container.nativeElement.classList.remove("active");
+  }
+
 }

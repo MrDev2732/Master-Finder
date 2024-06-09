@@ -13,6 +13,7 @@
     "@angular/platform-browser": "~18.0.0",
     "@angular/platform-browser-dynamic": "~18.0.0",
     "@angular/router": "~18.0.0",
+    "@fortawesome/angular-fontawesome": "^0.15.0",
     "@nx/angular": "19.1.1",
     "@nxlv/python": "^18.1.0",
     "react": "18.3.1",
