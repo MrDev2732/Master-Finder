@@ -1,9 +1,9 @@
 import logging
+import base64
 
 from fastapi import APIRouter, HTTPException, Depends
-from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
-import base64
+from sqlalchemy.orm import Session
 
 from backend.handlers.queries.posting import get_all_postings
 from backend.database.session import get_db

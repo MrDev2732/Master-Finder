@@ -1,17 +1,16 @@
 import logging
 from os import getenv
 
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import OperationalError, SQLAlchemyError
 from sqlalchemy import inspect
 
-from backend.database.models import Base, Worker
+from backend.database.models import Base
+from backend.database.session import engine, SessionLocal
 from backend.database.create_db import main as populate_db
-from backend.database.session import get_db, engine, SessionLocal
 from backend.services.endpoints.login import router as login_worker_router
 from backend.services.endpoints.posting import router as posting_router
 from backend.services.endpoints.workers import router as worker_router
