@@ -51,6 +51,7 @@ def login(email: Annotated[str, Form()], password: Annotated[str, Form()], db: S
                 detail="Username or password no authorization"
             )
         token = create_token({"email": user_data.email})
+        logger.info(f"Usuario autorizado: {token}")
         return RedirectResponse(
             "/api/workers/dashboard",
             status_code=302,
