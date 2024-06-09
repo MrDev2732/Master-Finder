@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChildren, QueryList, AfterViewInit, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 interface SidenavToggle {
   screemWidth: number;
@@ -15,19 +16,27 @@ interface SidenavToggle {
 })
 export class NavbarComponent implements AfterViewInit {
   
-  @ViewChild('sidenavLinkText') sidenavLinkText!: ElementRef;
+  @ViewChildren('sidenavLinkText') sidenavLinkTexts!: QueryList<ElementRef>;
   @Output() onToggleSidenav: EventEmitter<SidenavToggle> = new EventEmitter();
   collapsed = false;
   screemWidth = 0;
 
-  constructor() {
+  constructor( private router: Router) {
     // Recuperar el estado de 'collapsed' desde localStorage
     const savedState = localStorage.getItem('collapsed');
     this.collapsed = savedState === 'true';
   }
 
+  login() {
+    this.router.navigate(['/login-worker']);
+  }
+
+  home() {
+    this.router.navigate(['/']);
+  }
+
   ngAfterViewInit() {
-    // Asegurarse de que el display del elemento se actualice al iniciar
+    // Asegurarse de que el display de los elementos se actualice al iniciar
     this.updateSidenavLinkTextDisplay();
   }
 
@@ -49,9 +58,9 @@ export class NavbarComponent implements AfterViewInit {
   }
 
   private updateSidenavLinkTextDisplay(): void {
-    if (this.sidenavLinkText) {
-      this.sidenavLinkText.nativeElement.style.display = this.collapsed ? 'block' : 'none';
-    }
+    this.sidenavLinkTexts.forEach((linkText: ElementRef) => {
+      linkText.nativeElement.style.display = this.collapsed ? 'block' : 'none';
+    });
   }
 }
 

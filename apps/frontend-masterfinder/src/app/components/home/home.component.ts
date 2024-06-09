@@ -26,6 +26,7 @@ export class HomeComponent {
   login() {
     this.router.navigate(['/login-worker']);
   }
+
   
   isSidenavCollapsed = false;
   screenWidth = 0;

@@ -9,11 +9,19 @@
     </div>
     <ul class="sidenav-nav">
         <li class="sidenav-nav-item">
-            <a class="sidenav-nav-link">
+            <a class="sidenav-nav-link" (click)="home()" (click)="closeSidenav()">
                 <i class="sidenav-link-icon bx bx-home"></i>
                 <span #sidenavLinkText class="sidenav-link-text">Home</span>
             </a>
         </li>
+        <li class="sidenav-nav-item">
+            <a class="sidenav-nav-link" (click)="login()" (click)="closeSidenav()">
+                <i class="sidenav-link-icon bx bx-user"></i>
+                <span #sidenavLinkText class="sidenav-link-text">Sign In</span>
+            </a>
+        </li>
+        
     </ul>
 </div>
+
 
