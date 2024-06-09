@@ -1,3 +1,4 @@
+import re
 import hashlib
 from os import getenv
 from datetime import datetime, timedelta
@@ -27,3 +28,23 @@ def create_token(data: dict):
 def hash_password(password: str) -> str:
     SALT = hashlib.sha256(SECRET_KEY.encode()).hexdigest()
     return PWD_CONTEXT.hash(password + SALT)
+
+
+def validate_rut(rut: str) -> bool:
+    rut = rut.replace(".", "").replace("-", "")
+    if not re.match(r"^\d{7,8}[0-9kK]$", rut):
+        return False
+
+    body, dv = rut[:-1], rut[-1].upper()
+    
+    value = 11 - sum([ int(a) * int(b) for a,b in zip(str(body).zfill(8), '32765432')]) % 11
+
+    return {10: 'K', 11: '0'}.get(value, str(value)) == dv
+
+
+def validate_password(password: str) -> bool:
+    password_regex = r"(?=.*[A-Z]+)(?=.*[a-z]+)(?=.*[0-9]+)(?=.*[!¡?¿@#$%&*+/=.,;:_-]).{8,}"
+    if re.search(password_regex, password):
+        return True
+    else:
+        return False
