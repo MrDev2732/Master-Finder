@@ -39,6 +39,10 @@ export class NavbarComponent implements AfterViewInit {
     this.router.navigate(['/perfil-worker']);
   }
 
+  soporte() {
+    this.router.navigate(['/soporte']);
+  }
+
   ngAfterViewInit() {
     // Asegurarse de que el display de los elementos se actualice al iniciar
     this.updateSidenavLinkTextDisplay();
