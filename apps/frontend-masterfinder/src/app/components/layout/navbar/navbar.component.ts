@@ -35,6 +35,10 @@ export class NavbarComponent implements AfterViewInit {
     this.router.navigate(['/']);
   }
 
+  perfil_worker() {
+    this.router.navigate(['/perfil-worker']);
+  }
+
   ngAfterViewInit() {
     // Asegurarse de que el display de los elementos se actualice al iniciar
     this.updateSidenavLinkTextDisplay();
