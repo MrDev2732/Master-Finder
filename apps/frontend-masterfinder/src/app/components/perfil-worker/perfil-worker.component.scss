@@ -1,0 +1,157 @@
+.main-content {
+    transition: margin-left .5s;
+    padding: 1rem;
+    width: calc(100% - 18rem); // Ajusta el ancho para considerar el espacio del menú
+    margin-left: 18rem; // Fija el margen izquierdo en 18rem
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center; // Centra el contenido horizontalmente
+    align-items: center; // Centra el contenido verticalmente
+    height: 100vh; // Asegura que el contenedor ocupe toda la altura de la ventana
+    
+
+    &.content-collapsed {
+        // Mantén el margen izquierdo en 18rem incluso cuando el menú esté colapsado
+    }
+
+    &.content-expanded {
+        // Mantén el margen izquierdo en 18rem incluso cuando el menú esté expandido
+    }
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px; // Limita el ancho máximo del contenido
+    width: 100%;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    
+    
+
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-right: 2rem;
+    }
+
+    .profile-info {
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #164991;
+        }
+
+        .profile-bio {
+            font-size: 16px;
+            color: #666;
+        }
+    }
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .basic-info, .posts {
+        background: #fff;
+        padding: 1rem;
+        border-radius: 0.625rem;
+        box-shadow: 0.01rem 0 1.25rem 0 rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+
+        h3 {
+            color: #164991;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin: 0.5rem 0;
+        }
+    }
+
+    .posts {
+        .post-card {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 0.313rem;
+            margin-bottom: 1rem;
+            box-shadow: 0.01rem 0 0.625rem 0 rgba(0, 0, 0, 0.1);
+
+            h4 {
+                margin: 0 0 0.5rem 0;
+                color: #333;
+            }
+
+            p {
+                margin: 0;
+                color: #666;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        width: 100%; // Ajusta el ancho para pantallas pequeñas
+        margin-left: 0; // Elimina el margen en pantallas pequeñas
+    }
+
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+
+        .profile-picture {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+
+        .profile-info {
+            text-align: center;
+
+            .profile-name {
+                font-size: 20px;
+            }
+
+            .profile-bio {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .profile-details {
+        .basic-info, .posts {
+            padding: 0.5rem;
+
+            h3 {
+                font-size: 18px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+
+        .posts {
+            .post-card {
+                padding: 0.5rem;
+
+                h4 {
+                    font-size: 16px;
+                }
+
+                p {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
