@@ -2,11 +2,16 @@ import datetime
 import json
 import uuid
 
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, Float, LargeBinary
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.inspection import inspect
+from sqlalchemy.orm import relationship
+from sqlalchemy import (
+    Column, Integer, 
+    String, DateTime, 
+    Boolean, ForeignKey, 
+    Float, LargeBinary
+    )
 
 
 Base = declarative_base()

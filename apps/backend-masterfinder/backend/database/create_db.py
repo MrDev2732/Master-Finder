@@ -1,10 +1,9 @@
 import os
 import io
 
+from PIL import Image
 from faker import Faker
 from sqlalchemy.orm import Session
-from sqlalchemy import LargeBinary
-from PIL import Image
 
 from backend.database.models import Worker, Client, Posting, Rating, Comment, Transaction
 from backend.handlers.auth import hash_password
@@ -13,16 +12,18 @@ from backend.handlers.auth import hash_password
 # Create a new Faker instance
 fake = Faker()
 
-def read_image_as_binary(image_path):
-    with Image.open(image_path) as img:
-        img_byte_arr = io.BytesIO()
-        img.save(img_byte_arr, format='JPEG')
-        return img_byte_arr.getvalue()
+def compress_image(image_bytes: bytes) -> bytes:
+    if image_bytes is None:
+        return None
+
+    with Image.open(io.BytesIO(image_bytes)) as img:
+        output = io.BytesIO()
+        img.save(output, format='JPEG', quality=20)
+        return output.getvalue()
 
 # Path to your image
-image_path = os.path.join(os.path.dirname(__file__), 'img', 'EPICO.jpg')
-print("Absolute path to image:", os.path.abspath(image_path))
-image_binary = read_image_as_binary(image_path)
+with open(os.path.join(os.path.dirname(__file__), 'img', 'EPICO.jpg'), 'rb') as f:
+    image_binary = f.read()
 
 
 def populate_workers(session: Session, n=10):

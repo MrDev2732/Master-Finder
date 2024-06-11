@@ -1,3 +1,4 @@
+import logging
 from os import getenv
 from typing import Annotated
 
@@ -5,9 +6,8 @@ from fastapi import APIRouter, Request, Form, HTTPException, Cookie, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 import jwt
-import logging
 
-from backend.handlers.queries.user import get_user
+from backend.handlers.queries.worker import get_worker_by_email
 from backend.handlers.auth import create_token, verify_password
 from backend.database.session import get_db
 
@@ -26,9 +26,9 @@ def dashboard(request: Request, db: Session = Depends(get_db), access_token: Ann
         return RedirectResponse("/", status_code=302)
     try:
         data_user = jwt.decode(access_token, key=SECRET_KEY, algorithms=["HS256"])
-        if get_user(data_user["first_name"], db) is None:
+        if get_worker_by_email(data_user["email"], db) is None:
             return RedirectResponse("/", status_code=302)
-        logger.info("User accessed the dashboard successfully")
+        logger.info(f"User accessed the dashboard successfully: {access_token}")
         return HTMLResponse(content="Dashboard access confirmed", status_code=200)
     except jwt.ExpiredSignatureError:
         logger.error("Token has expired")
@@ -42,15 +42,16 @@ def dashboard(request: Request, db: Session = Depends(get_db), access_token: Ann
 
 
 @router.post("/login", tags=["Auth"])
-def login(first_name: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):
+def login(email: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):
     try:
-        user_data = get_user(first_name, db)
+        user_data = get_worker_by_email(email, db)
         if user_data is None or not verify_password(password, user_data.password):
             raise HTTPException(
                 status_code=401,
                 detail="Username or password no authorization"
             )
-        token = create_token({"first_name": user_data.first_name})
+        token = create_token({"email": user_data.email})
+        logger.info(f"Usuario autorizado: {token}")
         return RedirectResponse(
             "/api/workers/dashboard",
             status_code=302,
