@@ -19,7 +19,8 @@
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/frontend-masterfinder/public"
+            "input": "apps/frontend-masterfinder/src/assets",
+            "output": "assets"
           }
         ],
         "styles": ["apps/frontend-masterfinder/src/styles.scss"],
