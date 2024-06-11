@@ -84,8 +84,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
   margin: 0;
   font-size: 13px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
@@ -140,64 +140,24 @@
 .carta {
   width: 100%;
   height: 100%;
-  background: radial-gradient(
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.15) 30%,
-        rgba(255, 255, 255, 0.3) 32%,
-        rgba(255, 255, 255, 0) 33%
+  --s: 200px; /* control the size */
+  --c1: #1d1d1d;
+  --c2: #4e4f51;
+  --c3: #3c3c3c;
+
+  background: repeating-conic-gradient(
+        from 30deg,
+        #0000 0 120deg,
+        var(--c3) 0 180deg
       )
-      0 0,
-    radial-gradient(
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.1) 11%,
-        rgba(255, 255, 255, 0.3) 13%,
-        rgba(255, 255, 255, 0) 14%
-      )
-      0 0,
-    radial-gradient(
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.2) 17%,
-        rgba(255, 255, 255, 0.43) 19%,
-        rgba(255, 255, 255, 0) 20%
-      )
-      0 110px,
-    radial-gradient(
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.2) 11%,
-        rgba(255, 255, 255, 0.4) 13%,
-        rgba(255, 255, 255, 0) 14%
-      ) -130px -170px,
-    radial-gradient(
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.2) 11%,
-        rgba(255, 255, 255, 0.4) 13%,
-        rgba(255, 255, 255, 0) 14%
-      )
-      130px 370px,
-    radial-gradient(
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.1) 11%,
-        rgba(255, 255, 255, 0.2) 13%,
-        rgba(255, 255, 255, 0) 14%
-      )
-      0 0,
-    linear-gradient(
-      45deg,
-      #343702 0%,
-      #184500 20%,
-      #187546 30%,
-      #006782 40%,
-      #0b1284 50%,
-      #760ea1 60%,
-      #83096e 70%,
-      #840b2a 80%,
-      #b13e12 90%,
-      #e27412 100%
+      calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
+    repeating-conic-gradient(
+      from 30deg,
+      var(--c1) 0 60deg,
+      var(--c2) 0 120deg,
+      var(--c3) 0 180deg
     );
-  background-size: 470px 470px, 970px 970px, 410px 410px, 610px 610px,
-    530px 530px, 730px 730px, 100% 100%;
-  background-color: #840b2a;
-  background-size: calc(2 * var(--s)) var(--s);
+  background-size: var(--s) calc(var(--s) * 0.577);
 
   position: relative;
   margin: auto;
@@ -259,7 +219,7 @@
   top: -5.2rem;
   width: 10.4rem;
   height: 10.4rem;
-  background: #0a3cff;
+  background: #011142;
   z-index: 0;
   opacity: 0;
   border-radius: 50%;
@@ -274,7 +234,7 @@
   bottom: -5.2rem;
   width: 10.4rem;
   height: 10.4rem;
-  background: #0726a2;
+  background: #011142;
   z-index: 0;
   opacity: 0;
   border-radius: 50%;
@@ -303,8 +263,9 @@
   box-shadow: 0rem 6px 13px rgba(0, 0, 0, 0.1),
     0rem 24px 24px rgba(0, 0, 0, 0.09), 0rem 55px 33px rgba(0, 0, 0, 0.05),
     0rem 97px 39px rgba(0, 0, 0, 0.01), 0rem 152px 43px rgba(0, 0, 0, 0);
-  border-color: #0a3cff;
-  scale: 1.05;
+  border-color: #2a3e00;
+  border-width: 4px;
+  scale: 1.08;
 }
 
 .contenedor{
@@ -326,7 +287,6 @@
 
 body{
   background-color: #f0f2f5;
-  
 }
 
 .texto{

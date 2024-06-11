@@ -9,107 +9,138 @@
 </head>
 <body>
 
-
-  
   <section class="py-5">
-    <div> 
-      <h1 class="py-5 text-center nombret">Master Finder</h1>
-    </div>
-    <div class="container px-4 px-lg-5 mt-5 fondo1">
-      <h1 class="text-center nombret">Publicaciones Destacadas</h1>
-      <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center container">
-        <ng-container > <!-- *ngIf="publicaciones.length > 0; else noData"-->
-
-          <div class="col mb-4"> <!-- *ngFor="let publicacion of publicaciones | slice:0:4" -->
-            <div class="card">
-              <div class="card-image-container card_box">
-                <span></span>
-                <img src="https://i.pinimg.com/originals/42/0d/23/420d23bab19e2cd7250ead22bfa3b129.png" alt="Pintor" class="img-fluid"><!--<img [src]="publicacion.image1" alt="imagen" class="img-fluid">-->
-              </div>
-                <p class="card-title">Nombredeoficio</p> <!--<p>Oficio: {{publicacion.oficio}}</p>--> 
-                <p class="card-des"> <!--<p>{{publicacion.descripcion}}</p>-->
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore
-                  natus modi repellendus dolorem unde odio sequi! Porro, cum maiores tempore
-                  suscipit laudantium perspiciatis, illo sunt, reprehenderit quae est
-                  blanditiis.
-                </p>
-              <div class="card-footer text-center">
-                <button class="btn btn-primary">Ver Publicación</button>
-              </div>
-            </div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+          <div class="text-center">
+            <h1 class="nombret">Master Finder</h1>
+            <h2 class="text-primary">El lugar donde encontraras lo que estabas buscando</h2>
+            <p><strong>Entrega u ofrece un servicio de calidad relacionado a un oficio.</strong></p>
           </div>
-
-          <div class="col mb-4"> <!-- *ngFor="let publicacion of publicaciones | slice:0:4" -->
-            <div class="card">
-              <div class="card-image-container card_box">
-                <span></span>
-                <img src="https://i.pinimg.com/originals/42/0d/23/420d23bab19e2cd7250ead22bfa3b129.png" alt="Pintor" class="img-fluid"><!--<img [src]="publicacion.image1" alt="imagen" class="img-fluid">-->
-              </div>
-                <p class="card-title">Nombredeoficio</p> <!--<p>Oficio: {{publicacion.oficio}}</p>--> 
-                <p class="card-des"> <!--<p>{{publicacion.descripcion}}</p>-->
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore
-                  natus modi repellendus dolorem unde odio sequi! Porro, cum maiores tempore
-                  suscipit laudantium perspiciatis, illo sunt, reprehenderit quae est
-                  blanditiis.
-                </p>
-              <div class="card-footer text-center">
-                <button class="btn btn-primary">Ver Publicación</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="col mb-4"> <!-- *ngFor="let publicacion of publicaciones | slice:0:4"  -->
-            <div class="card">
-              <div class="card-image-container card_box">
-                <span></span>
-                <img src="https://i.pinimg.com/originals/42/0d/23/420d23bab19e2cd7250ead22bfa3b129.png" alt="Pintor" class="img-fluid"><!--<img [src]="publicacion.image1" alt="imagen" class="img-fluid">-->
-              </div>
-                <p class="card-title">Nombredeoficio</p> <!--<p>Oficio: {{publicacion.oficio}}</p>--> 
-                <p class="card-des"> <!--<p>{{publicacion.descripcion}}</p>-->
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore
-                  natus modi repellendus dolorem unde odio sequi! Porro, cum maiores tempore
-                  suscipit laudantium perspiciatis, illo sunt, reprehenderit quae est
-                  blanditiis.
-                </p>
-              <div class="card-footer text-center">
-                <button class="btn btn-primary">Ver Publicación</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="col mb-4"> <!-- *ngFor="let publicacion of publicaciones | slice:0:4" -->
-            <div class="card">
-              <div class="card-image-container card_box">
-                <span></span>
-                <img src="https://i.pinimg.com/originals/42/0d/23/420d23bab19e2cd7250ead22bfa3b129.png" alt="Pintor" class="img-fluid"><!--<img [src]="publicacion.image1" alt="imagen" class="img-fluid">-->
-              </div>
-                <p class="card-title">Nombredeoficio</p> <!--<p>Oficio: {{publicacion.oficio}}</p>--> 
-                <p class="card-des"> <!--<p>{{publicacion.descripcion}}</p>-->
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore
-                  natus modi repellendus dolorem unde odio sequi! Porro, cum maiores tempore
-                  suscipit laudantium perspiciatis, illo sunt, reprehenderit quae est
-                  blanditiis.
-                </p>
-              <div class="card-footer text-center">
-                <button class="btn btn-primary">Ver Publicación</button>
-              </div>
-            </div>
-          </div>
-
-          
-        </ng-container>
-        <ng-template #noData>
-          <p class="text-center">No hay publicaciones disponibles.</p>
-        </ng-template>
+        </div>
       </div>
     </div>
   </section>
   
+  <section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5 fondo1">
+      <div class="row gx-4 gx-lg-5 justify-content-center align-items-center">
+        <div class="col-lg-4 mb-4">
+          <div class="text-center">
+            <h2>Servicios</h2>
+            <h2 class="text-primary">Toda clases de oficios disponibles para elegir</h2>
+            <p>En masterfinder tenemos todos los oficios que estabas pensando. Contrátalos ahora <strong>Facil y Rapido.</strong></p>
+            <button class="btn btn-primary">Ver todas las publicaciones</button>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-1 row-cols-lg-1 justify-content-center">
+            <ng-container> <!-- *ngIf="publicaciones.length > 0; else noData"-->
+              <h1 class="text-center nombret">Publicaciones Destacadas</h1>
+              <div class="col mb-4"> <!-- *ngFor="let publicacion of publicaciones | slice:0:3" -->
+                <div class="card h-75">
+                  <div class="row no-gutters">
+                    <div class="col-md-3 card_box">
+                      <span></span>
+                      <img src="https://i.pinimg.com/originals/42/0d/23/420d23bab19e2cd7250ead22bfa3b129.png" alt="Pintor" style="width: 80%; height: 80%;" class="img-thumbnail"><!--<img [src]="publicacion.image1" alt="imagen" class="img-fluid">-->
+                    </div>
+                    <div class="col-md-9">
+                      <div class="card-body text-center">
+                        <p class="card-title">Nombredeoficio</p> <!--<p>Oficio: {{publicacion.oficio}}</p>-->
+                        <p class="card-des"> <!--<p>{{publicacion.descripcion}}</p>-->
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore
+                          natus modi repellendus dolorem unde odio sequi! Porro, cum maiores tempore
+                          suscipit laudantium perspiciatis, illo sunt, reprehenderit quae est
+                          blanditiis.
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore.
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore
+                          natus modi repellendus dolorem unde odio sequi! Porro, cum maiores tempore
+                          suscipit laudantium perspiciatis, illo sunt, reprehenderit quae est
+                          blanditiis.
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore.
+                        </p>
+                          <button style="margin: 15px;" class="btn btn-primary">Ver Publicación</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col mb-4"> <!-- *ngFor="let publicacion of publicaciones | slice:0:3" -->
+                <div class="card h-75">
+                  <div class="row no-gutters">
+                    <div class="col-md-3 card_box">
+                      <span></span>
+                      <img src="https://i.pinimg.com/originals/42/0d/23/420d23bab19e2cd7250ead22bfa3b129.png" alt="Pintor" style="width: 80%; height: 80%;" class="img-thumbnail"><!--<img [src]="publicacion.image1" alt="imagen" class="img-fluid">-->
+                    </div>
+                    <div class="col-md-9">
+                      <div class="card-body text-center">
+                        <p class="card-title">Nombredeoficio</p> <!--<p>Oficio: {{publicacion.oficio}}</p>-->
+                        <p class="card-des"> <!--<p>{{publicacion.descripcion}}</p>-->
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore
+                          natus modi repellendus dolorem unde odio sequi! Porro, cum maiores tempore
+                          suscipit laudantium perspiciatis, illo sunt, reprehenderit quae est
+                          blanditiis.
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore.
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore
+                          natus modi repellendus dolorem unde odio sequi! Porro, cum maiores tempore
+                          suscipit laudantium perspiciatis, illo sunt, reprehenderit quae est
+                          blanditiis.
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore.
+                        </p>
+                          <button style="margin: 15px;" class="btn btn-primary">Ver Publicación</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col mb-4"> <!-- *ngFor="let publicacion of publicaciones | slice:0:3" -->
+                <div class="card h-75">
+                  <div class="row no-gutters">
+                    <div class="col-md-3 card_box">
+                      <span></span>
+                      <img src="https://i.pinimg.com/originals/42/0d/23/420d23bab19e2cd7250ead22bfa3b129.png" alt="Pintor" style="width: 80%; height: 80%;" class="img-thumbnail"><!--<img [src]="publicacion.image1" alt="imagen" class="img-fluid">-->
+                    </div>
+                    <div class="col-md-9">
+                      <div class="card-body text-center">
+                        <p class="card-title">Nombredeoficio</p> <!--<p>Oficio: {{publicacion.oficio}}</p>-->
+                        <p class="card-des"> <!--<p>{{publicacion.descripcion}}</p>-->
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore
+                          natus modi repellendus dolorem unde odio sequi! Porro, cum maiores tempore
+                          suscipit laudantium perspiciatis, illo sunt, reprehenderit quae est
+                          blanditiis.
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore.
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore
+                          natus modi repellendus dolorem unde odio sequi! Porro, cum maiores tempore
+                          suscipit laudantium perspiciatis, illo sunt, reprehenderit quae est
+                          blanditiis.
+                          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam inventore.
+                        </p>
+                          <button style="margin: 15px;" class="btn btn-primary">Ver Publicación</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+            </ng-container>
+            <ng-template #noData>
+              <p class="text-center">No hay publicaciones disponibles.</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
   <section >
-    <div class="container contenedor">
+    <div class="container contenedor row gx-4 gx-lg-5 justify-content-center align-items-center">
       <div class="row justify-content-center">
         <div class="col-md-6 mb-4 mx-auto">
-          <div class="carta">
+          <div class="carta w-100 h-75">
             <div class="contenido">
               <p class="heading text-center">¿Quieres ofrecer tus servicios?</p>
               <p class="para">
@@ -120,7 +151,7 @@
           </div>
         </div>
         <div class="col-md-6 mb-4 mx-auto">
-          <div class="carta">
+          <div class="carta w-100 h-75">
             <div class="contenido">
               <p class="heading text-center">¿Quieres contratar servicios?</p>
               <p class="para">
@@ -128,6 +159,22 @@
                 califica & reseña a los trabajadores y principalmente contrata servicios enfocados a oficios que necesites.
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+          <div class="text-center">
+            <h1 class="nombret">Registrate Ahora</h1>
+            <h2 class="text-primary">Unete a nosotros y comienza<p><strong>YA</strong></p> </h2>
+            <hr>
+            <button class="btn btn-primary">Registrarme</button>
+            <hr>
           </div>
         </div>
       </div>
