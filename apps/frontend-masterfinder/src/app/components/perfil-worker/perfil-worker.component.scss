@@ -207,3 +207,39 @@
     }
 }
 
+.estrellas-rating {
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+  }
+  
+  .calificacion-numerica {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  
+  .estrellas {
+    display: flex;
+    direction: ltr;
+  }
+  
+  .estrella {
+    color: #ccc;
+    position: relative;
+    display: inline-block;
+    cursor: pointer; /* Asegúrate de que se pueda clickear */
+  }
+  
+  .estrella.filled {
+    color: gold;
+  }
+  
+  .estrella.half-filled::before {
+    content: '\2605';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    overflow: hidden;
+    color: gold;
+  }

@@ -37,4 +37,17 @@
             <a href="https://www.instagram.com/" class="boton-redes instagram fab fa-instagram"><i class="icon-instagram"></i></a>
         </div>
     </div>
+
+    <div class="estrellas-rating">
+        <div class="calificacion-numerica">{{ rating | number: '1.1-1' }}</div>
+        <div class="estrellas">
+          <span *ngFor="let star of stars; let i = index" 
+                class="estrella"
+                (click)="rate(i + 1)"
+                [ngClass]="{'filled': rating >= i + 1, 'half-filled': rating > i && rating < i + 1}">
+            &#9733;
+          </span>
+        </div>
+    </div>
+
 </section>
