@@ -21,6 +21,12 @@
             </a>
         </li>
         <li class="sidenav-nav-item">
+            <a class="sidenav-nav-link" (click)="filtros()" (click)="closeSidenav()">
+                <i class='sidenav-link-icon bx bx-filter-alt' ></i>
+                <span #sidenavLinkText class="sidenav-link-text">Filtrar Busqueda</span>
+            </a>
+        </li>
+        <li class="sidenav-nav-item">
             <a class="sidenav-nav-link" (click)="perfil_worker()" (click)="closeSidenav()">
                 <i class='sidenav-link-icon bx bx-face'></i>
                 <span #sidenavLinkText class="sidenav-link-text">Perfil Trabajador</span>

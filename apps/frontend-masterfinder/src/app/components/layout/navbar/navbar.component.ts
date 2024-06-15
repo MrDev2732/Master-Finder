@@ -43,6 +43,10 @@ export class NavbarComponent implements AfterViewInit {
     this.router.navigate(['/soporte']);
   }
 
+  filtros() {
+    this.router.navigate(['/filtros']);
+  }
+
   ngAfterViewInit() {
     // Asegurarse de que el display de los elementos se actualice al iniciar
     this.updateSidenavLinkTextDisplay();

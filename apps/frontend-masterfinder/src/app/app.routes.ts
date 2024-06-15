@@ -3,6 +3,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginWorkerComponent } from './components/login-worker/login-worker.component';
 import { PerfilWorkerComponent } from './components/perfil-worker/perfil-worker.component';
 import { SoporteComponent } from './components/soporte/soporte.component';
+import { FiltrosComponent } from './components/filtros/filtros.component';
 import { NgModule } from '@angular/core';
 
 
@@ -11,6 +12,7 @@ export const appRoutes: Route[] = [
     { path: 'login-worker', component: LoginWorkerComponent },
     { path: 'perfil-worker', component: PerfilWorkerComponent },
     { path: 'soporte', component: SoporteComponent },
+    { path: 'filtros', component: FiltrosComponent },
 ];
 
 @NgModule({
