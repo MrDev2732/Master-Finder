@@ -53,6 +53,8 @@ class Worker(Base, BaseModel):
     profile_description = Column(String, nullable=True)
     password = Column(String(256), nullable=False)
     image = Column(LargeBinary, nullable=True)
+    specialty = Column(String(150), nullable=False)
+    location = Column(String(50), nullable=False)
 
     postings = relationship('Posting', back_populates='worker')
     ratings = relationship('Rating', back_populates='worker')

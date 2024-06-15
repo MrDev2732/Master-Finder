@@ -49,8 +49,9 @@ async def create_worker(
     contact_number: constr(min_length=7, max_length=15),
     email: EmailStr,
     password: constr(min_length=8),
-    profile_description: constr(max_length=500) = None,
     image: UploadFile = File(...),
+    specialty: constr(max_length=150) = None,
+    location: constr(max_length=150) = None,
     db: Session = Depends(get_db)
 ):
     # Validar el RUT
@@ -99,9 +100,10 @@ async def create_worker(
         contact_number=contact_number,
         email=email,
         subscription=False,
-        profile_description=profile_description,
         password=hash_password(password),
-        image=image_bytes
+        image=image_bytes,
+        specialty=specialty,
+        location=location
     )
 
     try:
