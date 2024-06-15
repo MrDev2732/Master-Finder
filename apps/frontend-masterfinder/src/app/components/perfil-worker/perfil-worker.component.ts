@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';  // Importa FormsModule
 
 @Component({
   selector: 'app-perfil-worker',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './perfil-worker.component.html',
   styleUrl: './perfil-worker.component.scss',
 })
@@ -34,6 +35,46 @@ export class PerfilWorkerComponent {
       }
     } else {
       return 0;  // 0% lleno si la calificación es menor al número de la estrella
+    }
+  }
+
+  /* Crear publicaciones */
+  mostrarModal = false;
+  nuevaPublicacion = { texto: '', files: [] };
+  files: any[] = [];
+  publicaciones: any[] = [];
+
+  abrirModalPublicacion() {
+    this.mostrarModal = true;
+  }
+
+  cerrarModalPublicacion() {
+    this.mostrarModal = false;
+    this.nuevaPublicacion = { texto: '', files: [] };
+    this.files = [];
+  }
+
+  onFileSelected(event: any) {
+    const selectedFiles = event.target.files;
+    for (let file of selectedFiles) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.files.push({ url: e.target.result, name: file.name, type: file.type });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  eliminarArchivo(index: number) {
+    this.files.splice(index, 1);
+  }
+
+  publicar() {
+    if (this.nuevaPublicacion.texto && this.files.length > 0) {
+      this.publicaciones.push({ texto: this.nuevaPublicacion.texto, files: [...this.files] });
+      this.cerrarModalPublicacion();
+    } else {
+      alert('Debe agregar una descripción y al menos una imagen o video.');
     }
   }
 
