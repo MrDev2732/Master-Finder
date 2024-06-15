@@ -36,13 +36,21 @@ export class LoginWorkerComponent {
   constructor(private loginService: LoginService, private router: Router, private registerService: RegisterService) {}
 
   login() {
+    console.log('Attempting to log in');
     this.loginService.login(this.email, this.password).subscribe({
-      next: (response) => {
-        console.log('Login successful', response);
-        this.router.navigate(['/dashboard']); // Redirige al dashboard después del login
+      next: () => {
+        console.log('Login successful');
+        console.log('Attempting to navigate to /perfil-worker');
+        this.router.navigate(['/perfil-worker']).then(success => {
+          console.log('Navigation success:', success);
+        }).catch(err => {
+          console.error('Navigation error:', err);
+        });
       },
       error: (error) => {
         console.error('Login failed', error);
+        // Aquí podrías mostrar un mensaje de error al usuario, por ejemplo:
+        // this.errorMessage = 'Inicio de sesión fallido. Por favor, verifica tus credenciales.';
       }
     });
   }
@@ -53,9 +61,6 @@ export class LoginWorkerComponent {
         console.log('Logout successful', response);
         this.router.navigate(['/']); // Redirige a la página de inicio después del logout
       },
-      error: (error) => {
-        console.error('Logout failed', error);
-      }
     });
   }
 
