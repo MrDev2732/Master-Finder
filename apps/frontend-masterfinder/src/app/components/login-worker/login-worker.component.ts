@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, viewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoginService } from '../../../services/login.service';
@@ -10,23 +10,23 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [CommonModule, HttpClientModule, FormsModule],
   templateUrl: './login-worker.component.html',
-  styleUrl: './login-worker.component.scss',
+  styleUrls: ['./login-worker.component.scss'],
   providers: [LoginService]
 })
 
-
-
 export class LoginWorkerComponent {
-  firstName: string = '';
+  email: string = '';
   password: string = '';
-  @ViewChild('container', { static: false}) container!: ElementRef;
+  @ViewChild('container', { static: false }) container!: ElementRef;
+
   constructor(private loginService: LoginService, private router: Router) {}
 
   login() {
-    this.loginService.login(this.firstName, this.password).subscribe({
+    this.loginService.login(this.email, this.password).subscribe({
       next: (response) => {
         console.log('Login successful', response);
-        this.router.navigate(['/dashboard']); // Redirige al dashboard después del login
+        // Redirige al dashboard después del login
+        this.router.navigate(['/perfil-worker']);
       },
       error: (error) => {
         console.error('Login failed', error);
@@ -53,5 +53,4 @@ export class LoginWorkerComponent {
   onLogin() {
     this.container.nativeElement.classList.remove("active");
   }
-
 }
