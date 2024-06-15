@@ -13,8 +13,9 @@ from backend.database.create_db import compress_image
 from backend.database.session import get_db
 from backend.database.models import Worker
 from backend.handlers.queries.worker import (
-    get_worker_by_id, get_all_workers, get_worker_for_create
+    get_worker_by_id, get_all_workers, get_worker_for_create, update_worker_by_id
 )
+
 
 SECRET_KEY = getenv("SECRET_KEY")
 
@@ -77,14 +78,14 @@ async def create_worker(
 
     # Verificar si el trabajador ya existe por correo electrónico o RUT
     existing_worker = get_worker_for_create(email, rut, db)
-    
+
     if existing_worker:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Worker with this email or RUT already exists"
         )
 
-    with open(os.path.join(os.path.dirname(__file__), 'img', 'EPICO.jpg'), 'rb') as f:
+    with open(os.path.join(os.path.dirname(__file__), 'img', 'unknown.jpg'), 'rb') as f:
         image_binary = f.read()
 
     new_worker = Worker(
@@ -112,3 +113,99 @@ async def create_worker(
         )
 
     return {"message": "Usuario creado exitosamente"}
+
+
+@router.put("/worker", tags=["Workers"])
+async def update_worker(
+    access_token: Annotated[str, Cookie()],
+    first_name: constr(min_length=1, max_length=50) = None,
+    last_name: constr(min_length=1, max_length=50) = None,
+    rut: constr(min_length=1, max_length=12) = None,
+    contact_number: constr(min_length=7, max_length=15) = None,
+    email: EmailStr = None,
+    password: constr(min_length=8) = None,
+    image: UploadFile = File(None),
+    specialty: constr(max_length=150) = None,
+    location: constr(max_length=150) = None,
+    db: Session = Depends(get_db)
+):
+    try:
+        payload = jwt.decode(access_token, SECRET_KEY, algorithms=["HS256"])
+        id_str = payload.get("id")
+        if id_str is None:
+            raise HTTPException(
+                status_code=400,
+                detail="Token does not contain id"
+            )
+        worker_id = uuid.UUID(id_str)  # Convertir la cadena de id a un objeto UUID
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(
+            status_code=401,
+            detail="Token has expired"
+        )
+    except jwt.InvalidTokenError:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid token"
+        )
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid UUID format"
+        )
+
+    update_data = {}
+
+    if first_name is not None:
+        update_data["first_name"] = first_name
+    if last_name is not None:
+        update_data["last_name"] = last_name
+    if rut is not None:
+        if not validate_rut(rut):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid RUT"
+            )
+        update_data["rut"] = rut
+    if contact_number is not None:
+        update_data["contact_number"] = contact_number
+    if email is not None:
+        update_data["email"] = email
+    if password is not None:
+        if not validate_password(password):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid password"
+            )
+        update_data["password"] = hash_password(password)
+    if image is not None:
+        if image.content_type not in ["image/jpeg", "image/png"]:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid image format"
+            )
+        image_data = await image.read()
+        if len(image_data) > 2 * 1024 * 1024:  # Limitar a 2MB
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Image size exceeds 2MB"
+            )
+        update_data["image"] = compress_image(image_data)
+    if specialty is not None:
+        update_data["specialty"] = specialty
+    if location is not None:
+        update_data["location"] = location
+
+    updated_worker = update_worker_by_id(worker_id, db, **update_data)
+    if updated_worker is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Worker not found"
+        )
+
+    worker_dict = updated_worker.__dict__.copy()
+    for key, value in worker_dict.items():
+        if isinstance(value, bytes):
+            worker_dict[key] = value.decode('utf-8', errors='replace')  # Decodifica bytes a string
+
+    return worker_dict
