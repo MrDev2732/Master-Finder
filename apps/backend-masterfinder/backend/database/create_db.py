@@ -22,7 +22,7 @@ def compress_image(image_bytes: bytes) -> bytes:
         return output.getvalue()
 
 # Path to your image
-with open(os.path.join(os.path.dirname(__file__), 'img', 'EPICO.jpg'), 'rb') as f:
+with open(os.path.join(os.path.dirname(__file__), 'img', 'unknown.jpg'), 'rb') as f:
     image_binary = f.read()
 
 
