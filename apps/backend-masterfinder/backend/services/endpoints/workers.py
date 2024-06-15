@@ -23,8 +23,33 @@ router = APIRouter()
 
 
 @router.get("/worker", tags=["Workers"])
-async def get_worker(id: Annotated[str, Cookie()], db: Session = Depends(get_db)):
-    worker = get_worker_by_id(id, db)
+async def get_worker(access_token: Annotated[str, Cookie()], db: Session = Depends(get_db)):
+    try:
+        payload = jwt.decode(access_token, SECRET_KEY, algorithms=["HS256"])
+        id_str = payload.get("id")
+        if id_str is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Token does not contain id"
+            )
+        worker_id = uuid.UUID(id_str)  # Convertir la cadena de id a un objeto UUID
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token has expired"
+        )
+    except jwt.InvalidTokenError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token"
+        )
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid UUID format"
+        )
+
+    worker = get_worker_by_id(worker_id, db)
     if worker is None:
         return {"error": "Worker not found"}
 
