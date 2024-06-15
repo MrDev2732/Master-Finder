@@ -10,13 +10,13 @@ export class LoginService {
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<{message: string}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
     const body = new URLSearchParams();
     body.set('email', email);
     body.set('password', password);
 
-    return this.http.post(`${this.apiUrl}/login`, body.toString(), { headers, withCredentials: true });
+    return this.http.post<{message: string}>(`${this.apiUrl}/login`, body.toString(), { headers, withCredentials: true });
   }
 
   logout(): Observable<any> {
