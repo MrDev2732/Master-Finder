@@ -37,7 +37,9 @@ def populate_workers(session: Session, n=10):
             subscription=fake.boolean(),
             profile_description=fake.text(),
             password=hash_password('falopa'),
-            image=image_binary
+            image=image_binary,
+            specialty=fake.job(),
+            location=fake.city()
         )
         session.add(worker)
     session.commit()
