@@ -15,15 +15,25 @@
   <div class="body">
     <div class="container" #container>
       <div class="form-container sign-up">
-        <form>
+        <form (ngSubmit)="register()" #registerForm="ngForm">
           <h1>Create Account</h1>
-          <input type="text" placeholder="Nombre">
-          <input type="text" placeholder="Apellido">
-          <input type="text" placeholder="Rut">
-          <input type="text" placeholder="Telefono">
-          <input type="email" placeholder="Email">
-          <input type="password" placeholder="Password">
-          <button (click)="onRegister()">Sign Up</button>
+          <input type="text" placeholder="Nombre" [(ngModel)]="newWorker.first_name" name="first_name" required>
+          <input type="text" placeholder="Apellido" [(ngModel)]="newWorker.last_name" name="last_name" required>
+          <input type="text" placeholder="Rut" [(ngModel)]="newWorker.rut" name="rut" required>
+          <input type="text" placeholder="Telefono" [(ngModel)]="newWorker.contact_number" name="contact_number" required>
+          <input type="email" placeholder="Email" [(ngModel)]="newWorker.email" name="email" required>
+          <input type="password" placeholder="Password" [(ngModel)]="newWorker.password" name="password" required>
+          <select [(ngModel)]="newWorker.location" name="location" required>
+            <option value="Maipu">Maipu</option>
+            <option value="Cerrillos">Cerrillos</option>
+            <option value="Pudahuel">Pudahuel</option>
+          </select>
+          <select [(ngModel)]="newWorker.specialty" name="specialty" required>
+            <option value="Electricista">Electricista</option>
+            <option value="Zapatero">Zapatero</option>
+            <option value="Albañil">Albañil</option>
+          </select>
+          <button type="submit" [disabled]="registerForm.invalid">Sign Up</button>
         </form>
       </div>
 

@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './app.routes';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http'; // No necesitas HttpClient aquí
 import { AppRoutingModule } from './app.routes';
 
 @NgModule({
@@ -15,9 +15,9 @@ import { AppRoutingModule } from './app.routes';
     FormsModule,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     AppRoutingModule,
-    HttpClientModule, // Añade HttpClientModule a los imports
+    HttpClientModule // Asegúrate de tener solo HttpClientModule aquí
   ],
-  providers: [],
+  providers: [], // Puedes agregar HttpClient aquí si lo necesitas, pero no es obligatorio
   bootstrap: [AppComponent],
 })
 export class AppModule {}
