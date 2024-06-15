@@ -1,21 +1,29 @@
-from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile
+import os
+import uuid
+from os import getenv
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Cookie
 from pydantic import EmailStr, constr
 from sqlalchemy.orm import Session
+import jwt
 
 from backend.handlers.auth import hash_password, validate_password, validate_rut
 from backend.database.create_db import compress_image
 from backend.database.session import get_db
 from backend.database.models import Worker
 from backend.handlers.queries.worker import (
-    get_worker_by_email, get_all_workers, get_worker_for_create
-    )
+    get_worker_by_id, get_all_workers, get_worker_for_create
+)
 
+SECRET_KEY = getenv("SECRET_KEY")
 
 router = APIRouter()
 
+
 @router.get("/worker", tags=["Workers"])
-async def get_worker(email: str, db: Session = Depends(get_db)):
-    worker = get_worker_by_email(email, db)
+async def get_worker(id: Annotated[str, Cookie()], db: Session = Depends(get_db)):
+    worker = get_worker_by_id(id, db)
     if worker is None:
         return {"error": "Worker not found"}
 
@@ -49,9 +57,8 @@ async def create_worker(
     contact_number: constr(min_length=7, max_length=15),
     email: EmailStr,
     password: constr(min_length=8),
-    image: UploadFile = File(...),
-    specialty: constr(max_length=150) = None,
-    location: constr(max_length=150) = None,
+    specialty: constr(max_length=150),
+    location: constr(max_length=150),
     db: Session = Depends(get_db)
 ):
     # Validar el RUT
@@ -77,21 +84,8 @@ async def create_worker(
             detail="Worker with this email or RUT already exists"
         )
 
-    # Leer y procesar la imagen
-    if image.content_type not in ["image/jpeg", "image/png"]:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid image format"
-        )
-
-    image_data = await image.read()
-    if len(image_data) > 2 * 1024 * 1024:  # Limitar a 2MB
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Image size exceeds 2MB"
-        )
-
-    image_bytes = compress_image(image_data)
+    with open(os.path.join(os.path.dirname(__file__), 'img', 'EPICO.jpg'), 'rb') as f:
+        image_binary = f.read()
 
     new_worker = Worker(
         first_name=first_name,
@@ -101,7 +95,7 @@ async def create_worker(
         email=email,
         subscription=False,
         password=hash_password(password),
-        image=image_bytes,
+        image=image_binary,
         specialty=specialty,
         location=location
     )

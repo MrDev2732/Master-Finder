@@ -20,27 +20,6 @@ TOKEN_SCOND_EXP = 60
 logger = logging.getLogger(__name__)
 
 
-@router.get("/dashboard", response_class=HTMLResponse)
-def dashboard(request: Request, db: Session = Depends(get_db), access_token: Annotated[str | None, Cookie()] = None):
-    if access_token is None:
-        return RedirectResponse("/", status_code=302)
-    try:
-        data_user = jwt.decode(access_token, key=SECRET_KEY, algorithms=["HS256"])
-        if get_worker_by_email(data_user["email"], db) is None:
-            return RedirectResponse("/", status_code=302)
-        logger.info(f"User accessed the dashboard successfully: {access_token}")
-        return HTMLResponse(content="Dashboard access confirmed", status_code=200)
-    except jwt.ExpiredSignatureError:
-        logger.error("Token has expired")
-        return RedirectResponse("/", status_code=302)
-    except jwt.InvalidTokenError:
-        logger.error("Invalid token")
-        return RedirectResponse("/", status_code=302)
-    except Exception as e:
-        logger.error(f"Unexpected error: {e}")
-        return RedirectResponse("/", status_code=302)
-
-
 @router.post("/login", tags=["Auth"])
 def login(email: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):
     try:
@@ -50,13 +29,11 @@ def login(email: Annotated[str, Form()], password: Annotated[str, Form()], db: S
                 status_code=401,
                 detail="Username or password no authorization"
             )
-        token = create_token({"email": user_data.email})
+        token = create_token({"id": str(user_data.id)})  # Convertir UUID a string
         logger.info(f"Usuario autorizado: {token}")
-        return RedirectResponse(
-            "/api/workers/dashboard",
-            status_code=302,
-            headers={"set-cookie": f"access_token={token}; Max-Age={TOKEN_SCOND_EXP}"}
-        )
+        response = HTMLResponse(content="Login successful")
+        response.set_cookie(key="access_token", value=token, httponly=True, max_age=TOKEN_SCOND_EXP)
+        return response
     except HTTPException as e:
         logger.error(f"HTTP error: {e.detail}")
         raise e
