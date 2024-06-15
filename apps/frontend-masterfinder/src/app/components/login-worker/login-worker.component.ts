@@ -39,7 +39,11 @@ export class LoginWorkerComponent {
     this.loginService.login(this.email, this.password).subscribe({
       next: (response) => {
         console.log('Login successful', response);
-        this.router.navigate(['/dashboard']); // Redirige al dashboard después del login
+        if (response.includes('Login successful')) {
+          this.router.navigate(['/perfil-worker']); // Redirige al dashboard después del login
+        } else {
+          console.error('Unexpected response:', response);
+        }
       },
       error: (error) => {
         console.error('Login failed', error);
