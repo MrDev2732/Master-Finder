@@ -22,7 +22,7 @@ body{
     overflow: hidden;
     width: 768px;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 580px;
 }
 
 .container p{
@@ -73,6 +73,17 @@ body{
 }
 
 .container input{
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+
+.container select{
     background-color: #eee;
     border: none;
     margin: 8px 0;
