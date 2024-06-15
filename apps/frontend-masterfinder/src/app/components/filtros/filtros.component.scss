@@ -1,0 +1,57 @@
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.filtro-form {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.postings-container {
+  margin-top: 20px;
+}
+
+.card {
+  background-color: white; /* Color blanco para las tarjetas */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  border: none;
+  transition: transform 0.3s ease-in-out; /* Transición suave para el efecto hover */
+}
+
+.card:hover {
+  transform: scale(1.03); /* Efecto de hover para hacer la tarjeta ligeramente más grande */
+}
+
+.card-img-top {
+  width: 100%;
+  height: 150px; /* Ajuste de la altura de la imagen */
+  object-fit: cover; /* Asegura que la imagen cubra el espacio asignado sin distorsionarse */
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #666;
+}

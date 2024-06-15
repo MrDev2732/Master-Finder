@@ -1,0 +1,34 @@
+<div class="container">
+  <form class="filtro-form" (submit)="onFilterSubmit()">
+    <div class="form-group">
+      <label for="comuna">Comuna:</label>
+      <select id="comuna" name="comuna" class="form-control">
+        <option value="comuna1">Maipu</option>
+        <option value="comuna2">Cerrillos</option>
+        <option value="comuna3">Pudahuel</option>
+        <!-- Añadir más comunas según sea necesario -->
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="especialidad">Especialidad:</label>
+      <select id="especialidad" name="especialidad" class="form-control">
+        <option value="especialidad1">Carpinteria</option>
+        <option value="especialidad2">Electricidad</option>
+        <option value="especialidad3">Zapatera</option>
+        <!-- Añadir más especialidades según sea necesario -->
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+  </form>
+
+  <div class="postings-container">
+    <h2>Listado de Postings</h2>
+    <div *ngFor="let posting of postings" class="card">
+      <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">{{ posting.job_type }}</h5>
+        <p class="card-text">{{ posting.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
