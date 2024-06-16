@@ -25,8 +25,6 @@
   
   <section class="">
     <div class="container my-5">
-      <h2 class="text-center" style="font-weight: 400;">Perfiles</h2>
-      <b style="font-weight: 600; color: #007bff; display: block; text-align: center; font-size: 2.2em;">Destacados</b>
       <div class="row">
         <div class="col-md-6 d-flex flex-column justify-content-center">
           <h2>Los mejores <span class="text-primary">Maestros para ti</span></h2>
@@ -34,52 +32,20 @@
           <button class="btn button1">Ver todos los Anuncios</button>
         </div>
         
-        <div class="col-md-6">
-          <div class="card mb-3" >
+        <div class="col-md-6 ">
+          <h2 class="text-center" style="font-weight: 400;">Perfiles</h2>
+          <b style="font-weight: 600; color: #007bff; display: block; text-align: center; font-size: 2.2em;">Destacados</b>
+          <div class="card mb-3 " *ngFor="let posting of postings" >
             <div class="row no-gutters">
               <div class="col-md-4 d-flex align-items-center justify-content-center card-box">
                 <span></span>
-                <img src="../../../assets/WhatsApp Image 2024-06-12 at 12.54.43.jpeg" class="card-img" alt="Seguro 1">
+                <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title">JOSÉ RIVERA</h5>
-                  <p class="card-text">Especialidad: Electricista</p>
-                  <p class="card-text">Certificado: Elictricista profesional</p>
-                  <p class="card-text">Comuna: Maipú</p>
-                  <p class="card-text">Contacto: +569 99999999</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card mb-3">
-            <div class="row no-gutters">
-              <div class="col-md-4 d-flex align-items-center justify-content-center">
-                <img src="../../../assets/WhatsApp Image 2024-06-12 at 12.54.43.jpeg" class="card-img" alt="Seguro 1">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">JOSÉ RIVERA</h5>
-                  <p class="card-text">Especialidad: Electricista</p>
-                  <p class="card-text">Certificado: Elictricista profesional</p>
-                  <p class="card-text">Comuna: Maipú</p>
-                  <p class="card-text">Contacto: +569 99999999</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card mb-3">
-            <div class="row no-gutters">
-              <div class="col-md-4 d-flex align-items-center justify-content-center">
-                <img src="../../../assets/WhatsApp Image 2024-06-12 at 12.54.43.jpeg" class="card-img" alt="Seguro 1">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">JOSÉ RIVERA</h5>
-                  <p class="card-text">Especialidad: Electricista</p>
-                  <p class="card-text">Certificado: Elictricista profesional</p>
-                  <p class="card-text">Comuna: Maipú</p>
-                  <p class="card-text">Contacto: +569 99999999</p>
+                  <h6 class="nombret" > {{ posting.job_type }} </h6>
+                  <p class="card-text" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;
+                   -webkit-line-clamp: 3; -webkit-box-orient: vertical;"> <strong> Descripcion:</strong> {{ posting.description }} </p>
                 </div>
               </div>
             </div>
@@ -94,10 +60,10 @@
     <div class="container my-5">
       <div class="row justify-content-center">
         <div class="col-md-6 mb-4">
-          <div class="carta w-100 h-100">
+          <div class="carta w-100 h-100 card">
             <div class="contenido">
               <p class="heading text-center">¿Quieres ofrecer tus servicios?</p>
-              <p class="para">
+              <p class="para" style="cursor: context-menu ">
                 Llegaste al lugar ideal para promover tu talento, puedes publicar tus servicios para que las personas puedan contratarte,
                 mirar tus trabajos y llegar a más personas que necesitan de tus capacidades. Registrate ya y comienza a ganar dinero con tus servicios.
               </p>
@@ -105,10 +71,10 @@
           </div>
         </div>
         <div class="col-md-6 mb-4">
-          <div class="carta w-100 h-100">
-            <div class="contenido">
+          <div class="carta w-100 h-100 card">
+            <div class="contenido" >
               <p class="heading text-center">¿Quieres contratar servicios?</p>
-              <p class="para">
+              <p class="para" style="cursor: context-menu;">
                 En master finder podras buscar los oficios que ya creias que no existian, busca por categoria, revisa trabajos realizados,
                 califica & reseña a los trabajadores y principalmente contrata servicios enfocados a oficios que necesites.
               </p>
@@ -120,14 +86,14 @@
   </section>
 
   <section>
-    <div class="container">
-      <div class="row justify-content-center">
+    <div class="container my-5">
+      <div class="row justify-content-center ">
         <div class="col-md-6 mb-4">
           <div class="text-center">
             <h1 class="nombret">Registrate Ahora</h1>
             <h2 class="text-primary">Unete a nosotros y comienza<p><strong>YA</strong></p> </h2>
             <hr>
-            <button class="btn btn-primary">Registrarme</button>
+            <button class="btn button1">Registrarme</button>
             <hr>
           </div>
         </div>
@@ -140,7 +106,7 @@
       <h1 style="margin-top: 2em;" class="text-center nombret">Sobre Nosotros</h1>
       <div class="card-text">
         <div class="contenido">
-          <p class="text-center texto fondo">Nuestra misión: Por un lado, fomentar y apoyar el trabajo de las personas que poseen un oficio, y por otro, ofrecer una plataforma eficiente y accesible que permita a los usuarios encontrar de manera fácil y rápida servicios especializados en diferentes oficios.
+          <p class="text-center para fondo">Nuestra misión: Por un lado, fomentar y apoyar el trabajo de las personas que poseen un oficio, y por otro, ofrecer una plataforma eficiente y accesible que permita a los usuarios encontrar de manera fácil y rápida servicios especializados en diferentes oficios.
             Nos comprometemos a proporcionar las herramientas necesarias para que los profesionales de oficios puedan destacarse y crecer en sus campos. Queremos empoderar a estos trabajadores, brindándoles visibilidad y oportunidades para conectar con una amplia base de clientes que necesitan sus habilidades y conocimientos.
             Al mismo tiempo, nos dedicamos a simplificar la búsqueda de servicios para los usuarios. Nuestra plataforma está diseñada para ser intuitiva y de uso sencillo, garantizando que cualquier persona pueda localizar el servicio de oficio que requiere con rapidez y sin complicaciones. Creemos que facilitar este proceso no solo beneficia a los clientes, sino que también impulsa el crecimiento y la estabilidad de quienes practican estos oficios. 
             En resumen, nuestra misión es crear un puente efectivo entre la oferta y la demanda de servicios de oficio, promoviendo el desarrollo profesional y facilitando el acceso a soluciones prácticas y de calidad para todos.
