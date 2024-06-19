@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NavbarComponent } from '../layout/navbar/navbar.component';
 import { PublicacionService } from 'apps/frontend-masterfinder/src/services/publicacion.service';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 
 interface SidenavToggle{

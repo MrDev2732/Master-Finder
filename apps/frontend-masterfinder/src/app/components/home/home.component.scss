@@ -4,11 +4,17 @@
   border-radius: 10px;
 }
 
+.container-fluid {
+  background-color: #eaf6ff;
+  padding: 3em;
+}
+
 .card {
   border: none;
-  border-radius: 500px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  padding: 1rem;
 }
 
 .card:hover {
@@ -73,13 +79,17 @@
 }
 
 .heading {
-  font-size: 1.5rem;
   font-weight: bold;
+  color: #333;
+  line-height: 1.8;
+  font-size: 1.1em;
+  margin-bottom: 0;
 }
 
 .para {
-  font-size: 1rem;
+  font-size: 1.2rem;
   text-align: justify;
+  color: #070c57;
 }
 
 .card-box span {
@@ -110,4 +120,80 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.23);
+}
+
+body{
+  padding-left: 4rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.fondo2 {
+  background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+  padding: 4em 0;
+}
+
+.sn{
+  margin-top: 2em;
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #164991;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.cardt{
+  background: #164991;
+  border-radius: 15px;
+  padding: 3em 2em;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 2em;
+}
+
+
+.fondo {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1em;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .card-text {
+    padding: 2em 1.5em;
+  }
+  .nombret {
+    font-size: 2em;
+  }
+  .para {
+    font-size: 1em;
+  }
+}
+
+.gradient-text-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.gradient-text {
+  font-size: 4rem;
+  font-weight: bold;
+  background: linear-gradient(70deg,  #40B4E5 .38% , #2b35ef 81.67%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-animation 3s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
 }
