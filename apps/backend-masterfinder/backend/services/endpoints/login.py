@@ -2,8 +2,8 @@ import logging
 from os import getenv
 from typing import Annotated
 
-from fastapi import APIRouter, Request, Form, HTTPException, Cookie, Depends
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import APIRouter, Request, Form, HTTPException, Cookie, Depends, Response
+from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 import jwt
 
@@ -47,8 +47,6 @@ def login(email: Annotated[str, Form()], password: Annotated[str, Form()], db: S
 
 @router.post("/logout", tags=["Auth"])
 def logout():
-    return RedirectResponse(
-        "/",
-        status_code=302,
-        headers={"set-cookie": "access_token=; Max-Age=0"}
-    )
+    response = Response(content="Logout successful", status_code=200)
+    response.delete_cookie(key="access_token")
+    return response

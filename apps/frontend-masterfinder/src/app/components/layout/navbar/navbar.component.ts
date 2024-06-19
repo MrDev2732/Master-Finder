@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, ViewChildren, QueryList, AfterViewInit, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
+import { LoginService } from '../../../../services/login.service';
 interface SidenavToggle {
   screemWidth: number;
   collapsed: boolean;
@@ -21,7 +21,9 @@ export class NavbarComponent implements AfterViewInit {
   collapsed = false;
   screemWidth = 0;
 
-  constructor( private router: Router) {
+  constructor( private router: Router,
+                private loginService: LoginService
+  ) {
     // Recuperar el estado de 'collapsed' desde localStorage
     const savedState = localStorage.getItem('collapsed');
     this.collapsed = savedState === 'true';
@@ -74,5 +76,18 @@ export class NavbarComponent implements AfterViewInit {
       linkText.nativeElement.style.display = this.collapsed ? 'block' : 'none';
     });
   }
-}
 
+  logout() {
+    this.loginService.logout().subscribe({
+      next: (response) => {
+        console.log('Logout successful', response);
+        this.router.navigate(['/login-worker']);  // Redirige al usuario a la página de login o inicio
+      },
+      error: (error) => {
+        console.error('Logout failed', error);
+        // Puedes mostrar un mensaje de error al usuario aquí si es necesario
+      }
+    });
+  }
+  
+}
