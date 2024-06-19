@@ -9,27 +9,33 @@
 </head>
 <body>
 
+  <div class="gradient-text-container">
+    <div class="gradient-text">Master Finder</div>
+  </div>
+
   <section class="py-5">
-    <div class="container">
-      <div class="row justify-content-center">
+    <div class="container fondo2" style="padding: 1rem;">
+      <div class="row align-items-center justify-content-between">
         <div class="col-md-6 mb-4">
-          <div class="text-center">
-            <h1 class="nombret">Master Finder</h1>
-            <h2 class="text-primary">El lugar donde encontraras lo que estabas buscando</h2>
-            <p><strong>Entrega u ofrece un servicio de calidad relacionado a un oficio.</strong></p>
+          <div class="text-start">
+            <h2 class="text-primary" style="margin-bottom: 40px;">El lugar donde encontrarás lo que estabas buscando ✔</h2>
+            <p style="margin-top: 60px;"><strong>Entrega u ofrece un servicio de calidad relacionado a un oficio.</strong></p>
           </div>
+        </div>
+        <div class="col-md-6 mb-4 ">
+          <img style="max-height: 200px; width: auto;" src="https://3.bp.blogspot.com/-hWMSdiHHkcE/Vyq-q4tFtxI/AAAAAAAAAIo/BnMDx5FckSU9pv8jKFtsBQ1vmgNRr1xgACPcBGAYYCw/s1600/5-estrellas.png" alt="imagen" class="img-fluid">
         </div>
       </div>
     </div>
   </section>
   
-  <section class="">
-    <div class="container my-5">
+  <section class="py-5">
+    <div class="container-fluid " style="padding-left: 6rem;">
       <div class="row">
-        <div class="col-md-6 d-flex flex-column justify-content-center">
-          <h2>Los mejores <span class="text-primary">Maestros para ti</span></h2>
-          <p>En masterfinder tenemos todos los mejores maestros de la construccion del país. Contactalos <strong>sin ningún costo adicional.</strong></p>
-          <button class="btn button1">Ver todos los Anuncios</button>
+        <div class="col-md-6 d-flex flex-column justify-content-center text-center" >
+          <h2>Los mejores <span class="text-primary ">Maestros para ti</span></h2>
+          <p>En masterfinder tenemos todos los oficios del país. Contratalos ahora <strong>sin ningún costo adicional.</strong></p>
+          <a href="../../filtros/"><button class="btn button1">Ver todos los Anuncios</button> </a> 
         </div>
         
         <div class="col-md-6 ">
@@ -37,13 +43,13 @@
           <b style="font-weight: 600; color: #007bff; display: block; text-align: center; font-size: 2.2em;">Destacados</b>
           <div class="card mb-3 " *ngFor="let posting of postings" >
             <div class="row no-gutters">
-              <div class="col-md-4 d-flex align-items-center justify-content-center card-box">
+              <div class="col-md-4 d-flex align-items-center justify-content-start card-box">
                 <span></span>
                 <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h6 class="nombret" > {{ posting.job_type }} </h6>
+                  <h6> {{ posting.job_type }} </h6>
                   <p class="card-text" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;
                    -webkit-line-clamp: 3; -webkit-box-orient: vertical;"> <strong> Descripcion:</strong> {{ posting.description }} </p>
                 </div>
@@ -57,13 +63,13 @@
   
   
   <section>
-    <div class="container my-5">
+    <div class="container fondo my-5">
       <div class="row justify-content-center">
         <div class="col-md-6 mb-4">
-          <div class="carta w-100 h-100 card">
+          <div class="carta w-100 h-100 card" onclick="window.location.href='../../login-worker/'">
             <div class="contenido">
               <p class="heading text-center">¿Quieres ofrecer tus servicios?</p>
-              <p class="para" style="cursor: context-menu ">
+               <p  class="para" style="cursor: pointer " >
                 Llegaste al lugar ideal para promover tu talento, puedes publicar tus servicios para que las personas puedan contratarte,
                 mirar tus trabajos y llegar a más personas que necesitan de tus capacidades. Registrate ya y comienza a ganar dinero con tus servicios.
               </p>
@@ -71,10 +77,10 @@
           </div>
         </div>
         <div class="col-md-6 mb-4">
-          <div class="carta w-100 h-100 card">
+          <div class="carta w-100 h-100 card" onclick="window.location.href='../../filtros/'">
             <div class="contenido" >
               <p class="heading text-center">¿Quieres contratar servicios?</p>
-              <p class="para" style="cursor: context-menu;">
+              <p class="para" style="cursor: pointer;">
                 En master finder podras buscar los oficios que ya creias que no existian, busca por categoria, revisa trabajos realizados,
                 califica & reseña a los trabajadores y principalmente contrata servicios enfocados a oficios que necesites.
               </p>
@@ -86,14 +92,14 @@
   </section>
 
   <section>
-    <div class="container my-5">
+    <div class="container my-5 fondo">
       <div class="row justify-content-center ">
         <div class="col-md-6 mb-4">
           <div class="text-center">
             <h1 class="nombret">Registrate Ahora</h1>
             <h2 class="text-primary">Unete a nosotros y comienza<p><strong>YA</strong></p> </h2>
             <hr>
-            <button class="btn button1">Registrarme</button>
+            <a href="../../login-worker/" ><button class="btn button1">Registrarme</button></a>
             <hr>
           </div>
         </div>
@@ -101,21 +107,24 @@
     </div>
   </section>
 
-  <section class="fondo2">
-    <div class="container">
-      <h1 style="margin-top: 2em;" class="text-center nombret">Sobre Nosotros</h1>
-      <div class="card-text">
+  <section>
+    <div class="container fondo2" style="margin-bottom: 4em;">
+      <h1 class="text-center nombret">Sobre Nosotros</h1>
+      <div class="card-text ">
         <div class="contenido">
-          <p class="text-center para fondo">Nuestra misión: Por un lado, fomentar y apoyar el trabajo de las personas que poseen un oficio, y por otro, ofrecer una plataforma eficiente y accesible que permita a los usuarios encontrar de manera fácil y rápida servicios especializados en diferentes oficios.
+          <p class="text-center para ">
+            <strong>Nuestra misión:</strong> Por un lado, fomentar y apoyar el trabajo de las personas que poseen un oficio, y por otro, ofrecer una plataforma eficiente y accesible que permita a los usuarios encontrar de manera fácil y rápida servicios especializados en diferentes oficios.
+            <br><br>
             Nos comprometemos a proporcionar las herramientas necesarias para que los profesionales de oficios puedan destacarse y crecer en sus campos. Queremos empoderar a estos trabajadores, brindándoles visibilidad y oportunidades para conectar con una amplia base de clientes que necesitan sus habilidades y conocimientos.
-            Al mismo tiempo, nos dedicamos a simplificar la búsqueda de servicios para los usuarios. Nuestra plataforma está diseñada para ser intuitiva y de uso sencillo, garantizando que cualquier persona pueda localizar el servicio de oficio que requiere con rapidez y sin complicaciones. Creemos que facilitar este proceso no solo beneficia a los clientes, sino que también impulsa el crecimiento y la estabilidad de quienes practican estos oficios. 
-            En resumen, nuestra misión es crear un puente efectivo entre la oferta y la demanda de servicios de oficio, promoviendo el desarrollo profesional y facilitando el acceso a soluciones prácticas y de calidad para todos.
+            <br><br>
+            Al mismo tiempo, nos dedicamos a simplificar la búsqueda de servicios para los usuarios. Nuestra plataforma está diseñada para ser intuitiva y de uso sencillo, garantizando que cualquier persona pueda localizar el servicio de oficio que requiere con rapidez y sin complicaciones. Creemos que facilitar este proceso no solo beneficia a los clientes, sino que también impulsa el crecimiento y la estabilidad de quienes practican estos oficios.
+            <br><br>
+            En resumen, nuestra misión es crear un puente efectivo entre la oferta y la demanda de servicios de oficio, promoviendo el desarrollo laboral y facilitando el acceso a soluciones prácticas y de calidad para todos.
           </p>
         </div>
       </div>
     </div>
   </section>
-
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
