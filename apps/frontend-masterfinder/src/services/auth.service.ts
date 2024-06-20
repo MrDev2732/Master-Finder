@@ -55,4 +55,10 @@ export class AuthService {
     this.authStatus.next(false);
     this.authChecked.next(false);
   }
+
+  getToken(): string {
+    const token = sessionStorage.getItem('access_token');
+    return token ? token : '';
+  }
+
 }

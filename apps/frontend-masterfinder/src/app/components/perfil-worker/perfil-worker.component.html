@@ -3,11 +3,13 @@
         <div class="perfil-usuario-portada">
             <img src="../../../assets/electricoss.webp" alt="img-avatar">
             <div class="perfil-usuario-avatar">
-                <img src="../../../assets/WhatsApp Image 2024-06-12 at 12.54.43.jpeg" alt="img-avatar">
+                <img [src]="'data:image/jpeg;base64,' + workerData.image">
                 <button type="button" class="boton-avatar">
-                    <i class="far fa-image"></i>
+                  <i class="far fa-image"></i>
                 </button>
-            </div>
+              </div>
+              
+                        
             <button type="button" class="boton-portada">
                 <i class="far fa-image"></i> Cambiar fondo
             </button>
@@ -15,20 +17,19 @@
     </div>
     <div class="perfil-usuario-body">
         <div class="perfil-usuario-bio">
-            <h3 class="titulo">Jose Rivera</h3>
-            <p class="texto">Soy un Joven esforzado de 18 años, 
-                    me dedico al trabajo de la construccion especificamente la Electricidad y en mi tiempo libre juego LOL</p>
+            <h3 class="titulo">{{workerData.first_name}}</h3>
+            <p class="texto">Descripcion: {{workerData.description}}</p>
         </div>
         <div class="perfil-usuario-footer">
             <ul class="lista-datos">
-                <li><i class="icono fas fa-map-signs"></i> Rut: 21.589.157-0</li>
-                <li><i class="icono fas fa-phone-alt"></i> Telefono: + 56 9 8799 1666</li>
-                <li><i class="icono fas fa-briefcase"></i> Especialidad: Trabajos manuales</li>
+                <li><i class="icono fas fa-map-signs"></i> Rut: {{workerData.rut}}</li>
+                <li><i class="icono fas fa-phone-alt"></i> Telefono: {{workerData.contact_number}}</li>
+                <li><i class="icono fas fa-briefcase"></i> Especialidad: {{workerData.specialty}}</li>
             </ul>
             <ul class="lista-datos">
-                <li><i class="icono fas fa-map-marker-alt"></i> Comuna: Maipu</li>
-                <li><i class="icono fas fa-calendar-alt"></i> Cuenta creada el: 15/12/20024</li>
-                <li><i class="icono fas fa-inbox"></i> Email: DonJosesito&#64;gmail.com</li>
+                <li><i class="icono fas fa-map-marker-alt"></i> Comuna: {{workerData.location}}</li>
+                <li><i class="icono fas fa-calendar-alt"></i> Cuenta creada el: {{workerData.created_date | date: 'dd/MM/yyyy'}}</li>
+                <li><i class="icono fas fa-inbox"></i> Email: {{workerData.email}}</li>
             </ul>
         </div>
         <div class="redes-sociales">
@@ -51,8 +52,8 @@
     </div>
 
     <div class="crear-publicacion">
-        <button (click)="abrirModalPublicacion()" class="boton-crear-publicacion">
-            <i class="fas fa-edit"></i> Crear Publicación
+        <button (click)="getWorkerData()" class="boton-crear-publicacion">
+            <i class="fas fa-edit" ></i> Crear Publicación
         </button>
     </div>
 
