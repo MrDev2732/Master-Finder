@@ -57,27 +57,33 @@
     </div>
 
     <!-- Modal para crear una nueva publicación -->
-    <div *ngIf="mostrarModal" class="modal-publicacion">
-        <div class="modal-contenido">
-            <span class="cerrar" (click)="cerrarModalPublicacion()">&times;</span>
-            <h2>Crear Publicación</h2>
-            <textarea [(ngModel)]="nuevaPublicacion.texto" placeholder="Agrega una descripción de tu trabajo" required></textarea>
-            <div class="input-file-container">
-                <button class="boton-subir" (click)="fileInput.click()">Subir Foto/Video</button>
-                <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*,video/*" multiple required style="display: none;">
-            </div>
-            <div class="previsualizaciones">
-                <ng-container *ngFor="let file of files; let i = index">
-                    <div class="previsualizacion-item" *ngIf="file.type.includes('image') || file.type.includes('video')">
-                        <img *ngIf="file.type.includes('image')" [src]="file.url" [alt]="file.name">
-                        <video *ngIf="file.type.includes('video')" [src]="file.url" controls></video>
-                        <button class="boton-eliminar" (click)="eliminarArchivo(i)">&times;</button>
-                    </div>
-                </ng-container>
-            </div>
-            <button (click)="publicar()" class="boton-publicar">Publicar</button>
+    <form (ngSubmit)="publicar()" #publicacionForm="ngForm">
+        <div class="form-group">
+          <label for="texto">Texto:</label>
+          <textarea id="texto" name="texto" [(ngModel)]="nuevaPublicacion.texto" required class="form-control"></textarea>
         </div>
-    </div>
+      
+        <div class="form-group">
+          <label for="job_types">Tipo de Trabajo:</label>
+          <input type="text" id="job_types" name="job_types" [(ngModel)]="nuevaPublicacion.job_types" required class="form-control">
+        </div>
+      
+        <div class="form-group">
+          <label for="description">Descripción:</label>
+          <textarea id="description" name="description" [(ngModel)]="nuevaPublicacion.description" required class="form-control"></textarea>
+        </div>
+      
+        <div class="form-group">
+          <label for="file">Archivos:</label>
+          <input type="file" id="file" name="file" (change)="onFileSelected($event)" multiple class="form-control">
+          <div *ngFor="let file of files; let i = index">
+            <span>{{ file.name }}</span>
+            <button type="button" (click)="eliminarArchivo(i)">Eliminar</button>
+          </div>
+        </div>
+      
+        <button type="submit" [disabled]="!publicacionForm.valid" class="btn btn-primary">Publicar</button>
+      </form>
 
     <div class="publicaciones">
         <div *ngFor="let publicacion of publicaciones" class="publicacion">

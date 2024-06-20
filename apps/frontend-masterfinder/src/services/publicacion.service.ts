@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -7,13 +7,30 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PublicacionService {
-  private apiUrl = 'http://localhost:8000/api/postings/all-postings'; // URL base de tu API FastAPI
+  private apiUrl = 'http://localhost:8000/api/postings'; // URL base de tu API FastAPI
 
   constructor(private http: HttpClient) { }
 
-  
+
   getAllPostings(): Observable<any> {
-    return this.http.get(this.apiUrl);
+    return this.http.get(`${this.apiUrl}/all-postings`);
+  }
+
+
+  createPosting(accessToken: string, jobType: string, description: string, image: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('job_type', jobType);
+    formData.append('description', description);
+    formData.append('image', image);
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken}`
+    });
+
+    return this.http.post(`${this.apiUrl}/posting`, formData, { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
 
@@ -30,6 +47,4 @@ export class PublicacionService {
     return throwError(
       'Something bad happened; please try again later.');
   }
-
-  
 }
