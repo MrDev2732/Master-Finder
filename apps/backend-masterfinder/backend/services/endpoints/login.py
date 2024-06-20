@@ -15,7 +15,7 @@ from backend.database.session import get_db
 router = APIRouter()
 
 SECRET_KEY = getenv("SECRET_KEY")
-TOKEN_SCOND_EXP = 3600
+TOKEN_SCOND_EXP = 86400
 
 logger = logging.getLogger(__name__)
 
