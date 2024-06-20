@@ -37,8 +37,8 @@
                 <span #sidenavLinkText class="sidenav-link-text">Soporte y Ayuda</span>
             </a>
         </li>
-        <li class="sidenav-nav-item logout" style="margin-top: auto;" *ngIf="isAuthenticated && authChecked">
-            <a class="sidenav-nav-link" (click)="handleLogout()">
+        <li class="sidenav-nav-item logout" style="margin-top: auto;" [class.hidden-initially]="!isAuthenticated || !authChecked">
+            <a class="sidenav-nav-link" (click)="handleLogout()" id="logoutLink">
                 <i class='sidenav-link-icon bx bx-log-out-circle'></i>
                 <span #sidenavLinkText class="sidenav-link-text">Logout</span>
             </a>
