@@ -88,7 +88,6 @@
 
 .para {
   font-size: 1.2rem;
-  text-align: justify;
   color: #070c57;
 }
 
@@ -196,4 +195,69 @@ body{
   100% {
       background-position: 0% 50%;
   }
+}
+
+
+.about-1 h1{
+  text-align: center;
+  color: black;
+  font-weight: bold;
+}
+
+.about-item{
+  margin-bottom: 40px;
+  margin-top: 20px;
+  height: 350px;
+  background-color: white;
+  padding: 50px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.about-item i{
+  font-size: 40px;
+  margin-bottom: 10px;
+  margin: 0;
+}
+
+.about-item h3{
+  font-size: 25px;
+  margin-bottom: 10px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.about-item hr{
+  width: 46px;
+  height: 3px;
+  background-color: #5fbff9;
+  margin: 0 auto;
+  border: none;
+}
+
+.about-item p{
+  margin-top: 20px;
+  font-weight: normal;
+  font-size: 1.2rem;
+  text-align: start;
+  font-family: 'Roboto', sans-serif;
+}
+
+.about-item:hover{
+  background-color: #d0eaff;
+}
+
+
+
+.about-item:hover hr{
+  background-color: #fff;
+}
+
+.about-item:hover i{
+  transform: translateY(-20px);
+}
+
+.about-item:hover i,
+.about-item:hover h3,
+.about-item:hover hr{
+  transition: all 400ms ease-in-out;
 }
