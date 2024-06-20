@@ -5,6 +5,7 @@ import { LoginService } from '../../../services/login.service';
 import { Router } from '@angular/router';
 import { Worker } from '../../interfaces/worker';
 import { RegisterService } from '../../../services/register.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login-worker',
@@ -33,14 +34,14 @@ export class LoginWorkerComponent {
 
 
   @ViewChild('container', { static: false}) container!: ElementRef;
-  constructor(private loginService: LoginService, private router: Router, private registerService: RegisterService) {}
+  constructor(private loginService: LoginService, private router: Router, private registerService: RegisterService, private authService: AuthService) {}
 
   login() {
     this.loginService.login(this.email, this.password).subscribe({
       next: (response) => {
-        console.log('Login successful', response);
-        if (response.includes('Login successful')) {
-          this.router.navigate(['/perfil-worker']); // Redirige al dashboard después del login
+        if (response.access_token) {
+          this.authService.login(response.access_token);
+          window.location.href = '/perfil-worker'; // Refresca la página completamente
         } else {
           console.error('Unexpected response:', response);
         }
