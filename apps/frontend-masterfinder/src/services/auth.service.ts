@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private authStatus = new BehaviorSubject<boolean>(this.hasToken());
+  private authStatus = new BehaviorSubject<boolean>(false);
   private authChecked = new BehaviorSubject<boolean>(false);
 
   constructor() {
@@ -42,5 +42,17 @@ export class AuthService {
   logout() {
     sessionStorage.removeItem('access_token');
     this.setAuthStatus(false); // Asegúrate de que esto se llama correctamente
+  }
+
+  // Métodos para actualizar los BehaviorSubjects
+  authenticateUser() {
+    // Simula la autenticación
+    this.authStatus.next(true);
+    this.authChecked.next(true);
+  }
+
+  logoutUser() {
+    this.authStatus.next(false);
+    this.authChecked.next(false);
   }
 }
