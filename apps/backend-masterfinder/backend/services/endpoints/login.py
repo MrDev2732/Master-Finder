@@ -29,11 +29,9 @@ def login(email: Annotated[str, Form()], password: Annotated[str, Form()], db: S
                 status_code=401,
                 detail="Username or password no authorization"
             )
-        token = create_token({"id": str(user_data.id)})  # Convertir UUID a string
+        token = create_token({"id": str(user_data.id)})
         logger.info(f"Usuario autorizado: {token}")
-        response = HTMLResponse(content="Login successful")
-        response.set_cookie(key="access_token", value=token, httponly=True, max_age=TOKEN_SCOND_EXP)
-        return response
+        return {"access_token": token}
     except HTTPException as e:
         logger.error(f"HTTP error: {e.detail}")
         raise e

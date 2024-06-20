@@ -38,7 +38,7 @@ def populate_workers(session: Session, n=10):
             profile_description=fake.text(),
             password=hash_password('falopa'),
             image=image_binary,
-            specialty=fake.job(),
+            specialty=fake.random_element(['Carpintería', 'Electricidad', 'Gasfitería']),
             location=fake.city()
         )
         session.add(worker)
@@ -61,7 +61,7 @@ def populate_postings(session: Session, n=10):
     for _ in range(n):
         posting = Posting(
             worker_id=fake.random_element(workers).id,
-            job_type=fake.job(),
+            job_type=fake.random_element(['Carpintería', 'Electricidad', 'Gasfitería']),
             description=fake.text(),
             image=image_binary
         )
