@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';  // Importa FormsModule
+import { HttpClient } from '@angular/common/http';
+import { PublicacionService } from '../../../services/publicacion.service';
 
 @Component({
   selector: 'app-perfil-worker',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './perfil-worker.component.html',
-  styleUrl: './perfil-worker.component.scss',
+  styleUrls: ['./perfil-worker.component.scss'],
 })
 export class PerfilWorkerComponent {
   rating = 0;  // Calificación promedio inicial
@@ -19,6 +21,8 @@ export class PerfilWorkerComponent {
     // Supongamos que actualizas la calificación promedio después de recibir una nueva
     this.rating = newRating; // Esto es solo un ejemplo, deberías calcular el promedio
   }
+
+  constructor(private http: HttpClient, private publicacionService: PublicacionService) {}
 
   getStarWidth(index: number): number {
     const starNumber = index + 1;
@@ -40,7 +44,7 @@ export class PerfilWorkerComponent {
 
   /* Crear publicaciones */
   mostrarModal = false;
-  nuevaPublicacion = { texto: '', files: [] };
+  nuevaPublicacion = { texto: '', files: [], job_types: '', description: '' };
   files: any[] = [];
   publicaciones: any[] = [];
 
@@ -50,7 +54,7 @@ export class PerfilWorkerComponent {
 
   cerrarModalPublicacion() {
     this.mostrarModal = false;
-    this.nuevaPublicacion = { texto: '', files: [] };
+    this.nuevaPublicacion = { texto: '', files: [], job_types: '', description: ''  };
     this.files = [];
   }
 
@@ -70,13 +74,28 @@ export class PerfilWorkerComponent {
   }
 
   publicar() {
-    if (this.nuevaPublicacion.texto && this.files.length > 0) {
-      this.publicaciones.push({ texto: this.nuevaPublicacion.texto, files: [...this.files] });
-      this.cerrarModalPublicacion();
-    } else {
-      alert('Debe agregar una descripción y al menos una imagen o video.');
+    const token = sessionStorage.getItem('access_token');
+    if (!token) {
+      alert('No estás autenticado.');
+      return;
     }
-  }
 
-  
+    const formData = new FormData();
+    formData.append('job_type', this.nuevaPublicacion.job_types);
+    formData.append('description', this.nuevaPublicacion.description);
+    this.files.forEach(file => {
+      formData.append('image', file);
+    });
+
+    this.publicacionService.createPosting(token, this.nuevaPublicacion.job_types, this.nuevaPublicacion.description, this.files[0])
+      .subscribe({
+        next: (response) => {
+          console.log('Publicación creada', response);
+          this.cerrarModalPublicacion();
+        },
+        error: (error) => {
+          console.error('Error al publicar', error);
+        }
+      });
+  }
 }

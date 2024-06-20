@@ -16,6 +16,7 @@
     "@fortawesome/angular-fontawesome": "^0.15.0",
     "@nx/angular": "19.1.1",
     "@nxlv/python": "^18.1.0",
+    "ngx-cookie-service": "^18.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.11.2",

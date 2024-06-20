@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http'; // No necesitas HttpClient aquí
 import { AppRoutingModule } from './app.routes';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -17,7 +18,7 @@ import { AppRoutingModule } from './app.routes';
     AppRoutingModule,
     HttpClientModule // Asegúrate de tener solo HttpClientModule aquí
   ],
-  providers: [], // Puedes agregar HttpClient aquí si lo necesitas, pero no es obligatorio
+  providers: [CookieService], // Puedes agregar HttpClient aquí si lo necesitas, pero no es obligatorio
   bootstrap: [AppComponent],
 })
 export class AppModule {}

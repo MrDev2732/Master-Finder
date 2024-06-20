@@ -1,12 +1,10 @@
 <div class="container">
-  <form class="filtro-form" (submit)="onFilterSubmit()">
+  <!-- <form class="filtro-form" (submit)="onFilterSubmit()">
     <div class="form-group">
       <label for="comuna">Comuna:</label>
       <select id="comuna" name="comuna" class="form-control">
         <option value="comuna1">Maipu</option>
         <option value="comuna2">Cerrillos</option>
-        <option value="comuna3">Pudahuel</option>
-        <!-- Añadir más comunas según sea necesario -->
       </select>
     </div>
     <div class="form-group">
@@ -15,11 +13,17 @@
         <option value="especialidad1">Carpinteria</option>
         <option value="especialidad2">Electricidad</option>
         <option value="especialidad3">Zapatera</option>
-        <!-- Añadir más especialidades según sea necesario -->
       </select>
     </div>
     <button type="submit" class="btn btn-primary">Filtrar</button>
-  </form>
+  </form> -->
+
+  <select [(ngModel)]="selectedJobType" (ngModelChange)="onFilterSubmit()">
+    <option value="">Todos los Tipos de Trabajo</option>
+    <option *ngFor="let jobType of jobTypes" [value]="jobType">
+      {{ jobType }}
+    </option>
+  </select>
 
   <div class="postings-container">
     <h2>Listado de Postings</h2>
