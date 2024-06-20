@@ -1,57 +1,112 @@
+/* Estilos generales del contenedor */
 .container {
-  max-width: 800px;
+  display: flex;
+  max-width: 1350px;
   margin: auto;
   padding: 20px;
+  background-color: #164991;
+  border-radius: 10px;
 }
 
-.filtro-form {
-  background-color: #f8f9fa;
+/* Estilos para la sección de filtros */
+.filter-section {
+  flex: 1;
   padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-right: 1px solid #ccd0d5;
 }
 
-.form-group {
-  margin-bottom: 10px;
+/* Estilos para la sección de publicaciones */
+.postings-section {
+  flex: 2;
+  padding: 20px;
+
+  h2 {
+    text-align: center;
+    color: white;
+  }	
+
 }
 
-.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+/* Estilos para las tarjetas de publicaciones */
+.posting-card {
+  margin: 25px;
+  border: 1px solid #ccd0d5;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: white;
 }
 
-.postings-container {
-  margin-top: 20px;
-}
-
-.card {
-  background-color: white; /* Color blanco para las tarjetas */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
-  border: none;
-  transition: transform 0.3s ease-in-out; /* Transición suave para el efecto hover */
-}
-
-.card:hover {
-  transform: scale(1.03); /* Efecto de hover para hacer la tarjeta ligeramente más grande */
+.posting-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .card-img-top {
   width: 100%;
-  height: 150px; /* Ajuste de la altura de la imagen */
-  object-fit: cover; /* Asegura que la imagen cubra el espacio asignado sin distorsionarse */
+  height: auto;
+  object-fit: cover;
+  max-height: 300px;
 }
 
 .card-body {
   padding: 15px;
+  flex-grow: 1;
 }
 
 .card-title {
+  font-size: 16px;
+  font-weight: bold;
   margin-bottom: 10px;
-  color: #333;
 }
 
 .card-text {
   font-size: 14px;
-  color: #666;
+  color: #606770;
 }
+
+.accordion-button {
+  background-color: #f5f5f5;
+  color: #333;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 18px; /* Aumenta el tamaño de la fuente */
+  font-weight: bold; /* Hace la fuente en negrita */
+  border-bottom: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.accordion-content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.accordion-content.active {
+  max-height: 200px; /* Ajusta segn el contenido */
+  border-radius: 10px;
+}
+
+.job-type-selector {
+  width: 100%; /* Asegura que el select ocupe todo el ancho */
+  padding: 10px 15px;
+  font-size: 16px; /* Aumenta el tamaño de la fuente */
+  font-weight: bold; /* Hace la fuente en negrita */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Asegura que padding y border no expandan el elemento */
+}
+
+.filter-section {
+  background-color: #164991; /* Establece el color de fondo a un tono de azul */
+  color: white; /* Cambia el color del texto a blanco para mejor contraste */
+  padding: 20px; /* Añade un poco de padding para espaciar el contenido */
+}
+
