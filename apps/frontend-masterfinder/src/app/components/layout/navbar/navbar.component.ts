@@ -36,9 +36,11 @@ export class NavbarComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     this.authService.getAuthStatus().subscribe(status => {
       this.isAuthenticated = status;
+      this.updateSidenavLinkTextDisplay();
     });
     this.authService.getAuthChecked().subscribe(checked => {
       this.authChecked = checked;
+      this.updateSidenavLinkTextDisplay();
     });
   }
   login() {
@@ -85,7 +87,12 @@ export class NavbarComponent implements AfterViewInit, OnInit {
 
   private updateSidenavLinkTextDisplay(): void {
     this.sidenavLinkTexts.forEach((linkText: ElementRef) => {
-      linkText.nativeElement.style.display = this.collapsed ? 'block' : 'none';
+      // Asegurarse de que el enlace de logout solo sea visible si el usuario está autenticado y la verificación de autenticación ha sido completada
+      if (linkText.nativeElement.id === 'logoutLink') {
+        linkText.nativeElement.style.display = (this.isAuthenticated && this.authChecked) ? 'block' : 'none';
+      } else {
+        linkText.nativeElement.style.display = this.collapsed ? 'block' : 'none';
+      }
     });
   }
 
