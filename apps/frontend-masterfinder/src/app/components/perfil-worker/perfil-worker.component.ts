@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';  // Importa FormsModule
 import { HttpClient } from '@angular/common/http';
 import { PublicacionService } from '../../../services/publicacion.service';
+import { PerfilService } from '../../../services/perfil.service';
+import { AuthService } from '../../../services/auth.service';  // Importa AuthService
 
 @Component({
   selector: 'app-perfil-worker',
@@ -11,7 +13,7 @@ import { PublicacionService } from '../../../services/publicacion.service';
   templateUrl: './perfil-worker.component.html',
   styleUrls: ['./perfil-worker.component.scss'],
 })
-export class PerfilWorkerComponent {
+export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
   rating = 0;  // Calificación promedio inicial
   stars = [1, 2, 3, 4, 5];  // Representa cada estrella
 
@@ -22,7 +24,42 @@ export class PerfilWorkerComponent {
     this.rating = newRating; // Esto es solo un ejemplo, deberías calcular el promedio
   }
 
-  constructor(private http: HttpClient, private publicacionService: PublicacionService) {}
+  constructor(
+    private http: HttpClient, 
+    private publicacionService: PublicacionService, 
+    private perfilService: PerfilService,
+    private authService: AuthService  // Inyecta AuthService
+  ) {}
+
+  
+  ngOnInit() {
+    this.getWorkerData();  // Llama a getWorkerData al inicializar el componente
+  }
+
+  
+  // Variable para almacenar los datos del worker
+  workerData: any;
+
+  // Método para obtener los datos del worker y asignarlos a la variable workerData
+getWorkerData() {
+  this.perfilService.getWorker().subscribe(
+    (data: any) => {
+      this.workerData = data; // Asigna los datos del trabajador a workerData
+
+      // Verifica si hay una imagen binaria y conviértela a una URL de datos
+      if (this.workerData.image) {
+        const base64String = btoa(String.fromCharCode(...new Uint8Array(this.workerData.image.data)));
+        this.workerData.image = `data:image/jpeg;base64,${base64String}`;
+      }
+      
+      console.log('Datos del worker:', this.workerData);
+    },
+    (error: any) => {
+      console.error('Error al obtener los datos del worker', error);
+    }
+  );
+}
+
 
   getStarWidth(index: number): number {
     const starNumber = index + 1;
@@ -74,7 +111,7 @@ export class PerfilWorkerComponent {
   }
 
   publicar() {
-    const token = sessionStorage.getItem('access_token');
+    const token = this.authService.getToken();  // Usa authService para obtener el token
     if (!token) {
       alert('No estás autenticado.');
       return;

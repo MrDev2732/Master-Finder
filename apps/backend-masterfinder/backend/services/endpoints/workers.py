@@ -4,6 +4,7 @@ from os import getenv
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Header
+from fastapi.encoders import jsonable_encoder
 from pydantic import EmailStr, constr
 from sqlalchemy.orm import Session
 import jwt
@@ -23,9 +24,10 @@ router = APIRouter()
 
 
 @router.get("/worker", tags=["Workers"])
-async def get_worker(access_token: Annotated[str, Header()], db: Session = Depends(get_db)):
+async def get_worker(authorization: str = Header(...), db: Session = Depends(get_db)):
     try:
-        payload = jwt.decode(access_token, SECRET_KEY, algorithms=["HS256"])
+        token = authorization.split(" ")[1]  # Extrae el token del encabezado 'Bearer <token>'
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         id_str = payload.get("id")
         if id_str is None:
             raise HTTPException(
@@ -58,7 +60,7 @@ async def get_worker(access_token: Annotated[str, Header()], db: Session = Depen
         if isinstance(value, bytes):
             worker_dict[key] = value.decode('utf-8', errors='replace')  # Decodifica bytes a string
 
-    return worker_dict
+    return jsonable_encoder(worker_dict)
 
 
 @router.get("/all-workers", tags=["Workers"])
