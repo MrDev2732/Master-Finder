@@ -5,7 +5,7 @@ import base64
 import uuid
 import jwt
 
-from fastapi import APIRouter, HTTPException, Depends, Cookie, UploadFile, File, status
+from fastapi import APIRouter, HTTPException, Depends, Header, UploadFile, File, status
 from fastapi.encoders import jsonable_encoder
 from pydantic import constr
 from sqlalchemy.orm import Session
@@ -44,7 +44,7 @@ def get_postings(db: Session = Depends(get_db)):
 
 @router.post("/posting", tags=["Posting"])
 async def create_posting(
-    access_token: Annotated[str, Cookie()],
+    access_token: Annotated[str, Header()],
     job_type: constr(min_length=1, max_length=150),
     description: constr(max_length=500) = None,
     image: UploadFile = File(...),
