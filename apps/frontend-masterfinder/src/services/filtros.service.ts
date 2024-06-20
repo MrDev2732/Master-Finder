@@ -11,10 +11,6 @@ export class FiltrosService {
 
   constructor(private http: HttpClient) { }
 
-  // getAllPostings(): Observable<any> {
-  //   return this.http.get(this.apiUrl);
-  // }
-
   getAllPostings(job_type?: string) {
     let params = new HttpParams();
     if (job_type) {

@@ -15,31 +15,15 @@ export class FiltrosComponent {
 
   public postings: any[] = [];
 
+  public selectedJobType: string = '';
+
+  public jobTypes: string[] = ['Carpintería', 'Electricidad', 'Gasfitería'];
+
   constructor(private postingService: FiltrosService) { }
 
   ngOnInit(): void {
     this.loadPostings();
   }
-
-  // loadPostings(): void {
-  //   this.postingService.getAllPostings().subscribe({
-  //     next: (data) => {
-  //       this.postings = data;
-  //     },
-  //     error: (error) => {
-  //       console.error('Error fetching postings:', error);
-  //     }
-  //   });
-  // }
-
-  // onFilterSubmit(): void {
-  //   // Aquí puedes agregar lógica para enviar filtros específicos al backend
-  //   this.loadPostings();
-  // }
-
-  public selectedJobType: string = '';
-
-  public jobTypes: string[] = ['Carpintería', 'Electricidad', 'Gasfitería'];
 
   onFilterSubmit(): void {
     this.loadPostings(this.selectedJobType);
@@ -60,6 +44,16 @@ export class FiltrosComponent {
         console.error('Error fetching postings:', error);
       }
     });
+  }
+
+  activeAccordion: string | null = null;
+
+  toggleAccordion(accordionId: string): void {
+    if (this.activeAccordion === accordionId) {
+      this.activeAccordion = null;
+    } else {
+      this.activeAccordion = accordionId;
+    }
   }
 
 }
