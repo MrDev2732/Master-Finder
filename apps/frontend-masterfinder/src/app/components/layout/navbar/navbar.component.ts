@@ -100,7 +100,9 @@ export class NavbarComponent implements AfterViewInit, OnInit {
   }
 
   checkAuthentication() {
-    this.isAuthenticated = this.authService.checkTokenExists();
+    this.authService.getAuthStatus().subscribe(isAuthenticated => {
+      this.isAuthenticated = isAuthenticated;
+    });
   }
   
 }
