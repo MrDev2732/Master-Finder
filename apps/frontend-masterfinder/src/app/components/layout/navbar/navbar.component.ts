@@ -1,7 +1,9 @@
-import { Component, Output, EventEmitter, ViewChildren, QueryList, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChildren, QueryList, AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../../services/login.service';
+import { AuthService } from '../../../../services/auth.service';
+
 interface SidenavToggle {
   screemWidth: number;
   collapsed: boolean;
@@ -14,21 +16,31 @@ interface SidenavToggle {
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements AfterViewInit {
+export class NavbarComponent implements AfterViewInit, OnInit {
   
   @ViewChildren('sidenavLinkText') sidenavLinkTexts!: QueryList<ElementRef>;
   @Output() onToggleSidenav: EventEmitter<SidenavToggle> = new EventEmitter();
   collapsed = false;
   screemWidth = 0;
+  isAuthenticated: boolean = false;
+  authChecked: boolean = false;
 
   constructor( private router: Router,
-                private loginService: LoginService
+                private loginService: LoginService,
+                private authService: AuthService
   ) {
     // Recuperar el estado de 'collapsed' desde localStorage
     const savedState = localStorage.getItem('collapsed');
     this.collapsed = savedState === 'true';
   }
-
+  ngOnInit() {
+    this.authService.getAuthStatus().subscribe(status => {
+      this.isAuthenticated = status;
+    });
+    this.authService.getAuthChecked().subscribe(checked => {
+      this.authChecked = checked;
+    });
+  }
   login() {
     this.router.navigate(['/login-worker']);
   }
@@ -78,16 +90,17 @@ export class NavbarComponent implements AfterViewInit {
   }
 
   logout() {
-    this.loginService.logout().subscribe({
-      next: (response) => {
-        console.log('Logout successful', response);
-        this.router.navigate(['/login-worker']);  // Redirige al usuario a la página de login o inicio
-      },
-      error: (error) => {
-        console.error('Logout failed', error);
-        // Puedes mostrar un mensaje de error al usuario aquí si es necesario
-      }
-    });
+    this.authService.logout();
+    this.router.navigate(['/login-worker']);
+  }
+
+  handleLogout() {
+    this.logout();
+    this.closeSidenav();
+  }
+
+  checkAuthentication() {
+    this.isAuthenticated = this.authService.checkTokenExists();
   }
   
 }
