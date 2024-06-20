@@ -3,7 +3,7 @@ import uuid
 from os import getenv
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Cookie
+from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Header
 from pydantic import EmailStr, constr
 from sqlalchemy.orm import Session
 import jwt
@@ -13,7 +13,7 @@ from backend.database.create_db import compress_image
 from backend.database.session import get_db
 from backend.database.models import Worker
 from backend.handlers.queries.worker import (
-    get_worker_by_id, get_all_workers, get_worker_for_create, update_worker_by_id
+    get_worker_by_id, get_subscribed_workers, get_worker_for_create, update_worker_by_id, get_all_workers
 )
 
 
@@ -23,7 +23,7 @@ router = APIRouter()
 
 
 @router.get("/worker", tags=["Workers"])
-async def get_worker(access_token: Annotated[str, Cookie()], db: Session = Depends(get_db)):
+async def get_worker(access_token: Annotated[str, Header()], db: Session = Depends(get_db)):
     try:
         payload = jwt.decode(access_token, SECRET_KEY, algorithms=["HS256"])
         id_str = payload.get("id")
@@ -64,6 +64,20 @@ async def get_worker(access_token: Annotated[str, Cookie()], db: Session = Depen
 @router.get("/all-workers", tags=["Workers"])
 async def get_workers(db: Session = Depends(get_db)):
     workers = get_all_workers(db)
+    # Asegúrate de que todos los campos sean serializables
+    workers_serializable = []
+    for worker in workers:
+        worker_dict = worker.__dict__.copy()
+        for key, value in worker_dict.items():
+            if isinstance(value, bytes):
+                worker_dict[key] = value.decode('utf-8', errors='replace')
+        workers_serializable.append(worker_dict)
+    return workers_serializable
+
+
+@router.get("/subscribed-workers", tags=["Workers"])
+async def get_workers_subscribed(db: Session = Depends(get_db)):
+    workers = get_subscribed_workers(db)
     # Asegúrate de que todos los campos sean serializables
     workers_serializable = []
     for worker in workers:
@@ -142,7 +156,7 @@ async def create_worker(
 
 @router.put("/worker", tags=["Workers"])
 async def update_worker(
-    access_token: Annotated[str, Cookie()],
+    access_token: Annotated[str, Header()],
     first_name: constr(min_length=1, max_length=50) = None,
     last_name: constr(min_length=1, max_length=50) = None,
     rut: constr(min_length=1, max_length=12) = None,
