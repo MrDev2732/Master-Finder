@@ -2,6 +2,7 @@ import os
 import uuid
 from os import getenv
 from typing import Annotated
+import base64
 
 from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Header
 from fastapi.encoders import jsonable_encoder
@@ -58,7 +59,7 @@ async def get_worker(authorization: str = Header(...), db: Session = Depends(get
     worker_dict = worker.__dict__.copy()
     for key, value in worker_dict.items():
         if isinstance(value, bytes):
-            worker_dict[key] = value.decode('utf-8', errors='replace')  # Decodifica bytes a string
+            worker_dict[key] = base64.b64encode(value).decode('utf-8')  # Codifica bytes a base64
 
     return jsonable_encoder(worker_dict)
 
@@ -86,7 +87,7 @@ async def get_workers_subscribed(db: Session = Depends(get_db)):
         worker_dict = worker.__dict__.copy()
         for key, value in worker_dict.items():
             if isinstance(value, bytes):
-                worker_dict[key] = value.decode('utf-8', errors='replace')
+                worker_dict[key] = base64.b64encode(value).decode('utf-8')
         workers_serializable.append(worker_dict)
     return workers_serializable
 
