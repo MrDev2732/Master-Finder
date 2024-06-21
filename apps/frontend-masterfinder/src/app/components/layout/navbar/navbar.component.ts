@@ -88,9 +88,12 @@ export class NavbarComponent implements AfterViewInit, OnInit {
   private updateSidenavLinkTextDisplay(): void {
     if (this.sidenavLinkTexts && this.sidenavLinkTexts.length > 0) {
       this.sidenavLinkTexts.forEach((linkText: ElementRef) => {
-        // Asegurarse de que el enlace de logout solo sea visible si el usuario está autenticado y la verificación de autenticación ha sido completada
         if (linkText.nativeElement.id === 'logoutLink') {
           linkText.nativeElement.style.display = (this.isAuthenticated && this.authChecked) ? 'block' : 'none';
+        } else if (linkText.nativeElement.id === 'perfil-workerLink') {
+          // Mostrar el enlace solo si existe un token de acceso
+          const tokenExists = sessionStorage.getItem('access_token') !== null;
+          linkText.nativeElement.style.display = tokenExists ? 'block' : 'none';
         } else {
           linkText.nativeElement.style.display = this.collapsed ? 'block' : 'none';
         }
