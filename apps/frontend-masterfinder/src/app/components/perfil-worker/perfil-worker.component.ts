@@ -45,12 +45,6 @@ getWorkerData() {
   this.perfilService.getWorker().subscribe(
     (data: any) => {
       this.workerData = data; // Asigna los datos del trabajador a workerData
-
-      // Verifica si hay una imagen binaria y conviértela a una URL de datos
-      if (this.workerData.image) {
-        const base64String = btoa(String.fromCharCode(...new Uint8Array(this.workerData.image.data)));
-        this.workerData.image = `data:image/jpeg;base64,${base64String}`;
-      }
       
       console.log('Datos del worker:', this.workerData);
     },
