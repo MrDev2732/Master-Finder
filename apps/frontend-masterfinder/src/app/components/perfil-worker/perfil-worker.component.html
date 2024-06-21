@@ -3,7 +3,7 @@
         <div class="perfil-usuario-portada">
             <img src="../../../assets/electricoss.webp" alt="img-avatar">
             <div class="perfil-usuario-avatar">
-                <img [src]="'data:image/jpeg;base64,' + workerData.image">
+                <img [src]="'data:image/jpeg;base64,' + workerData.image" alt="Imagen de Posting" class="card-img">
                 <button type="button" class="boton-avatar">
                   <i class="far fa-image"></i>
                 </button>
@@ -17,8 +17,8 @@
     </div>
     <div class="perfil-usuario-body">
         <div class="perfil-usuario-bio">
-            <h3 class="titulo">{{workerData.first_name}}</h3>
-            <p class="texto">Descripcion: {{workerData.description}}</p>
+            <h3 class="titulo">{{workerData.first_name}}  {{workerData.last_name}}</h3>
+            <p class="texto"> {{workerData.profile_description}}</p>
         </div>
         <div class="perfil-usuario-footer">
             <ul class="lista-datos">

@@ -5,6 +5,7 @@ import { NavbarComponent } from '../layout/navbar/navbar.component';
 import { PublicacionService } from 'apps/frontend-masterfinder/src/services/publicacion.service';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { PerfilService } from 'apps/frontend-masterfinder/src/services/perfil.service';
 
 
 interface SidenavToggle{
@@ -28,23 +29,23 @@ export class HomeComponent {
   errorMessage: string = 'errooor!';
 
   constructor(private router: Router,
-              private publicacionService: PublicacionService) {}
+              private perfilService: PerfilService) {}
 
   login() {
     this.router.navigate(['/login-worker']);
   }
 
   ngOnInit(): void {
-    this.loadPostings();
+    this.loadSubscribedWorkers();
   }
 
-  loadPostings(): void {
-    this.publicacionService.getAllPostings().subscribe({
+  loadSubscribedWorkers(): void {
+    this.perfilService.getSubscribedWorkers().subscribe({
       next: (data) => {
         this.postings = this.getRandomPostings(data, 3);
       },
       error: (error) => {
-        console.error('Error fetching postings:', error);
+        console.error('Error fetching subscribed workers:', error);
       }
     });
   }
