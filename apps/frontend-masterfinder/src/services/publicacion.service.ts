@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PublicacionService {
-  private apiUrl = 'http://localhost:8000/api/postings/all-postings'; // URL base de tu API FastAPI
+  private apiUrl = 'http://localhost:8000/api/postings'; // URL base de tu API FastAPI
 
   constructor(private http: HttpClient) { }
 

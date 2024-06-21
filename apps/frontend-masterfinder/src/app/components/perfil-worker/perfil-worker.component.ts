@@ -45,8 +45,6 @@ getWorkerData() {
   this.perfilService.getWorker().subscribe(
     (data: any) => {
       this.workerData = data; // Asigna los datos del trabajador a workerData
-      
-      console.log('Datos del worker:', this.workerData);
     },
     (error: any) => {
       console.error('Error al obtener los datos del worker', error);
@@ -75,7 +73,7 @@ getWorkerData() {
 
   /* Crear publicaciones */
   mostrarModal = false;
-  nuevaPublicacion = { texto: '', files: [], job_types: '', description: '' };
+  nuevaPublicacion = { files: [], job_types: '', description: '' };
   files: any[] = [];
   publicaciones: any[] = [];
 
@@ -85,7 +83,7 @@ getWorkerData() {
 
   cerrarModalPublicacion() {
     this.mostrarModal = false;
-    this.nuevaPublicacion = { texto: '', files: [], job_types: '', description: ''  };
+    this.nuevaPublicacion = { files: [], job_types: '', description: ''  };
     this.files = [];
   }
 
