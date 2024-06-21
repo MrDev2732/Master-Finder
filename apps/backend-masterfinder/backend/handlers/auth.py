@@ -9,7 +9,7 @@ import jwt
 
 SECRET_KEY = getenv("SECRET_KEY")
 PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
-TOKEN_SCOND_EXP = 60
+DAYS_TO_EXPIRE = 30
 
 
 def verify_password(plain_password, hashed_password):
@@ -20,7 +20,7 @@ def verify_password(plain_password, hashed_password):
 
 def create_token(data: dict):
     data_token = data.copy()
-    data_token["exp"] = datetime.utcnow() + timedelta(seconds=TOKEN_SCOND_EXP)
+    data_token["exp"] = datetime.utcnow() + timedelta(days=DAYS_TO_EXPIRE)
     token_jwt = jwt.encode(data_token, key=SECRET_KEY, algorithm="HS256")
     return token_jwt
 
