@@ -1,13 +1,12 @@
 from os import getenv
-from typing import Annotated
+from typing import Optional
 import logging
 import base64
 import uuid
 import jwt
 
-from fastapi import APIRouter, HTTPException, Depends, Header, UploadFile, File, status
+from fastapi import APIRouter, HTTPException, Depends, Header, UploadFile, File, status, Form
 from fastapi.encoders import jsonable_encoder
-from pydantic import constr
 from sqlalchemy.orm import Session
 
 from backend.handlers.queries.posting import get_all_postings
@@ -44,14 +43,15 @@ def get_postings(db: Session = Depends(get_db)):
 
 @router.post("/posting", tags=["Posting"])
 async def create_posting(
-    access_token: Annotated[str, Header()],
-    job_type: constr(min_length=1, max_length=150),
-    description: constr(max_length=500) = None,
+    authorization: str = Header(...),
+    job_type: str = Form(...),
+    description: Optional[str] = Form(None),
     image: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
     try:
-        payload = jwt.decode(access_token, SECRET_KEY, algorithms=["HS256"])
+        token = authorization.split(" ")[1]  # Extraer el token del encabezado
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         id_str = payload.get("id")
         if id_str is None:
             raise HTTPException(
