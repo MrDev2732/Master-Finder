@@ -21,7 +21,7 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
     // Aquí deberías implementar la lógica para actualizar la calificación en el backend
     console.log(`Nueva calificación: ${newRating}`);
     // Supongamos que actualizas la calificación promedio después de recibir una nueva
-    this.rating = newRating; // Esto es solo un ejemplo, deberías calcular el promedio
+    this.rating = newRating; // Esto es solo un ejemplo, deberas calcular el promedio
   }
 
   constructor(
@@ -31,27 +31,24 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
     private authService: AuthService  // Inyecta AuthService
   ) {}
 
-  
   ngOnInit() {
     this.getWorkerData();  // Llama a getWorkerData al inicializar el componente
   }
 
-  
   // Variable para almacenar los datos del worker
   workerData: any;
 
   // Método para obtener los datos del worker y asignarlos a la variable workerData
-getWorkerData() {
-  this.perfilService.getWorker().subscribe(
-    (data: any) => {
-      this.workerData = data; // Asigna los datos del trabajador a workerData
-    },
-    (error: any) => {
-      console.error('Error al obtener los datos del worker', error);
-    }
-  );
-}
-
+  getWorkerData() {
+    this.perfilService.getWorker().subscribe(
+      (data: any) => {
+        this.workerData = data; // Asigna los datos del trabajador a workerData
+      },
+      (error: any) => {
+        console.error('Error al obtener los datos del worker', error);
+      }
+    );
+  }
 
   getStarWidth(index: number): number {
     const starNumber = index + 1;
@@ -90,11 +87,15 @@ getWorkerData() {
   onFileSelected(event: any) {
     const selectedFiles = event.target.files;
     for (let file of selectedFiles) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.files.push({ url: e.target.result, name: file.name, type: file.type });
-      };
-      reader.readAsDataURL(file);
+      if (file.size > 2 * 1024 * 1024) {
+        console.error('El archivo excede el tamaño permitido de 2MB');
+        return;
+      }
+      if (!['image/jpeg', 'image/png'].includes(file.type)) {
+        console.error('Formato de archivo no permitido');
+        return;
+      }
+      this.files.push({ file, url: URL.createObjectURL(file), name: file.name, type: file.type });
     }
   }
 
@@ -102,29 +103,33 @@ getWorkerData() {
     this.files.splice(index, 1);
   }
 
-  publicar() {
-    const token = this.authService.getToken();  // Usa authService para obtener el token
-    if (!token) {
-      alert('No estás autenticado.');
+  // Método para crear una nueva publicación
+  crearPublicacion() {
+    const accessToken = this.authService.getToken(); // Obtén el token de acceso
+    const jobType = this.nuevaPublicacion.job_types;
+    const description = this.nuevaPublicacion.description;
+    const image = this.files[0].file; // Asegúrate de que `image.file` sea un objeto `File`
+
+    if (!jobType || !description || !image) {
+      console.error('Todos los campos son obligatorios');
       return;
     }
 
-    const formData = new FormData();
-    formData.append('job_type', this.nuevaPublicacion.job_types);
-    formData.append('description', this.nuevaPublicacion.description);
-    this.files.forEach(file => {
-      formData.append('image', file);
+    console.log('Datos a enviar:', {
+      jobType,
+      description,
+      image
     });
 
-    this.publicacionService.createPosting(token, this.nuevaPublicacion.job_types, this.nuevaPublicacion.description, this.files[0])
-      .subscribe({
-        next: (response) => {
-          console.log('Publicación creada', response);
-          this.cerrarModalPublicacion();
-        },
-        error: (error) => {
-          console.error('Error al publicar', error);
-        }
-      });
+    this.publicacionService.createPosting(accessToken, jobType, description, image).subscribe(
+      (response: any) => {
+        console.log('Publicación creada exitosamente', response);
+        this.cerrarModalPublicacion(); // Cierra el modal después de crear la publicación
+      },
+      (error: any) => {
+        console.error('Error al crear la publicación', error);
+        alert(error); // Muestra el error en una alerta
+      }
+    );
   }
 }

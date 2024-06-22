@@ -11,21 +11,19 @@ export class PublicacionService {
 
   constructor(private http: HttpClient) { }
 
-  
   getAllPostings(): Observable<any> {
     return this.http.get(`${this.apiUrl}/all-postings`);
   }
 
-
   createPosting(accessToken: string, jobType: string, description: string, image: File): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken}`
+    });
+
     const formData: FormData = new FormData();
     formData.append('job_type', jobType);
     formData.append('description', description);
     formData.append('image', image);
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`
-    });
 
     return this.http.post(`${this.apiUrl}/posting`, formData, { headers })
       .pipe(
@@ -33,9 +31,14 @@ export class PublicacionService {
       );
   }
 
-
   private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
+    if (error.status === 422) {
+      // Error de validación
+      const validationErrors = error.error.detail;
+      const errorMessages = validationErrors.map((err: any) => `${err.loc.join(' -> ')}: ${err.msg}`).join(', ');
+      console.error('Validation error:', errorMessages);
+      return throwError(`Validation error: ${errorMessages}`);
+    } else if (error.error instanceof ErrorEvent) {
       // Error del lado del cliente
       console.error('An error occurred:', error.error.message);
     } else {
@@ -47,8 +50,4 @@ export class PublicacionService {
     return throwError(
       'Something bad happened; please try again later.');
   }
-
-  
-
-  
 }
