@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { PublicacionService } from '../../../services/publicacion.service';
 import { PerfilService } from '../../../services/perfil.service';
 import { AuthService } from '../../../services/auth.service';  // Importa AuthService
+import { FiltrosService } from '../../../services/filtros.service';
 
 @Component({
   selector: 'app-perfil-worker',
@@ -28,11 +29,13 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
     private http: HttpClient, 
     private publicacionService: PublicacionService, 
     private perfilService: PerfilService,
-    private authService: AuthService  // Inyecta AuthService
+    private authService: AuthService,  // Inyecta AuthService
+    private postingService: FiltrosService
   ) {}
 
   ngOnInit() {
-    this.getWorkerData();  // Llama a getWorkerData al inicializar el componente
+    this.getWorkerData(),
+    this.loadPostings();  // Llama a getWorkerData al inicializar el componente
   }
 
   // Variable para almacenar los datos del worker
@@ -132,4 +135,22 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
       }
     );
   }
+
+  /* Ver sus publicaciones */
+  public postings: any[] = [];
+
+  loadPostings(workerId?: string): void {
+    this.postingService.getAllPostings().subscribe({
+      next: (data) => {
+        console.log(data);
+        // Filtra las publicaciones para mostrar solo las del usuario actual
+        this.postings = data.filter(posting => posting.worker_id === this.workerData.id);
+      },
+      error: (error) => {
+        console.error('Error fetching postings:', error);
+      }
+    });
+}
+
+
 }
