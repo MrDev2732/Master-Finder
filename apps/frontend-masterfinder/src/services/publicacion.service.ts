@@ -15,6 +15,13 @@ export class PublicacionService {
     return this.http.get(`${this.apiUrl}/all-postings`);
   }
 
+  getPostingById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/posting/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   createPosting(accessToken: string, jobType: string, description: string, image: File): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${accessToken}`

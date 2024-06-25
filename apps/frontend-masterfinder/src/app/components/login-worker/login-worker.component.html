@@ -4,7 +4,7 @@
     <div class="container" #container>
       <div class="form-container sign-up">
         <form (ngSubmit)="register()" #registerForm="ngForm">
-          <h1>Create Account</h1>
+          <h1>Crear Cuenta</h1>
           <input type="text" placeholder="Nombre" [(ngModel)]="newWorker.first_name" name="first_name" required minlength="2" maxlength="30">
           <small *ngIf="registerForm.controls['first_name']?.errors?.['minlength'] || registerForm.controls['first_name']?.errors?.['maxlength']">El nombre debe tener entre 2 y 30 caracteres.</small>
 
@@ -37,13 +37,13 @@
             <option value="Albañil">Albañil</option>
           </select>
 
-          <button type="submit" [disabled]="registerForm.invalid">Sign Up</button>
+          <button type="submit" [disabled]="registerForm.invalid">Crear Cuenta</button>
         </form>
       </div>
 
       <div class="form-container sign-in">
         <form (ngSubmit)="login()">
-          <h1>Sign In</h1>
+          <h1>Iniciar Sesión</h1>
           <div class="social-icons">
             <a href="#" class="icon">
               <i class='bx bxl-google-plus'></i>
@@ -58,24 +58,24 @@
               <i class='bx bxl-linkedin-square'></i>
             </a>
           </div>
-          <span>or use your email password</span>
+          <span>o ingresa con tu email y contraseña</span>
           <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required>
           <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
-          <a href="#">Forget Your Password?</a>
-          <button type="submit">Sign In</button>
+          <a href="#">Olvidaste tu contraseña?</a>
+          <button type="submit">Iniciar Sesión</button>
         </form>
       </div>
       <div class="toggle-container">
         <div class="toggle">
           <div class="toggle-panel toggle-left">
-            <h1>Welcome Back!</h1>
-            <p>Enter your personal details to use all of site features</p>
-            <button class="hidden" (click)="onLogin()">Sign In</button>
+            <h1>Bienvenido de nuevo!</h1>
+            <p>Ingresa tus datos personales para usar todos los servicios del sitio</p>
+            <button class="hidden" (click)="onLogin()">Iniciar Sesión</button>
           </div>
           <div class="toggle-panel toggle-right">
-            <h1>Hello, Friend!</h1>
-            <p>Register with your personal details to use all of site features</p>
-            <button class="hidden" (click)="onRegister()">Sign Up</button>
+            <h1>Hola, Amigo!</h1>
+            <p>Regístrate con tus datos personales para usar todos los servicios del sitio</p>
+            <button class="hidden" (click)="onRegister()">Registrarse</button>
           </div>
         </div>
       </div>

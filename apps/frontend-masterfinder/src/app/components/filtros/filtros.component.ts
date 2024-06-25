@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FiltrosService } from '../../../services/filtros.service';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-filtros',
@@ -19,7 +20,7 @@ export class FiltrosComponent {
 
   public jobTypes: string[] = ['Carpintería', 'Electricidad', 'Gasfitería'];
 
-  constructor(private postingService: FiltrosService) { }
+  constructor(private postingService: FiltrosService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadPostings();
@@ -54,6 +55,10 @@ export class FiltrosComponent {
     } else {
       this.activeAccordion = accordionId;
     }
+  }
+
+  goToDetail(id: string): void {
+    this.router.navigate(['/detalle', id]);
   }
 
 }
