@@ -1,0 +1,20 @@
+<section class="modern-section">
+    <div class="modern-container">
+        <div *ngIf="posting" class="posting-details text-center p-4 shadow rounded">
+            <h2 class="mb-3">{{ posting.job_type }}</h2>
+            <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="img-fluid mb-3 rounded">
+            <p>{{ posting.description }}</p>
+        </div>
+        <button routerLink="/" class="btn-modern">Ir al perfil</button>
+    </div>
+</section>
+
+<section>
+            <h1>{{ posting.job_type }}</h1>
+            <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="img-fluid mb-3 rounded">
+</section>
+
+<section>
+    <p>{{ posting.description }}</p>
+    <button routerLink="/" class="btn-modern">Ir al perfil</button>
+</section>
