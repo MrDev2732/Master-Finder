@@ -5,6 +5,7 @@ import { PerfilWorkerComponent } from './components/perfil-worker/perfil-worker.
 import { SoporteComponent } from './components/soporte/soporte.component';
 import { FiltrosComponent } from './components/filtros/filtros.component';
 import { NgModule } from '@angular/core';
+import { DetallePostingComponent } from './components/detalle-posting.component';
 
 
 export const appRoutes: Route[] = [
@@ -13,6 +14,7 @@ export const appRoutes: Route[] = [
     { path: 'perfil-worker', component: PerfilWorkerComponent },
     { path: 'soporte', component: SoporteComponent },
     { path: 'filtros', component: FiltrosComponent },
+    { path: 'detalle/:id', component: DetallePostingComponent },
 ];
 
 @NgModule({
