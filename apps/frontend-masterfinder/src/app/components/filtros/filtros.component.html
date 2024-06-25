@@ -23,7 +23,7 @@
 
   <div class="postings-section">
     <!-- Listado de publicaciones -->
-    <h2>Listado de Postings</h2>
+    <h2>Listado de Publicaciones</h2>
     <div *ngFor="let posting of postings" class="card posting-card">
       <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img-top">
       <div class="card-body">
