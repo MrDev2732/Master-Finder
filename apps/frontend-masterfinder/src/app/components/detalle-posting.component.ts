@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FiltrosService } from '../../services/filtros.service'; 
+
 
 @Component({
   selector: 'app-detalle-posting',
@@ -16,7 +17,8 @@ export class DetallePostingComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private postingService: FiltrosService
+    private postingService: FiltrosService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -29,7 +31,6 @@ export class DetallePostingComponent implements OnInit {
   loadPostingDetails(id: string): void {
     this.postingService.getPostingById(id).subscribe({
       next: (data) => {
-        console.log(data); // Esto imprimirá los datos recibidos
         this.posting = data;
       },
       error: (error) => {
@@ -38,6 +39,11 @@ export class DetallePostingComponent implements OnInit {
     });
   }
 
-  
+  goToProfile(): void {
+    // Navega a la página de perfil, ajusta la ruta según tu configuración
+    this.router.navigate(['/perfil', this.posting.worker_id]);
+  }
+
+
 }
 
