@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../../services/login.service';
 import { AuthService } from '../../../../services/auth.service';
+import Swal from 'sweetalert2';
 
 interface SidenavToggle {
   screemWidth: number;
@@ -115,8 +116,16 @@ export class NavbarComponent implements AfterViewInit, OnInit {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/login-worker']);
     this.updateSidenavLinkTextDisplay();
+    // Mostrar la alerta de despedida
+    Swal.fire({
+      icon: 'info',
+      title: 'Sesión cerrada',
+      text: 'Has cerrado sesión exitosamente.',
+      confirmButtonText: 'Aceptar'
+    }).then(() => {
+      this.router.navigate(['/login-worker']);
+    });
   }
 
   handleLogout() {

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Worker } from '../../interfaces/worker';
 import { RegisterService } from '../../../services/register.service';
 import { AuthService } from '../../../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login-worker',
@@ -32,7 +33,6 @@ export class LoginWorkerComponent {
     location: '',
   };
 
-
   @ViewChild('container', { static: false}) container!: ElementRef;
   constructor(private loginService: LoginService, private router: Router, private registerService: RegisterService, private authService: AuthService) {}
 
@@ -41,7 +41,15 @@ export class LoginWorkerComponent {
       next: (response) => {
         if (response.access_token) {
           this.authService.login(response.access_token);
-          window.location.href = '/perfil-worker'; // Refresca la página completamente
+          // Mostrar la alerta de bienvenida
+          Swal.fire({
+            icon: 'success',
+            title: 'Bienvenido',
+            text: 'Has iniciado sesión exitosamente.',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            window.location.href = '/perfil-worker'; // Refresca la página completamente
+          });
         } else {
           console.error('Unexpected response:', response);
         }
