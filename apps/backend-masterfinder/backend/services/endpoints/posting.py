@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from backend.handlers.queries.posting import get_all_postings
 from backend.database.session import get_db
 from backend.database.models import Posting
+from sqlalchemy.orm import joinedload
 
 SECRET_KEY = getenv("SECRET_KEY")
 
@@ -40,32 +41,49 @@ def get_postings(db: Session = Depends(get_db)):
         logger.error(f"Error fetching postings: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
-@router.get("/posting/{id}", tags=["Posting"])
-def get_posting_by_id(id: str, db: Session = Depends(get_db)):
+@router.get("/posting/{posting_id}", tags=["Posting"])
+def get_posting_by_id(posting_id: str, db: Session = Depends(get_db)):
     try:
-        # Convertir el ID a UUID
-        posting_id = uuid.UUID(id)
-        print(f"Fetching posting with ID: {posting_id}")  # Agregar un print para depuración
+        # Convertir posting_id a UUID
+        posting_uuid = uuid.UUID(posting_id)
         
-        posting = db.query(Posting).filter(Posting.id == posting_id).first()
-        if posting is None:
+        # Usar joinedload para incluir la relación worker
+        posting = db.query(Posting).options(joinedload(Posting.worker)).filter(Posting.id == posting_uuid).first()
+        
+        if not posting:
             raise HTTPException(status_code=404, detail="Posting not found")
-
-        # Convertir los datos a un formato seguro
-        safe_posting = {}
-        posting_dict = vars(posting)
-        for key, value in posting_dict.items():
-            if isinstance(value, bytes):
-                safe_posting[key] = base64.b64encode(value).decode('utf-8')
-            else:
-                safe_posting[key] = value
-        return jsonable_encoder(safe_posting)
+        
+        # Preparar el diccionario de la respuesta
+        posting_dict = {
+            "id": str(posting.id),
+            "job_type": posting.job_type,
+            "description": posting.description,
+            "image": None,  # Inicializar como None por defecto
+            "worker": {
+                "id": str(posting.worker.id),
+                "first_name": posting.worker.first_name,
+                "last_name": posting.worker.last_name,
+                "email": posting.worker.email,
+                "location": posting.worker.location,
+                "contact_number": posting.worker.contact_number,
+                "specialty": posting.worker.specialty,
+                "ratings": posting.worker.ratings
+                # Agrega aquí más campos de worker si los necesitas
+            }
+        }
+        
+        # Codificar la imagen en base64 si está presente
+        if posting.image:
+            posting_dict["image"] = base64.b64encode(posting.image).decode('utf-8')
+        
+        return posting_dict
+    
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid UUID format")
+    
     except Exception as e:
-        logger.error(f"Error fetching posting: {e}")
+        logger.error(f"Error fetching posting by ID: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
-
 
 
 @router.post("/posting", tags=["Posting"])

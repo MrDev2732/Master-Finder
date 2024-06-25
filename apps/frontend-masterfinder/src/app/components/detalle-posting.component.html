@@ -1,20 +1,74 @@
-<section class="modern-section">
-    <div class="modern-container">
-        <div *ngIf="posting" class="posting-details text-center p-4 shadow rounded">
-            <h2 class="mb-3">{{ posting.job_type }}</h2>
-            <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="img-fluid mb-3 rounded">
-            <p>{{ posting.description }}</p>
-        </div>
-        <button routerLink="/" class="btn-modern">Ir al perfil</button>
+<br>
+<div class="master-container">
+    <div class="master-text">Master Finder</div>
+</div>
+<br>
+<br>
+
+<div class="instagram-post">
+    <div class="gradient-text-container">
+        <h4 class="gradient-text">{{ posting.worker.location }}</h4>
     </div>
-</section>
+    <br>
 
-<section>
-            <h1>{{ posting.job_type }}</h1>
-            <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="img-fluid mb-3 rounded">
-</section>
+    <section *ngIf="posting" class="post-section">
 
-<section>
-    <p>{{ posting.description }}</p>
-    <button routerLink="/" class="btn-modern">Ir al perfil</button>
+
+
+        <div class="post-content centered-content">
+
+            <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="posting-image">
+
+            <h2 class="modern-text">Descripción de la publicación</h2>
+
+            <br>
+
+            <p class="posting-description modern-text">{{ posting.description }}</p>
+
+        </div>
+
+    </section>
+    
+
+
+    <div class="loading-container" *ngIf="!posting">
+        <p>Cargando detalles de la publicación...</p>
+    </div>
+
+    
+</div>
+<br>
+<section *ngIf="posting" class="profile-section">
+    <div class="instagram-post">
+        <div class="profile-info">
+            <i class='bx bxs-user'></i>
+            <br>
+            <h3>{{ posting.worker.first_name }} {{ posting.worker.last_name }}</h3>
+            <br>
+            
+            <div class="profile-details modern-style">
+                <h5 class="hover-effect">
+                    <i class='bx bxl-whatsapp iconos'></i>
+                    <br>
+                    <a style="text-decoration: none;" [href]="'https://wa.me/+56' +  posting.worker.contact_number" class="contact-link"> Contactar</a>
+                </h5>
+                <h5 class="hover-effect">
+                    <i class='bx bx-envelope iconos'></i>
+                    <br>
+                    <a style="text-decoration: none;" [href]="'mailto:' + posting.worker.email">{{ posting.worker.email }}</a> 
+                </h5>
+                <h5 class="hover-effect2">
+                    <i class='bx bx-briefcase-alt'></i>
+                    <br>
+                    <span>{{ posting.worker.specialty }}</span>
+                </h5>
+            </div>
+
+        </div>
+        <br>
+        <div class="profile-actions">
+            <button class="profile-button" (click)="goToProfile()">Ir al perfil</button>
+        </div>
+    </div>
+
 </section>
