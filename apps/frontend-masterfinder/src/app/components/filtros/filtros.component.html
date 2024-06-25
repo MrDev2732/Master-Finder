@@ -24,7 +24,7 @@
   <div class="postings-section">
     <!-- Listado de publicaciones -->
     <h2>Listado de Postings</h2>
-    <div *ngFor="let posting of postings" class="card posting-card">
+    <div *ngFor="let posting of postings" class="card posting-card" (click)="goToDetail(posting.id)">
       <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img-top">
       <div class="card-body">
         <h5 class="card-title">{{ posting.job_type }}</h5>
