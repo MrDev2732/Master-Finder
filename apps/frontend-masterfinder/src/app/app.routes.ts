@@ -6,6 +6,7 @@ import { SoporteComponent } from './components/soporte/soporte.component';
 import { FiltrosComponent } from './components/filtros/filtros.component';
 import { NgModule } from '@angular/core';
 import { DetallePostingComponent } from './components/detalle-posting.component';
+import { ProfilePostingComponent } from './components/profile-posting.component';
 
 
 export const appRoutes: Route[] = [
@@ -15,6 +16,8 @@ export const appRoutes: Route[] = [
     { path: 'soporte', component: SoporteComponent },
     { path: 'filtros', component: FiltrosComponent },
     { path: 'detalle/:id', component: DetallePostingComponent },
+    { path: 'profile/:id', component: ProfilePostingComponent }, 
+    { path: '', redirectTo: '/detalle-posting', pathMatch: 'full' }
 ];
 
 @NgModule({

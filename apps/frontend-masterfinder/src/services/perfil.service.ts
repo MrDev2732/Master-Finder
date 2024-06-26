@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class PerfilService {
-  private apiUrl = 'http://localhost:8000/api/workers/';
+  private apiUrl = 'http://localhost:8000/api/workers';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -17,11 +17,15 @@ export class PerfilService {
     return this.http.get<any>(this.apiUrl + 'worker', { headers }); // Asegúrate de que el tipo de retorno sea Observable<any>
   }
 
+  getWorkerById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/worker/${id}`);
+  }
+
   getAllworkers(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
 
   getSubscribedWorkers(): Observable<any> {
-    return this.http.get<any>(this.apiUrl + 'subscribed-workers');
+    return this.http.get<any>(this.apiUrl + '/subscribed-workers');
   }
 }
