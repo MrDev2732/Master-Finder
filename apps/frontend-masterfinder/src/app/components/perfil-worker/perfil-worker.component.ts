@@ -152,8 +152,6 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
   loadPostings(workerId?: string): void {
     this.postingService.getAllPostings().subscribe({
       next: (data) => {
-        console.log(data);
-        // Filtra las publicaciones para mostrar solo las del usuario actual
         this.postings = data.filter(posting => posting.worker_id === this.workerData.id).reverse();
       },
       error: (error) => {

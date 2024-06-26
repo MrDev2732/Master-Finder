@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { PerfilService } from '../../services/perfil.service';
+import { PerfilService } from '../../../services/perfil.service';
 
 @Component({
   selector: 'app-profile-posting',

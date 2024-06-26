@@ -14,7 +14,7 @@ export class PerfilService {
   getWorker(): Observable<any> {
     const token = this.authService.getToken(); // Asegúrate de que este método exista en AuthService
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<any>(this.apiUrl + 'worker', { headers }); // Asegúrate de que el tipo de retorno sea Observable<any>
+    return this.http.get<any>(this.apiUrl + '/worker', { headers }); // Asegúrate de que el tipo de retorno sea Observable<any>
   }
 
   getWorkerById(id: string): Observable<any> {
@@ -22,7 +22,7 @@ export class PerfilService {
   }
 
   getAllworkers(): Observable<any> {
-    return this.http.get(this.apiUrl);
+    return this.http.get(this.apiUrl+ '/allworkers');
   }
 
   getSubscribedWorkers(): Observable<any> {
