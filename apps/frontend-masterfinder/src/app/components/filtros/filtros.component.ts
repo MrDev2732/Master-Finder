@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FiltrosService } from '../../../services/filtros.service';
@@ -12,13 +12,12 @@ import { Router } from '@angular/router';
   templateUrl: './filtros.component.html',
   styleUrl: './filtros.component.scss',
 })
-export class FiltrosComponent {
+export class FiltrosComponent implements OnInit {
 
   public postings: any[] = [];
-
   public selectedJobType: string = '';
-
   public jobTypes: string[] = ['Carpintería', 'Electricidad', 'Gasfitería'];
+  activeAccordion: string | null = null;
 
   constructor(private postingService: FiltrosService, private router: Router) { }
 
@@ -32,8 +31,11 @@ export class FiltrosComponent {
   
   loadPostings(jobType?: string): void {
     this.postingService.getAllPostings().subscribe({
-      next: (data) => {
-        console.log(data);  // Esto te ayudará a confirmar la estructura de los datos
+      next: (data) => { 
+        data.sort((a, b) => {
+          return new Date(b.created_date).getTime() - new Date(a.created_date).getTime();
+        });
+
         if (jobType) {
           // Asegúrate de que 'job_type' es el nombre correcto del campo en los datos recibidos
           this.postings = data.filter(posting => posting.job_type === jobType);
@@ -47,8 +49,6 @@ export class FiltrosComponent {
     });
   }
 
-  activeAccordion: string | null = null;
-
   toggleAccordion(accordionId: string): void {
     if (this.activeAccordion === accordionId) {
       this.activeAccordion = null;
@@ -60,5 +60,5 @@ export class FiltrosComponent {
   goToDetail(id: string): void {
     this.router.navigate(['/detalle', id]);
   }
-
 }
+
