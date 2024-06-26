@@ -55,7 +55,12 @@ export class LoginWorkerComponent {
         }
       },
       error: (error) => {
-        console.error('Login failed', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Usuario o contraseña incorrectos.',
+          confirmButtonText: 'Aceptar'
+        });
       }
     });
   }
@@ -89,8 +94,14 @@ export class LoginWorkerComponent {
     this.registerService.registerWorker(this.newWorker).subscribe({
       next: (response) => {
         console.log('Registro exitoso', response);
-        window.alert('Registro exitoso'); // Alerta de registro exitoso
-        this.resetForm(); // Llamada a la función para limpiar el formulario
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro exitoso',
+          text: 'Has registrado exitosamente.',
+          confirmButtonText: 'Aceptar'
+        }).then(() => {
+          this.resetForm(); // Llamada a la función para limpiar el formulario
+        });
       },
       error: (error) => {
         console.error('Error en el registro', error);
