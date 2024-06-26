@@ -1,0 +1,58 @@
+<section class="seccion-perfil-usuario">
+    <div class="perfil-usuario-header">
+        <div class="perfil-usuario-portada">
+            <img src="../../../assets/electricoss.webp" alt="img-avatar">
+            <div class="perfil-usuario-avatar">
+                <img *ngIf="worker" [src]="'data:image/jpeg;base64,' + worker.image" alt="Imagen de Posting" class="card-img">
+                <button type="button" class="boton-avatar">
+                  <i class="far fa-image"></i>
+                </button>
+              </div>
+              
+                        
+            <button type="button" class="boton-portada">
+                <i class="far fa-image"></i> Cambiar fondo
+            </button>
+        </div>
+    </div>
+    <div class="perfil-usuario-body">
+        <div class="perfil-usuario-bio">
+          
+            <h3 class="titulo" *ngIf="worker">{{worker.first_name}}  {{worker.last_name}}</h3>
+            <p class="texto" *ngIf="worker"> {{worker.profile_description}}</p>
+  
+            <div class="estrellas-rating">
+              <div class="calificacion-numerica">{{ rating | number: '1.1-1' }}</div>
+              <div class="estrellas">
+                <span *ngFor="let star of stars; let i = index" 
+                      class="estrella"
+                      (click)="rate(i + 1)"
+                      [ngClass]="{'filled': rating >= i + 1, 'half-filled': rating > i && rating < i + 1}">
+                  &#9733;
+                </span>
+              </div>
+            </div>
+            
+        </div>
+        <div class="perfil-usuario-footer">
+            <ul class="lista-datos" *ngIf="worker">
+                <li><i class="icono fas fa-map-signs"></i> Rut: {{worker.rut}}</li>
+                <li><i class="icono fas fa-phone-alt"></i> Telefono: {{worker.contact_number}}</li>
+                <li><i class="icono fas fa-briefcase"></i> Especialidad: {{worker.specialty}}</li>
+            </ul>
+            
+            <ul class="lista-datos" *ngIf="worker">
+                <li><i class="icono fas fa-map-marker-alt"></i> Comuna: {{worker.location}}</li>
+                <li><i class="icono fas fa-calendar-alt"></i> Cuenta creada el: {{worker.created_date | date: 'dd/MM/yyyy'}}</li>
+                <li><i class="icono fas fa-inbox"></i> Email: {{worker.email}}</li>
+            </ul>
+  
+        </div>
+  
+        <div class="redes-sociales" *ngIf="worker">
+            <a href="https://www.facebook.com/" class="boton-redes facebook fab fa-facebook-f"><i class="icon-facebook"></i></a>
+            <a [href]="'https://wa.me/+56' +  worker.contact_number" class="boton-redes whatsapp fab fa-whatsapp"><i class="icon-whatsapp"></i></a>
+            <a href="https://www.instagram.com/" class="boton-redes instagram fab fa-instagram"><i class="icon-instagram"></i></a>
+        </div>
+    </div>
+  </section>
