@@ -63,6 +63,22 @@ async def get_worker(authorization: str = Header(...), db: Session = Depends(get
 
     return jsonable_encoder(worker_dict)
 
+@router.get("/worker/{id}", tags=["Workers"])
+async def get_worker_by_id_endpoint(id: uuid.UUID, db: Session = Depends(get_db)):
+    worker = get_worker_by_id(id, db)
+    if worker is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Worker not found"
+        )
+
+    worker_dict = worker.__dict__.copy()
+    for key, value in worker_dict.items():
+        if isinstance(value, bytes):
+            worker_dict[key] = base64.b64encode(value).decode('utf-8')  # Codifica bytes a base64
+
+    return jsonable_encoder(worker_dict)
+
 
 @router.get("/all-workers", tags=["Workers"])
 async def get_workers(db: Session = Depends(get_db)):
