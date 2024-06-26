@@ -6,6 +6,7 @@ import { PublicacionService } from '../../../services/publicacion.service';
 import { PerfilService } from '../../../services/perfil.service';
 import { AuthService } from '../../../services/auth.service';  // Importa AuthService
 import { FiltrosService } from '../../../services/filtros.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-perfil-worker',
@@ -126,7 +127,12 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
 
     this.publicacionService.createPosting(accessToken, jobType, description, image).subscribe(
       (response: any) => {
-        console.log('Publicación creada exitosamente', response);
+        Swal.fire({
+          icon: 'success',
+          title: 'Publicación creada exitosamente',
+          text: 'La publicación ha sido creada exitosamente.',
+          confirmButtonText: 'Aceptar'
+        });
         this.cerrarModalPublicacion(); // Cierra el modal después de crear la publicación
       },
       (error: any) => {
