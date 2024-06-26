@@ -3,24 +3,20 @@
       <div class="perfil-usuario-portada">
           <img src="../../../assets/electricoss.webp" alt="img-avatar">
           <div class="perfil-usuario-avatar">
-              <img [src]="'data:image/jpeg;base64,' + workerData.image" alt="Imagen de Posting" class="card-img">
+              <img *ngIf="workerData?.image" [src]="'data:image/jpeg;base64,' + workerData.image" alt="Imagen de Posting" class="card-img">
               <button type="button" class="boton-avatar">
                 <i class="far fa-image"></i>
               </button>
             </div>
-            
-                      
           <button type="button" class="boton-portada">
               <i class="far fa-image"></i> Cambiar fondo
           </button>
       </div>
   </div>
-  <div class="perfil-usuario-body">
+  <div class="perfil-usuario-body" *ngIf="workerData">
       <div class="perfil-usuario-bio">
-        
           <h3 class="titulo">{{workerData.first_name}}  {{workerData.last_name}}</h3>
-          <p class="texto"> {{workerData.profile_description}}</p>
-
+          <p class="texto">{{workerData.profile_description}}</p>
           <div class="estrellas-rating">
             <div class="calificacion-numerica">{{ rating | number: '1.1-1' }}</div>
             <div class="estrellas">
@@ -32,7 +28,6 @@
               </span>
             </div>
           </div>
-          
       </div>
       <div class="perfil-usuario-footer">
           <ul class="lista-datos">
@@ -40,18 +35,15 @@
               <li><i class="icono fas fa-phone-alt"></i> Telefono: {{workerData.contact_number}}</li>
               <li><i class="icono fas fa-briefcase"></i> Especialidad: {{workerData.specialty}}</li>
           </ul>
-          
           <ul class="lista-datos">
               <li><i class="icono fas fa-map-marker-alt"></i> Comuna: {{workerData.location}}</li>
               <li><i class="icono fas fa-calendar-alt"></i> Cuenta creada el: {{workerData.created_date | date: 'dd/MM/yyyy'}}</li>
               <li><i class="icono fas fa-inbox"></i> Email: {{workerData.email}}</li>
           </ul>
-
       </div>
-
       <div class="redes-sociales">
           <a href="https://www.facebook.com/" class="boton-redes facebook fab fa-facebook-f"><i class="icon-facebook"></i></a>
-          <a [href]="'https://wa.me/+56' +  workerData.contact_number" class="boton-redes whatsapp fab fa-whatsapp"><i class="icon-whatsapp"></i></a>
+          <a [href]="'https://wa.me/+56' + workerData.contact_number" class="boton-redes whatsapp fab fa-whatsapp"><i class="icon-whatsapp"></i></a>
           <a href="https://www.instagram.com/" class="boton-redes instagram fab fa-instagram"><i class="icon-instagram"></i></a>
       </div>
   </div>
@@ -68,12 +60,10 @@
         <option value="Gasfitería">Gasfitería</option>
       </select>
     </div>
-
     <div class="form-group">
       <label for="description">Descripción:</label>
       <textarea id="description" name="description" [(ngModel)]="nuevaPublicacion.description" required class="form-control"></textarea>
     </div>
-
     <div class="form-group">
       <label for="file">Archivos:</label>
       <input type="file" id="file" name="file" (change)="onFileSelected($event)" multiple class="form-control">
@@ -82,14 +72,12 @@
         <button type="button" (click)="eliminarArchivo(i)">Eliminar</button>
       </div>
     </div>
-
     <div class="crear-publicacion">
       <button type="submit" [disabled]="!publicacionForm.valid" class="boton-crear-publicacion">
         <i class="fas fa-edit"></i> Crear Publicación
       </button>
     </div>
   </form>
-
   <div class="postings-section">
     <!-- Listado de publicaciones -->
     <h2>Listado de Publicaciones</h2>

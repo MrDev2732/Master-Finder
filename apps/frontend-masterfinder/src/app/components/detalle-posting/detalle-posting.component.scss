@@ -1,0 +1,206 @@
+.instagram-post {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.gradient-text-container {
+    background: linear-gradient(to right, #f7b733, #fc4a1a);
+    padding: 10px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    color: #fff;
+    text-align: center;
+}
+
+.post-section, .profile-section {
+    margin-bottom: 20px;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.post-header h4 {
+    font-size: 16px;
+    color: #555;
+    margin: 0;
+}
+
+.post-content {
+    margin-bottom: 20px;
+}
+
+.posting-image {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.posting-description {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+}
+
+.profile-info {
+    text-align: center;
+}
+
+.profile-info h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.profile-info h5 {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.profile-actions {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.profile-button {
+    background-color: #3897f0;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-button:hover {
+    background-color: #2684f4;
+}
+
+
+.master-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .centered-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+  
+  .master-text {
+    font-size: 4rem;
+    font-weight: bold;
+    background: linear-gradient(70deg,  #40B4E5 .38% , #2b35ef 81.67%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-animation 3s ease infinite;
+  }
+  
+  @keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+  }
+
+  .bxl-whatsapp{
+    font-size: 1.2rem;
+  }
+
+  .profile-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.profile-details h5 {
+    flex: 1 1 auto; 
+    min-width: 80px; 
+}
+
+.bxs-user{
+    font-size: 4rem;
+}
+
+.modern-style {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hover-effect2 {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+.hover-effect2:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hover-effect {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+.hover-effect:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #2684f4;
+}
+
+.hover-effect:hover a {
+    color: white;
+}
+
+.hover-effect:hover .iconos {
+    color: white;
+}
+
+
+
+h5 a{
+    color: black;
+}
+
+h5 span{
+    color: black;
+}
+
+.modern-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.2em;
+    color: #333;
+    line-height: 1.5;
+}
