@@ -132,8 +132,12 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
           title: 'Publicación creada exitosamente',
           text: 'La publicación ha sido creada exitosamente.',
           confirmButtonText: 'Aceptar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.cerrarModalPublicacion(); // Cierra el modal después de crear la publicación
+            location.reload(); // Recarga la página después de que el usuario haga clic en "Aceptar"
+          }
         });
-        this.cerrarModalPublicacion(); // Cierra el modal después de crear la publicación
       },
       (error: any) => {
         console.error('Error al crear la publicación', error);
@@ -150,13 +154,16 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
       next: (data) => {
         console.log(data);
         // Filtra las publicaciones para mostrar solo las del usuario actual
-        this.postings = data.filter(posting => posting.worker_id === this.workerData.id);
+        this.postings = data.filter(posting => posting.worker_id === this.workerData.id).reverse();
       },
       error: (error) => {
         console.error('Error fetching postings:', error);
       }
     });
 }
+
+/* Eliminar y Actualizar publicaciones */
+
 
 
 }
