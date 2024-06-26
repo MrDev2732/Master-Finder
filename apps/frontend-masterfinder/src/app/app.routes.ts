@@ -5,8 +5,8 @@ import { PerfilWorkerComponent } from './components/perfil-worker/perfil-worker.
 import { SoporteComponent } from './components/soporte/soporte.component';
 import { FiltrosComponent } from './components/filtros/filtros.component';
 import { NgModule } from '@angular/core';
-import { DetallePostingComponent } from './components/detalle-posting.component';
-import { ProfilePostingComponent } from './components/profile-posting.component';
+import { DetallePostingComponent } from './components/detalle-posting/detalle-posting.component';
+import { ProfilePostingComponent } from './components/profile-posting/profile-posting.component';
 
 
 export const appRoutes: Route[] = [
