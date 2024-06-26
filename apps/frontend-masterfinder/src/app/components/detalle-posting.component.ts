@@ -40,8 +40,11 @@ export class DetallePostingComponent implements OnInit {
   }
 
   goToProfile(): void {
-    // Navega a la página de perfil, ajusta la ruta según tu configuración
-    this.router.navigate(['/perfil', this.posting.worker_id]);
+    if (this.posting && this.posting.worker && this.posting.worker.id) {
+      this.router.navigate(['/profile', this.posting.worker.id]); // Asegúrate de que la ruta sea '/profile'
+    } else {
+      console.error('Posting or worker is undefined');
+    }
   }
 
 
