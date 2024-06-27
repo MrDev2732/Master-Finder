@@ -151,3 +151,23 @@ async def create_posting(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error"
         )
+
+@router.delete("/posting/{posting_id}", tags=["Posting"])
+def delete_posting(posting_id: str, db: Session = Depends(get_db)):
+    try:
+        posting_uuid = uuid.UUID(posting_id)
+        posting = db.query(Posting).filter(Posting.id == posting_uuid).first()
+
+        if not posting:
+            raise HTTPException(status_code=404, detail="Posting not found")
+
+        db.delete(posting)
+        db.commit()
+
+        return {"message": "Posting eliminado exitosamente"}
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid UUID format")
+    except Exception as e:
+        logger.error(f"Error deleting posting: {e}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Internal Server Error")

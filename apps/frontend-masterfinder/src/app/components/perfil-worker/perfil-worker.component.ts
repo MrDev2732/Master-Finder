@@ -149,7 +149,7 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
   /* Ver sus publicaciones */
   public postings: any[] = [];
 
-  loadPostings(workerId?: string): void {
+  loadPostings(): void {
     this.postingService.getAllPostings().subscribe({
       next: (data) => {
         this.postings = data.filter(posting => posting.worker_id === this.workerData.id).reverse();
@@ -161,7 +161,40 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
 }
 
 /* Eliminar y Actualizar publicaciones */
-
+eliminarPublicacion(postingId: string): void {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: '¿Deseas eliminar esta publicación?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.publicacionService.deletePosting(postingId).subscribe(
+        (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Publicación eliminada',
+            text: 'La publicación ha sido eliminada exitosamente.',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            this.loadPostings(); // Recargar la lista de publicaciones
+          });
+        },
+        (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al eliminar',
+            text: 'No se pudo eliminar la publicación. Por favor, inténtelo nuevamente.',
+            confirmButtonText: 'Aceptar'
+          });
+          console.error("Error al eliminar la publicación", error);
+        }
+      );
+    }
+  });
+}
 
 
 }
