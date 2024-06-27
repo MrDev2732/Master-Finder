@@ -57,4 +57,8 @@ export class PublicacionService {
     return throwError(
       'Something bad happened; please try again later.');
   }
+
+  deletePosting(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/posting/${id}`);
+  }
 }
