@@ -135,7 +135,7 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
         }).then((result) => {
           if (result.isConfirmed) {
             this.cerrarModalPublicacion(); // Cierra el modal después de crear la publicación
-            location.reload(); // Recarga la página después de que el usuario haga clic en "Aceptar"
+            this.loadPostings(); // Recarga la página después de que el usuario haga clic en "Aceptar"
           }
         });
       },
