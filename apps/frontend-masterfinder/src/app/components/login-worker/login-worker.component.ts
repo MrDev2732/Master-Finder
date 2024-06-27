@@ -124,4 +124,8 @@ export class LoginWorkerComponent {
       location: '',
     };
   }
+
+  resetPassword() {
+    this.router.navigate(['/reset-password']);
+  }
 }

@@ -61,7 +61,7 @@
           <span>o ingresa con tu email y contraseña</span>
           <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required>
           <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
-          <a href="#">Olvidaste tu contraseña?</a>
+          <a (click)="resetPassword()" style="cursor: pointer;">Olvidaste tu contraseña?</a>
           <button type="submit">Iniciar Sesión</button>
         </form>
       </div>
