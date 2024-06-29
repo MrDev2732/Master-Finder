@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { DetallePostingComponent } from './components/detalle-posting/detalle-posting.component';
 import { ProfilePostingComponent } from './components/profile-posting/profile-posting.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 
 export const appRoutes: Route[] = [
@@ -19,7 +20,8 @@ export const appRoutes: Route[] = [
     { path: 'detalle/:id', component: DetallePostingComponent },
     { path: 'profile/:id', component: ProfilePostingComponent }, 
     { path: '', redirectTo: '/detalle-posting', pathMatch: 'full' },
-    { path:'reset-password', component: ResetPasswordComponent}
+    { path:'reset-password', component: ResetPasswordComponent},
+    { path:'payment', component: PaymentComponent}
 ];
 
 @NgModule({
