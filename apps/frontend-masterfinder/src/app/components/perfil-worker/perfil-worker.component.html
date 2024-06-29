@@ -2,12 +2,13 @@
   <div class="perfil-usuario-header">
       <div class="perfil-usuario-portada">
           <img src="../../../assets/electricoss.webp" alt="img-avatar">
-          <div class="perfil-usuario-avatar">
+          <div class="perfil-usuario-avatar card-box">
               <img *ngIf="workerData?.image" [src]="'data:image/jpeg;base64,' + workerData.image" alt="Imagen de Posting" class="card-img">
+              <span *ngIf="workerData?.subscription"></span>
               <button type="button" class="boton-avatar">
-                <i class="far fa-image"></i>
+                  <i class="far fa-image"></i>
               </button>
-            </div>
+          </div>
           <button type="button" class="boton-portada">
               <i class="far fa-image"></i> Cambiar fondo
           </button>
@@ -18,15 +19,15 @@
           <h3 class="titulo">{{workerData.first_name}}  {{workerData.last_name}}</h3>
           <p class="texto">{{workerData.profile_description}}</p>
           <div class="estrellas-rating">
-            <div class="calificacion-numerica">{{ rating | number: '1.1-1' }}</div>
-            <div class="estrellas">
-              <span *ngFor="let star of stars; let i = index" 
-                    class="estrella"
-                    (click)="rate(i + 1)"
-                    [ngClass]="{'filled': rating >= i + 1, 'half-filled': rating > i && rating < i + 1}">
-                &#9733;
-              </span>
-            </div>
+              <div class="calificacion-numerica">{{ rating | number: '1.1-1' }}</div>
+              <div class="estrellas">
+                  <span *ngFor="let star of stars; let i = index" 
+                        class="estrella"
+                        (click)="rate(i + 1)"
+                        [ngClass]="{'filled': rating >= i + 1, 'half-filled': rating > i && rating < i + 1}">
+                      &#9733;
+                  </span>
+              </div>
           </div>
       </div>
       <div class="perfil-usuario-footer">
@@ -49,49 +50,72 @@
   </div>
 </section>
 
-<section class="fcrearpublicacion">
-  <!-- Modal para crear una nueva publicación -->
-  <form (ngSubmit)="crearPublicacion()" #publicacionForm="ngForm">
-    <div class="form-group">
-      <label>Seleccione especialidad</label>
-      <select [(ngModel)]="nuevaPublicacion.job_types" name="job_types" required class="form-control">
-        <option value="Carpintería">Carpintería</option>
-        <option value="Electricidad">Electricidad</option>
-        <option value="Gasfitería">Gasfitería</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="description">Descripción:</label>
-      <textarea id="description" name="description" [(ngModel)]="nuevaPublicacion.description" required class="form-control"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="file">Archivos:</label>
-      <input type="file" id="file" name="file" (change)="onFileSelected($event)" multiple class="form-control">
-      <div *ngFor="let file of files; let i = index" class="file-list">
-        <span>{{ file.name }}</span>
-        <button type="button" (click)="eliminarArchivo(i)">Eliminar</button>
+<section class="seccion-perfil-usuario" *ngIf="showSubscriptionSection">
+  <div class="subscription-container">
+      <div class="subscription-card highlighted">
+          <div class="logo-container">
+            <i class='bx bxs-star'></i>
+          </div>
+          <h2 class="subscription-title">Plan Premium</h2>
+          <p class="subscription-price">$12000/mes</p>
+          <ul class="subscription-features">
+              <li>-Publicaciones en primeros lugares</li>
+              <li>-Mayor visibilidad</li>
+              <li>-Destacado de perfil de usario</li>
+          </ul>
+          <div class="button-container">
+              <button class="subscribe-button" onclick="window.location.href='../../payment/'">Suscribirse</button>
+          </div>
       </div>
-    </div>
-    <div class="crear-publicacion">
-      <button type="submit" [disabled]="!publicacionForm.valid" class="boton-crear-publicacion">
-        <i class="fas fa-edit"></i> Crear Publicación
-      </button>
-    </div>
-  </form>
-
-  <div class="postings-section">
-    <!-- Listado de publicaciones -->
-    <h2>Listado de Publicaciones</h2>
-    <div *ngFor="let posting of postings" class="card posting-card">
-      <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img-top">
-      <div class="card-body">
-        <h5 class="card-title">{{ posting.job_type }}</h5>
-        <p class="card-text">{{ posting.description }}</p>
-        <div class="button-group">
-          <button class="btn-update">Actualizar</button>
-          <button class="btn-delete" (click)="eliminarPublicacion(posting.id)">Eliminar</button>
-        </div>
-      </div>
-    </div>
   </div>
+</section>
+
+
+<button (click)="togglePublications()" class="manage-button">Gestionar Publicaciones</button>
+
+<section [ngClass]="{'show': showPublications, 'hide': !showPublications}" class="fcrearpublicacion">
+    <!-- Modal para crear una nueva publicación -->
+    <form (ngSubmit)="crearPublicacion()" #publicacionForm="ngForm">
+        <div class="form-group">
+            <label>Seleccione especialidad</label>
+            <select [(ngModel)]="nuevaPublicacion.job_types" name="job_types" required class="form-control">
+                <option value="Carpintería">Carpintería</option>
+                <option value="Electricidad">Electricidad</option>
+                <option value="Gasfitería">Gasfitería</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción:</label>
+            <textarea id="description" name="description" [(ngModel)]="nuevaPublicacion.description" required class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="file">Archivos:</label>
+            <input type="file" id="file" name="file" (change)="onFileSelected($event)" multiple class="form-control">
+            <div *ngFor="let file of files; let i = index" class="file-list">
+                <span>{{ file.name }}</span>
+                <button type="button" (click)="eliminarArchivo(i)">Eliminar</button>
+            </div>
+        </div>
+        <div class="crear-publicacion">
+            <button type="submit" [disabled]="!publicacionForm.valid" class="manage-button">
+                <i class="fas fa-edit"></i> Crear Publicación
+            </button>
+        </div>
+    </form>
+
+    <div class="postings-section">
+        <!-- Listado de publicaciones -->
+        <h2>Listado de Publicaciones</h2>
+        <div *ngFor="let posting of postings" class="card posting-card">
+            <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{ posting.job_type }}</h5>
+                <p class="card-text">{{ posting.description }}</p>
+                <div class="button-group">
+                    <button class="btn-update">Actualizar</button>
+                    <button class="btn-delete" (click)="eliminarPublicacion(posting.id)">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>

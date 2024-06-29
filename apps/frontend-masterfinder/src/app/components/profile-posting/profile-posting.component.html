@@ -2,8 +2,9 @@
     <div class="perfil-usuario-header">
         <div class="perfil-usuario-portada">
             <img src="../../../assets/electricoss.webp" alt="img-avatar">
-            <div class="perfil-usuario-avatar">
+            <div class="perfil-usuario-avatar card-box">
                 <img *ngIf="worker" [src]="'data:image/jpeg;base64,' + worker.image" alt="Imagen de Posting" class="card-img">
+                <span *ngIf="worker?.subscription"></span>
                 <button type="button" class="boton-avatar">
                   <i class="far fa-image"></i>
                 </button>

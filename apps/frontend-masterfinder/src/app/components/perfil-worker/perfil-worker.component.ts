@@ -41,12 +41,13 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
 
   // Variable para almacenar los datos del worker
   workerData: any;
-
+  showSubscriptionSection = true;
   // Método para obtener los datos del worker y asignarlos a la variable workerData
   getWorkerData() {
     this.perfilService.getWorker().subscribe(
       (data: any) => {
         this.workerData = data; // Asigna los datos del trabajador a workerData
+        this.showSubscriptionSection = !this.workerData.subscription; // Oculta la sección si el trabajador tiene suscripción
       },
       (error: any) => {
         console.error('Error al obtener los datos del worker', error);
@@ -77,6 +78,7 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
   nuevaPublicacion = { files: [], job_types: '', description: '' };
   files: any[] = [];
   publicaciones: any[] = [];
+  showPublications = false;
 
   abrirModalPublicacion() {
     this.mostrarModal = true;
@@ -194,6 +196,10 @@ eliminarPublicacion(postingId: string): void {
       );
     }
   });
+}
+
+togglePublications() {
+  this.showPublications = !this.showPublications;
 }
 
 

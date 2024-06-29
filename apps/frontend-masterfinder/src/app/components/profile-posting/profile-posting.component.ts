@@ -14,6 +14,7 @@ export class ProfilePostingComponent implements OnInit {
 
   rating = 0;  // Calificación promedio inicial
   stars = [1, 2, 3, 4, 5];  // Representa cada estrella
+  showSubscriptionSection = true;
   
   public worker: any;
 
@@ -37,10 +38,13 @@ export class ProfilePostingComponent implements OnInit {
     }
   }
 
+  
+
   loadWorkerProfile(id: string): void {
     this.perfilService.getWorkerById(id).subscribe({
       next: (data) => {
         this.worker = data;
+        this.showSubscriptionSection = !this.worker.subscription;
       },
       error: (error) => {
         console.error('Error fetching worker profile:', error);

@@ -257,7 +257,6 @@
 .boton-crear-publicacion {
     background-color: #4267B2;
     color: white;
-    font-family: 'Roboto', sans-serif;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -480,20 +479,7 @@
     background-color: #ff1a1a;
   }
   
-  .boton-crear-publicacion {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 0.75rem;
-    cursor: pointer;
-    align-self: flex-end;
-  }
   
-  .boton-crear-publicacion:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
   
   .publicaciones {
     display: flex;
@@ -595,4 +581,162 @@
   .btn-delete:hover {
     background-color: darkred;
   }
+
+
+  .subscription-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+.subscription-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 300px;
+  margin: 20px;
+  border: 1px solid #000000;
+}
+
+.subscription-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.subscription-logo {
+    max-width: 100px;
+}
+
+.subscription-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.subscription-price {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.subscription-features {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.subscription-features li {
+    margin: 10px 0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.subscribe-button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+}
+
+.subscribe-button:hover {
+  background-color: #0056b3;
+}
+
+.highlighted {
+    border: 2px solid #007bff;
+}
+
+@media (max-width: 768px) {
+    .subscription-card {
+        max-width: 100%;
+    }
+}
+
+.hidden {
+  display: none;
+}
+
+.manage-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.manage-button:hover {
+  background-color: #0056b3;
+}
+
+.manage-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.fcrearpublicacion {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease-in;
+  opacity: 0;
+}
+
+.fcrearpublicacion.show {
+  max-height: fit-content; /* Ajusta esto según el contenido máximo esperado */
+  opacity: 1;
+}
+
+.fcrearpublicacion.hide {
+  max-height: 0;
+  opacity: 0;
+}
+
+.card-box span {
+  position: absolute;
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
+  top: -10px;
+  left: -10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
+}
+
+.card-box span::before {
+  content: 'Destacado';
+  position: absolute;
+  width: 150%;
+  height: 40px;
+  background-image: linear-gradient(45deg, #007bff 0%, #0056b3 51%, #003f7f 100%);
+  transform: rotate(-45deg) translateY(-20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.23);
+}
