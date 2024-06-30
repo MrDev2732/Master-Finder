@@ -276,6 +276,7 @@ async def update_password(
     db: Session = Depends(get_db)
 ):
     try:
+        id = id.strip('"')
         id = uuid.UUID(id)  # Convertir id de str a uuid.UUID
     except ValueError:
         raise HTTPException(
