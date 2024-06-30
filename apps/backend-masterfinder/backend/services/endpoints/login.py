@@ -1,3 +1,4 @@
+import uuid
 import logging
 from os import getenv
 from typing import Annotated
@@ -7,7 +8,7 @@ from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 import jwt
 
-from backend.handlers.queries.worker import get_worker_by_email, update_reset_pass_token_by_email
+from backend.handlers.queries.worker import get_worker_by_email, update_reset_pass_token_by_email, get_worker_by_id, update_verify_by_id
 from backend.handlers.auth import create_token, verify_password, generate_token, send_email, verify_token
 from backend.database.session import get_db
 
@@ -62,8 +63,9 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
             )
         token, code = generate_token()
         logger.info(code)
-        # send_email(email, code)
+        send_email(email, code)
         update_reset_pass_token_by_email(email, token, db)
+        return str(user_data.id)
     except HTTPException as e:
         logger.error(f"HTTP error: {e.detail}")
         raise e
@@ -76,8 +78,8 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
 
 
 @router.get("/reset-token", tags=["Auth"])
-def get_token(email: str, code: int, db: Session = Depends(get_db)):
-    user_data = get_worker_by_email(email, db)
+def get_token(id: uuid.UUID, code: int, db: Session = Depends(get_db)):
+    user_data = get_worker_by_id(id, db)
     if user_data is None:
         raise HTTPException(
             status_code=401,
@@ -90,7 +92,8 @@ def get_token(email: str, code: int, db: Session = Depends(get_db)):
             detail="No reset token found"
         )
     if verify_token(token, code):
-        return {"message": "Token is valid"}
+        update_verify_by_id(id, db)
+        return True
     else:
         raise HTTPException(
             status_code=401,
