@@ -80,6 +80,7 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
 @router.get("/reset-token", tags=["Auth"])
 def get_token(id: str, code: int, db: Session = Depends(get_db)):
     try:
+        id = id.strip('"')
         id = uuid.UUID(id)  # Convertir id de str a uuid.UUID
     except ValueError:
         raise HTTPException(
