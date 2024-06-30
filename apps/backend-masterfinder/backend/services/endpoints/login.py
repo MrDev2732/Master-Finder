@@ -63,9 +63,9 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
             )
         token, code = generate_token()
         logger.info(code)
-        send_email(email, code)
+        #send_email(email, code)
         update_reset_pass_token_by_email(email, token, db)
-        return str(user_data.id)
+        return user_data.id
     except HTTPException as e:
         logger.error(f"HTTP error: {e.detail}")
         raise e
