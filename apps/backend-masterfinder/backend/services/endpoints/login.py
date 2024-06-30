@@ -16,6 +16,8 @@ router = APIRouter()
 
 SECRET_KEY = getenv("SECRET_KEY")
 
+logging.basicConfig(level=logging.INFO,
+                    format='%(levelname)s:     %(name)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 
@@ -59,7 +61,8 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
                 detail="User not found"
             )
         token, code = generate_token()
-        send_email(email, code)
+        logger.info(code)
+        # send_email(email, code)
         update_reset_pass_token_by_email(email, token, db)
     except HTTPException as e:
         logger.error(f"HTTP error: {e.detail}")
@@ -72,18 +75,24 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
         )
 
 
-@router.get("/reset-token")
-def get_token(email: Annotated[str, Form()], code: Annotated[str, Form()], db: Session = Depends(get_db)):
+@router.get("/reset-token", tags=["Auth"])
+def get_token(email: str, code: int, db: Session = Depends(get_db)):
     user_data = get_worker_by_email(email, db)
     if user_data is None:
-            raise HTTPException(
-                status_code=401,
-                detail="User not found"
-            )
-    token = user_data.reset_pass_token
+        raise HTTPException(
+            status_code=401,
+            detail="User not found"
+        )
+    token = str(user_data.reset_pass_token)
     if token is None:
         raise HTTPException(
             status_code=401,
             detail="No reset token found"
         )
-    return verify_token(token, code)
+    if verify_token(token, code):
+        return {"message": "Token is valid"}
+    else:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid code or expired"
+        )

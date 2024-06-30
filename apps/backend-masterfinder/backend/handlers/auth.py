@@ -2,6 +2,7 @@ import re
 import random
 import hashlib
 import smtplib
+import logging
 from os import getenv
 from datetime import datetime, timedelta
 from email.mime.multipart import MIMEMultipart
@@ -10,9 +11,15 @@ from email.header import Header
 from email.utils import formataddr
 
 from passlib.context import CryptContext
+from dotenv import load_dotenv
 import jwt
 
+# Configuración del logger
+logging.basicConfig(level=logging.INFO,
+                    format='%(levelname)s:     %(name)s - %(message)s')
+logger = logging.getLogger(__name__)
 
+load_dotenv()
 CORREO = getenv("CORREO")
 PASSWORD = getenv("PASSWORD")
 SECRET_KEY = getenv("SECRET_KEY")
@@ -108,11 +115,12 @@ def generate_token():
     return token_jwt, code
 
 
-def verify_token(token: str, code: str) -> bool:
+def verify_token(token: str, code: int) -> bool:
     try:
         data = jwt.decode(token, key=SECRET_KEY, algorithms=["HS256"])
-        return data.get("code") == code
+
+        return PWD_CONTEXT.verify(str(code) + hashlib.sha256(SECRET_KEY.encode()).hexdigest(), data.get('code'))
     except jwt.ExpiredSignatureError:
-        return "Token has expired"
+        return False
     except jwt.InvalidTokenError:
-        raise "Invalid token"
+        return False
