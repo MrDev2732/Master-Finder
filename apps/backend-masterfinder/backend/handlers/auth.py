@@ -102,7 +102,17 @@ def generate_token():
     hashed_code = hash_password(str(code))
     data_token = {
         "code": hashed_code,
-        "exp": datetime.utcnow() + timedelta(minutes=1)
+        "exp": datetime.utcnow() + timedelta(minutes=10)
     }
     token_jwt = jwt.encode(data_token, key=SECRET_KEY, algorithm="HS256")
     return token_jwt, code
+
+
+def verify_token(token: str, code: str) -> bool:
+    try:
+        data = jwt.decode(token, key=SECRET_KEY, algorithms=["HS256"])
+        return data.get("code") == code
+    except jwt.ExpiredSignatureError:
+        return "Token has expired"
+    except jwt.InvalidTokenError:
+        raise "Invalid token"
