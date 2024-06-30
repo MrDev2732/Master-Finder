@@ -7,8 +7,8 @@ from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 import jwt
 
-from backend.handlers.queries.worker import get_worker_by_email
-from backend.handlers.auth import create_token, verify_password
+from backend.handlers.queries.worker import get_worker_by_email, update_reset_pass_token_by_email
+from backend.handlers.auth import create_token, verify_password, generate_token, send_email
 from backend.database.session import get_db
 
 
@@ -47,3 +47,26 @@ def logout():
     response = Response(content="Logout successful", status_code=200)
     response.delete_cookie(key="access_token")
     return response
+
+
+@router.put("/password", tags=["Auth"])
+def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
+    try:
+        user_data = get_worker_by_email(email, db)
+        if user_data is None:
+            raise HTTPException(
+                status_code=401,
+                detail="Username or password no authorization"
+            )
+        token, code = generate_token()
+        send_email(email, code)
+        update_reset_pass_token_by_email(email, token, db)
+    except HTTPException as e:
+        logger.error(f"HTTP error: {e.detail}")
+        raise e
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Internal server error"
+        )

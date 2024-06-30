@@ -1,13 +1,22 @@
 import re
+import random
 import hashlib
+import smtplib
 from os import getenv
 from datetime import datetime, timedelta
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.header import Header
+from email.utils import formataddr
 
 from passlib.context import CryptContext
 import jwt
 
 
+CORREO = getenv("CORREO")
+PASSWORD = getenv("PASSWORD")
 SECRET_KEY = getenv("SECRET_KEY")
+
 PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
 DAYS_TO_EXPIRE = 30
 
@@ -36,7 +45,6 @@ def validate_rut(rut: str) -> bool:
         return False
 
     body, dv = rut[:-1], rut[-1].upper()
-    
     value = 11 - sum([ int(a) * int(b) for a,b in zip(str(body).zfill(8), '32765432')]) % 11
 
     return {10: 'K', 11: '0'}.get(value, str(value)) == dv
@@ -48,3 +56,53 @@ def validate_password(password: str) -> bool:
         return True
     else:
         return False
+
+
+def send_email(destinatario, codigo):
+    # Configuración del servidor SMTP
+    smtp_server = "smtp.gmail.com"
+    smtp_port = 587  # Usando STARTTLS
+
+    # Crear el objeto del mensaje
+    msg = MIMEMultipart()
+    msg["From"] = formataddr(
+        (str(Header("Master Finder", "utf-8")), CORREO)
+    )
+    msg["To"] = destinatario
+    msg["Subject"] = Header(
+        f"Restablecimiento de contraseña",
+        "utf-8",
+    )
+
+    # Cuerpo del correo en HTML
+    cuerpo = f"""
+<html>
+<body>
+<p>Estimado usuario,</p>
+<p>Hemos recibido una solicitud para restablecer su contraseña. Si usted no solicitó este cambio, por favor ignore este correo.</p>
+<p>Para restablecer su contraseña, ingrese el siguiente código en la aplicación:</p>
+<p>{codigo}</p>
+<p>Este código será válido por 30 minutos.</p>
+<p>Saludos cordiales,</p>
+<p>Equipo de Soporte</p>
+</body>
+</html>
+"""
+    msg.attach(MIMEText(cuerpo, "html"))
+
+    # Enviar el correo usando STARTTLS
+    with smtplib.SMTP(smtp_server, smtp_port) as server:
+        server.starttls()  # Iniciar TLS
+        server.login(CORREO, PASSWORD)
+        server.sendmail(CORREO, destinatario, msg.as_string())
+
+
+def generate_token():
+    code = random.randint(100000, 999999)
+    hashed_code = hash_password(str(code))
+    data_token = {
+        "code": hashed_code,
+        "exp": datetime.utcnow() + timedelta(minutes=1)
+    }
+    token_jwt = jwt.encode(data_token, key=SECRET_KEY, algorithm="HS256")
+    return token_jwt, code
