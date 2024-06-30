@@ -56,6 +56,7 @@ class Worker(Base, BaseModel):
     specialty = Column(String(150), nullable=False)
     location = Column(String(50), nullable=False)
     reset_pass_token = Column(String(256), nullable=True)
+    reset_pass_verified = Column(Boolean, default=False)
 
     postings = relationship('Posting', back_populates='worker')
     ratings = relationship('Rating', back_populates='worker')
