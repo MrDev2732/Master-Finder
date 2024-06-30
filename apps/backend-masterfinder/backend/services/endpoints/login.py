@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 import jwt
 
 from backend.handlers.queries.worker import get_worker_by_email, update_reset_pass_token_by_email
-from backend.handlers.auth import create_token, verify_password, generate_token, send_email
+from backend.handlers.auth import create_token, verify_password, generate_token, send_email, verify_token
 from backend.database.session import get_db
 
 
@@ -56,7 +56,7 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
         if user_data is None:
             raise HTTPException(
                 status_code=401,
-                detail="Username or password no authorization"
+                detail="User not found"
             )
         token, code = generate_token()
         send_email(email, code)
@@ -70,3 +70,20 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
             status_code=500,
             detail="Internal server error"
         )
+
+
+@router.get("/reset-token")
+def get_token(email: Annotated[str, Form()], code: Annotated[str, Form()], db: Session = Depends(get_db)):
+    user_data = get_worker_by_email(email, db)
+    if user_data is None:
+            raise HTTPException(
+                status_code=401,
+                detail="User not found"
+            )
+    token = user_data.reset_pass_token
+    if token is None:
+        raise HTTPException(
+            status_code=401,
+            detail="No reset token found"
+        )
+    return verify_token(token, code)
