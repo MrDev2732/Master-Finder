@@ -36,12 +36,37 @@ def update_worker_by_id(id: str, db: Session, **kwargs):
     db.refresh(worker)
     return worker
 
+
 def update_reset_pass_token_by_email(email: str, reset_pass_token: str, db: Session):
     worker = db.query(Worker).filter(Worker.email == email).first()
     if not worker:
         return None
 
     worker.reset_pass_token = reset_pass_token
+    db.commit()
+    db.refresh(worker)
+    return worker
+
+
+def update_password_by_id(id: str, new_password: str, db: Session):
+    worker = db.query(Worker).filter(Worker.id == id).first()
+    if not worker:
+        return None
+    if not worker.reset_pass_verified:
+        return False
+    worker.password = new_password
+    worker.reset_pass_verified = False
+    db.commit()
+    db.refresh(worker)
+    return worker
+
+
+def update_verify_by_id(id: str, db: Session):
+    worker = db.query(Worker).filter(Worker.id == id).first()
+    if not worker:
+        return None
+
+    worker.reset_pass_verified = True
     db.commit()
     db.refresh(worker)
     return worker
