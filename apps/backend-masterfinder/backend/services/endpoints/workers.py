@@ -271,10 +271,18 @@ async def update_worker(
 
 @router.put("/password-worker", tags=["Workers"])
 async def update_password(
-    id: uuid.UUID,
+    id: str,
     new_password: constr(min_length=8),
     db: Session = Depends(get_db)
 ):
+    try:
+        id = uuid.UUID(id)  # Convertir id de str a uuid.UUID
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid UUID format"
+        )
+    
     try:
         # Validar la nueva contraseña
         if not validate_password(new_password):

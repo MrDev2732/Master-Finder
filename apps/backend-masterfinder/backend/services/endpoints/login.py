@@ -78,7 +78,15 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
 
 
 @router.get("/reset-token", tags=["Auth"])
-def get_token(id: uuid.UUID, code: int, db: Session = Depends(get_db)):
+def get_token(id: str, code: int, db: Session = Depends(get_db)):
+    try:
+        id = uuid.UUID(id)  # Convertir id de str a uuid.UUID
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid UUID format"
+        )
+    
     user_data = get_worker_by_id(id, db)
     if user_data is None:
         raise HTTPException(
