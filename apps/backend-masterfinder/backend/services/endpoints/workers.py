@@ -15,7 +15,7 @@ from backend.database.create_db import compress_image
 from backend.database.session import get_db
 from backend.database.models import Worker
 from backend.handlers.queries.worker import (
-    get_worker_by_id, get_subscribed_workers, get_worker_for_create, update_worker_by_id, get_all_workers
+    get_worker_by_id, get_subscribed_workers, get_worker_for_create, update_worker_by_id, get_all_workers, update_password_by_id
 )
 
 
@@ -267,3 +267,44 @@ async def update_worker(
             worker_dict[key] = value.decode('utf-8', errors='replace')  # Decodifica bytes a string
 
     return worker_dict
+
+
+@router.put("/password-worker", tags=["Workers"])
+async def update_password(
+    id: uuid.UUID,
+    new_password: constr(min_length=8),
+    db: Session = Depends(get_db)
+):
+    try:
+        # Validar la nueva contraseña
+        if not validate_password(new_password):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid password"
+            )
+
+        # Actualizar la contraseña en la base de datos
+        hashed_password = hash_password(new_password)
+        updated_worker = update_password_by_id(id, hashed_password, db)
+
+        if updated_worker is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Worker not found"
+            )
+
+        if updated_worker is False:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Password change not verified"
+            )
+
+        return {"message": "Password updated successfully"}
+
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error"
+        )
