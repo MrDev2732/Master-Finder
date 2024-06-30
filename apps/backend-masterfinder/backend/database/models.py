@@ -47,7 +47,7 @@ class Worker(Base, BaseModel):
     first_name = Column(String(150), nullable=False)
     last_name = Column(String(150), nullable=False)
     rut = Column(String(20), unique=True, nullable=False)
-    contact_number = Column(String(20), nullable=False)
+    contact_number = Column(String(20), unique=True, nullable=False)
     email = Column(String(150), unique=True, nullable=False)
     subscription = Column(Boolean, default=False)
     profile_description = Column(String, nullable=True)
@@ -55,6 +55,7 @@ class Worker(Base, BaseModel):
     image = Column(LargeBinary, nullable=True)
     specialty = Column(String(150), nullable=False)
     location = Column(String(50), nullable=False)
+    reset_pass_token = Column(String(256), nullable=True)
 
     postings = relationship('Posting', back_populates='worker')
     ratings = relationship('Rating', back_populates='worker')
