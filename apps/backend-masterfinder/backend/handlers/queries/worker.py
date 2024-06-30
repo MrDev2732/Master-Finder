@@ -1,3 +1,5 @@
+import uuid
+
 from sqlalchemy.orm import Session
 
 from backend.database.models import Worker
@@ -48,7 +50,7 @@ def update_reset_pass_token_by_email(email: str, reset_pass_token: str, db: Sess
     return worker
 
 
-def update_password_by_id(id: str, new_password: str, db: Session):
+def update_password_by_id(id: uuid.UUID, new_password: str, db: Session):
     worker = db.query(Worker).filter(Worker.id == id).first()
     if not worker:
         return None
@@ -61,7 +63,7 @@ def update_password_by_id(id: str, new_password: str, db: Session):
     return worker
 
 
-def update_verify_by_id(id: str, db: Session):
+def update_verify_by_id(id: uuid.UUID, db: Session):
     worker = db.query(Worker).filter(Worker.id == id).first()
     if not worker:
         return None
