@@ -9,6 +9,7 @@ import { catchError, map } from 'rxjs/operators';
 export class LoginService {
   private apiUrl = 'http://localhost:8000/api/login';
   private logOut = 'http://localhost:8000/api/login/logout';
+  private resetPassword = 'http://localhost:8000/api/workers/password-worker';
 
   constructor(private http: HttpClient) {}
 
@@ -39,5 +40,54 @@ export class LoginService {
         return throwError(error);
       })
     );
+  }
+
+  sendEmail(email: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const body = new URLSearchParams();
+    body.set('email', email);
+
+    return this.http.put(`${this.apiUrl}/password`, body.toString(), { headers, withCredentials: true, responseType: 'text' })
+      .pipe(
+        map(response => {
+          console.log('Password update response:', response);
+          return response;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('Password update request failed', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  verifyCode(id: string, code: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/reset-token`, { params: { id, code } })
+      .pipe(
+        map(response => {
+          console.log('Code verification response:', response);
+          return response;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('Code verification request failed', error);
+          return throwError(error);
+        })
+      );
+  }
+
+  updateWorkerPassword(id: string, newPassword: string): Observable<any> {
+    const url = `${this.resetPassword}?id=${encodeURIComponent(id)}&new_password=${encodeURIComponent(newPassword)}`;
+    const headers = new HttpHeaders({ 'accept': 'application/json' });
+
+    return this.http.put(url, {}, { headers, withCredentials: true, responseType: 'json' })
+      .pipe(
+        map(response => {
+          console.log('Password update response:', response);
+          return response;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('Password update request failed', error);
+          return throwError(error);
+        })
+      );
   }
 }
