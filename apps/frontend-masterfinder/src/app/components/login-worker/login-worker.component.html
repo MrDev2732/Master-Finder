@@ -1,9 +1,9 @@
 <body>
 
   <div class="body">
-    <div class="container" #container>
+    <div class="container" #container data-aos="zoom-out" data-aos-duration="2000">
       <div class="form-container sign-up">
-        <form (ngSubmit)="register()" #registerForm="ngForm">
+        <form (ngSubmit)="register()" #registerForm="ngForm" >
           <h1>Crear Cuenta</h1>
           <input type="text" placeholder="Nombre" [(ngModel)]="newWorker.first_name" name="first_name" required minlength="2" maxlength="30">
           <small *ngIf="registerForm.controls['first_name']?.errors?.['minlength'] || registerForm.controls['first_name']?.errors?.['maxlength']">El nombre debe tener entre 2 y 30 caracteres.</small>

@@ -13,7 +13,7 @@
     <div class="gradient-text">Master Finder</div>
   </div>
 
-  <section class="py-5">
+  <section class="py-5" data-aos="zoom-out" data-aos-duration="2000">
     <div class="container fondo2" style="padding: 1rem;">
       <div class="row align-items-center justify-content-between">
         <div class="col-md-6 mb-4">
@@ -42,7 +42,7 @@
           <h2 class="text-center" style="font-weight: 400;">Perfiles</h2>
           <b style="font-weight: 600; color: #007bff; display: block; text-align: center; font-size: 2.2em;">Destacados</b>
           <div class="card mb-3 " *ngFor="let posting of postings" >
-            <div class="row no-gutters">
+            <div class="row no-gutters" data-aos="zoom-out" data-aos-duration="2000">
               <div class="col-md-4 d-flex align-items-center justify-content-start card-box">
                 <span></span>
                 <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img">
@@ -63,7 +63,7 @@
   
   
   <section>
-    <div class="container fondo my-5">
+    <div class="container fondo my-5" data-aos="zoom-out" data-aos-duration="1500">
       <div class="row justify-content-center">
         <div class="col-md-6 mb-4">
           <div class="carta w-100 h-100 card" onclick="window.location.href='../../login-worker/'">
@@ -119,7 +119,7 @@
         <div class="container">
           <div class="row">
             <div class="col-md-6">
-              <div class="about-item text-center">
+              <div class="about-item text-center"data-aos="zoom-out-right" data-aos-duration="1500">
                 <i class="fa fa-book">
                   <h3 style="padding-top: 5px;">MISIÓN</h3>
                   <hr>
@@ -128,7 +128,7 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="about-item text-center">
+              <div class="about-item text-center" data-aos="zoom-out-left" data-aos-duration="1500">
                 <i class="fa fa-globe">
                   <h3 style="padding-top: 5px;">VISIÓN</h3>
                   <hr>
