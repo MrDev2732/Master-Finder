@@ -2,7 +2,7 @@ import uuid
 
 from sqlalchemy.orm import Session
 
-from backend.database.models import Worker
+from backend.database.models import Worker, Posting
 
 
 def get_worker_by_email(email: str, db: Session):
@@ -72,3 +72,6 @@ def update_verify_by_id(id: uuid.UUID, db: Session):
     db.commit()
     db.refresh(worker)
     return worker
+
+def get_postings_by_subscribed_workers(db: Session):
+    return db.query(Posting).join(Posting.worker).filter(Worker.subscription == True).all()
