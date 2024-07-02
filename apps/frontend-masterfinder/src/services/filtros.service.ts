@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class FiltrosService {
 
   private apiUrl = 'http://localhost:8000/api/postings'; // URL base de tu API
+  private apiUrl2 = 'http://localhost:8000/api/workers';
 
   constructor(private http: HttpClient) { }
 
@@ -22,4 +23,9 @@ export class FiltrosService {
   getPostingById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/posting/${id}`);
   }
+
+  getPostingsBySubscribedWorkers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl2}/subscribed-workers-postings`);
+  }
+
 }
