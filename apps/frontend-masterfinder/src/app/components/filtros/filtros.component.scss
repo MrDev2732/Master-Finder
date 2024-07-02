@@ -154,3 +154,101 @@
 }
 
 
+
+
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  width: 80%;
+  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: linear-gradient(to right, #c9d6ff, #e2e2e2);
+  padding: 1px 80px; /* Reducción del alto con padding */
+}
+
+.carousel {
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-item {
+  flex: 0 0 25%; /* Ajuste del tamaño de las tarjetas */
+  max-width: 35%;
+  margin-left: 30px;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: auto;
+}
+
+.cardp {
+  border: 3px solid #64dc01;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  text-align: center;
+}
+
+.cardp:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+  border-radius: 50%;
+}
+
+.nav-button.left {
+  left: 10px;
+}
+
+.nav-button.right {
+  right: 10px;
+}
+
+@media (max-width: 768px) {
+  .carousel-item {
+    flex: 0 0 50%; /* 2 tarjetas en pantallas pequeñas */
+    max-width: 50%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    width: 90%;
+  }
+}
+
+
+
+.tcarrusel {
+  text-align: center;
+  font-size: 2.5rem; /* Aumenta el tamaño de la fuente */
+  background: linear-gradient(70deg, #316fc7 0.38%, #a0c702 81.67%); /* Aplica el mismo gradiente que el texto */
+  -webkit-background-clip: text;
+  background-clip: text; /* Propiedad estándar */
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+  animation: gradient-animation 3s ease infinite; /* Añade animación de gradiente */
+}
