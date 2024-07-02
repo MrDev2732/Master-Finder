@@ -1,4 +1,5 @@
 import os
+import logging
 import uuid
 from os import getenv
 from typing import Annotated
@@ -15,9 +16,12 @@ from backend.database.create_db import compress_image
 from backend.database.session import get_db
 from backend.database.models import Worker
 from backend.handlers.queries.worker import (
-    get_worker_by_id, get_subscribed_workers, get_worker_for_create, update_worker_by_id, get_all_workers, update_password_by_id
+    get_worker_by_id, get_subscribed_workers, get_postings_by_subscribed_workers, get_worker_for_create, update_worker_by_id, get_all_workers, update_password_by_id
 )
 
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.ERROR)
 
 SECRET_KEY = getenv("SECRET_KEY")
 
@@ -106,6 +110,26 @@ async def get_workers_subscribed(db: Session = Depends(get_db)):
                 worker_dict[key] = base64.b64encode(value).decode('utf-8')
         workers_serializable.append(worker_dict)
     return workers_serializable
+
+
+@router.get("/subscribed-workers-postings", tags=["Workers"])
+async def get_postings_by_subscribed_workers_endpoint(db: Session = Depends(get_db)):
+    try:
+        postings = get_postings_by_subscribed_workers(db)
+        safe_postings = []
+        for posting in postings:
+            safe_posting = {}
+            posting_dict = vars(posting)
+            for key, value in posting_dict.items():
+                if isinstance(value, bytes):
+                    safe_posting[key] = base64.b64encode(value).decode('utf-8')
+                else:
+                    safe_posting[key] = value
+            safe_postings.append(safe_posting)
+        return jsonable_encoder(safe_postings)
+    except Exception as e:
+        logger.error(f"Error fetching postings by subscribed workers: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
 
 
 @router.post("/worker", tags=["Workers"])
