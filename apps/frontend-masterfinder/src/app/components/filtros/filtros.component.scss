@@ -114,7 +114,6 @@
   display: -webkit-box;
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
-  max-height: calc(1rem * 7.8); /* Ajusta la altura máxima según el número de líneas y el tamaño de la fuente */
 }
 
 .card-title {
@@ -158,82 +157,114 @@
 
 .carousel-container {
   position: relative;
+  width: 70%;
   overflow: hidden;
-  width: 80%;
-  margin: auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: linear-gradient(to right, #c9d6ff, #e2e2e2);
-  padding: 1px 80px; /* Reducción del alto con padding */
-}
-
-.carousel {
-  overflow: hidden;
-}
-
-.carousel-inner {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-
-.carousel-item {
-  flex: 0 0 25%; /* Ajuste del tamaño de las tarjetas */
-  max-width: 35%;
-  margin-left: 30px;
-  box-sizing: border-box;
-  padding: 10px;
+  padding: 1rem;
   margin: auto;
 }
 
-.cardp {
-  border: 3px solid #64dc01;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
+.gradient-text-container {
   text-align: center;
 }
 
-.cardp:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.carousel {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
 }
 
+.carousel::before,
+.carousel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  z-index: 2;
+}
+
+
+
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  width: calc(100% / 4); /* Mostrar 4 tarjetas en pantallas grandes */
+  width: 14rem; /* Ajusta según tus necesidades */
+  height: 23rem;
+  margin: 0 1.5rem;
+  border: 2px solid gold; /* Borde dorado */
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cardp {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+.card-body {
+  flex: 1;
+  overflow: hidden;
+  padding: 10px;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 0.9rem;
+}
+
+.descriptionc {
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Limitar a 4 líneas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .nav-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
+  background: none;
   border: none;
-  padding: 10px;
+  font-size: 2rem;
   cursor: pointer;
   z-index: 1;
-  border-radius: 50%;
 }
 
 .nav-button.left {
-  left: 10px;
+  left: 0;
 }
 
 .nav-button.right {
-  right: 10px;
+  right: 0;
 }
 
 @media (max-width: 768px) {
   .carousel-item {
-    flex: 0 0 50%; /* 2 tarjetas en pantallas pequeñas */
-    max-width: 50%;
-    width: 100%;
+    .carousel-inner {
+      width: calc(100% / 2); /* Mostrar 2 tarjetas en pantallas pequeñas */
+      height: fit-content;
+    }
   }
 }
 
-@media (max-width: 768px) {
-  .carousel-container {
-    width: 90%;
-  }
-}
+
+
 
 
 
