@@ -1,19 +1,19 @@
 <br>
 <br>
 
-<div class="carousel-container" data-aos="zoom-out" data-aos-duration="2000">
+<div class=" carousel-container" data-aos="zoom-out" data-aos-duration="2000">
   <div class="gradient-text-container">
     <h2 class="tcarrusel">Publicaciones Destacadas</h2>
   </div>
   <button class="nav-button left" (click)="prevSlide()">&#10094;</button>
   <div class="carousel" (mouseenter)="pauseCarousel()" (mouseleave)="resumeCarousel()">
     <div class="carousel-inner" [style.transform]="getTransform()">
-      <div class="carousel-item" *ngFor="let posting of postingspremium; let i = index">
+      <div class="carousel-item" *ngFor="let posting of combinedPostings; let i = index">
         <div class="cardp posting-card" (click)="goToDetail(posting.id)">
           <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img-top">
           <div class="card-body">
             <h5 class="card-title">{{ posting.job_type }}</h5>
-            <p class="card-text description">{{ posting.description }}</p>
+            <p class="card-text descriptionc">{{ posting.description }}</p> 
           </div>
         </div>
       </div>
@@ -22,11 +22,17 @@
   <button class="nav-button right" (click)="nextSlide()">&#10095;</button>
 </div>
 
+
+
+
+
 <br>
 <div class="gradient-text-container">
   <h2 class="gradient-text">Listado de Publicaciones</h2>
 </div>
 <br>
+
+
 
 
 
@@ -59,7 +65,7 @@
 
   <div class="postings-section">
     <div class="postings-grid">
-      <div *ngFor="let posting of postings" class="card posting-card" (click)="goToDetail(posting.id)"  data-aos="zoom-out" data-aos-duration="2000">
+      <div *ngFor="let posting of postings" class="posting-card" (click)="goToDetail(posting.id)"  data-aos="zoom-in" data-aos-duration="1500">
         <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img-top">
         <div class="card-body">
           <h5 class="card-title">{{ posting.job_type }}</h5>
