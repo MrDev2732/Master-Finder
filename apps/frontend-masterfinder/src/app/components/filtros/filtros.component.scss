@@ -68,15 +68,7 @@
   justify-items: center;
 }
 
-.posting-card {
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  background: linear-gradient(to left, #c9d6ff, #e2e2e2);
-  font-family: 'Roboto', sans-serif;
-}
+
 
 .posting-card:hover {
   transform: translateY(-5px);
@@ -85,12 +77,19 @@
 }
 
 .posting-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  background: linear-gradient(to left, #c9d6ff, #e2e2e2);
+  font-family: 'Roboto', sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Cambiado de center a stretch */
 }
 
-.posting-card .card-img-top {
+.card-img-top {
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1; /* Mantiene la proporción 1:1 para hacerla cuadrada */
@@ -98,23 +97,8 @@
   object-position: center; /* Centra la imagen dentro del cuadro */
 }
 
-.card-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
 
-.card-body p {
-  text-align: justify;
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;
-}
+
 
 .card-title {
   font-size: 1.2rem;
@@ -124,7 +108,17 @@
 
 .card-text {
   font-size: 1rem;
-  padding: 0.75rem; /* Espaciado interno */
+  padding: 0; /* Espaciado interno */
+  text-align: justify;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  max-height: 10rem; /* Ajusta esta altura según el tamaño de la fuente y el espaciado */
+  line-height: 1.5rem; /* Ajusta esta altura según el tamaño de la fuente */
 
 }
 
@@ -223,9 +217,7 @@
   margin-bottom: 10px;
 }
 
-.card-text {
-  font-size: 0.9rem;
-}
+
 
 .descriptionc {
   display: -webkit-box;
@@ -233,6 +225,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-height: 7rem; /* Ajusta esta altura según el tamaño de la fuente y el espaciado */
+  line-height: 1.5rem; /* Ajusta esta altura según el tamaño de la fuente */
 }
 
 .nav-button {
