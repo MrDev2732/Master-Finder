@@ -79,10 +79,11 @@ class Posting(Base, BaseModel):
 
     worker_id = Column(UUID(as_uuid=True), ForeignKey('worker.id'), nullable=False)
     job_type = Column(String(150), nullable=False)
-    description = Column(String, nullable=True)
+    description = Column(String(300), nullable=True)
     image = Column(LargeBinary, nullable=False)
 
     worker = relationship('Worker', back_populates='postings')
+
 
 
 class Rating(Base, BaseModel):
