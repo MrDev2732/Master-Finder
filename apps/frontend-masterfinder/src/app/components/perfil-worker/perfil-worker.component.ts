@@ -109,6 +109,18 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
     this.files.splice(index, 1);
   }
 
+
+    // Método para validar la descripción
+
+  validarDescripcion(description: string): boolean {
+
+    const regex = /\S{18,}/; // Expresión regular para encontrar palabras de 18 caracteres o más sin espacios
+
+    return !regex.test(description);
+
+  }
+
+
   // Método para crear una nueva publicación
   crearPublicacion() {
     const accessToken = this.authService.getToken(); // Obtén el token de acceso
@@ -119,6 +131,20 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
     if (!jobType || !description || !image) {
       console.error('Todos los campos son obligatorios');
       return;
+    }
+
+    if (!this.validarDescripcion(description)) {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Descripción inválida',
+        text: 'La descripción no puede contener palabras de más de 18 caracteres o letras consecutivas',
+        confirmButtonText: 'Aceptar'
+
+      });
+
+      return;
+
     }
 
     console.log('Datos a enviar:', {
@@ -138,6 +164,7 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
           if (result.isConfirmed) {
             this.cerrarModalPublicacion(); // Cierra el modal después de crear la publicación
             this.loadPostings(); // Recarga la página después de que el usuario haga clic en "Aceptar"
+            this.resetForm(); // Limpia todos los campos del formulario
           }
         });
       },
@@ -146,6 +173,16 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
         alert(error); // Muestra el error en una alerta
       }
     );
+  }
+
+  // Método para limpiar todos los campos del formulario
+  resetForm() {
+    this.nuevaPublicacion = { files: [], job_types: '', description: '' };
+    this.files = [];
+    const fileInput = document.getElementById('file') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
   }
 
   /* Ver sus publicaciones */
@@ -161,6 +198,11 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
       }
     });
 }
+
+
+
+
+
 
 /* Eliminar y Actualizar publicaciones */
 eliminarPublicacion(postingId: string): void {
