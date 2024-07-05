@@ -20,3 +20,12 @@ def create_rating(worker_id: str, client_id: str, rating: int, content: str, db:
     except Exception as e:
         db.rollback()
         raise e
+
+
+def get_ratings_by_worker_id(worker_id: str, db: Session):
+    try:
+        worker_uuid = uuid.UUID(worker_id)
+        ratings = db.query(Rating).filter(Rating.worker_id == worker_uuid).all()
+        return ratings
+    except Exception as e:
+        raise e
