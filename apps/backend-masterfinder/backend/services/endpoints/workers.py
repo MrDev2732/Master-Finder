@@ -273,6 +273,7 @@ async def update_worker(
 
     return worker_dict
 
+
 @router.put("/password-worker", tags=["Workers"])
 async def update_password(
     id: str,
