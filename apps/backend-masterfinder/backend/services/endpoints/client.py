@@ -16,7 +16,7 @@ from backend.database.create_db import compress_image
 from backend.database.session import get_db
 from backend.database.models import Client
 from backend.handlers.queries.client import (
-    get_all_clients
+    get_all_clients, get_client_by_email
 )
 
 
@@ -40,3 +40,46 @@ async def get_clients(db: Session = Depends(get_db)):
                 client_dict[key] = value.decode('utf-8', errors='replace')
         clients_serializable.append(client_dict)
     return clients_serializable
+
+
+@router.post("/client", tags=["Clients"])
+async def create_client(
+    name: constr(min_length=1, max_length=150),
+    email: EmailStr,
+    password: constr(min_length=8),
+    db: Session = Depends(get_db)
+):
+    # Validar la contraseña
+    if not validate_password(password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid password"
+        )
+
+    # Verificar si el cliente ya existe por correo electrónico
+    existing_client = get_client_by_email(email, db)
+
+    if existing_client:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Client with this email already exists"
+        )
+
+    new_client = Client(
+        name=name,
+        email=email,
+        password=hash_password(password)
+    )
+
+    try:
+        db.add(new_client)
+        db.commit()
+        db.refresh(new_client)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error"
+        )
+
+    return {"message": "Cliente creado exitosamente"}
