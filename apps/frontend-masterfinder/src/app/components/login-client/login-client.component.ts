@@ -43,7 +43,7 @@ export class LoginClientComponent {
             text: 'Has iniciado sesión exitosamente.',
             confirmButtonText: 'Aceptar'
           }).then(() => {
-            window.location.href = '/perfil-worker'; // Refresca la página completamente
+            window.location.href = '/perfil-client'; // Refresca la página completamente
           });
         } else {
           console.error('Unexpected response:', response);

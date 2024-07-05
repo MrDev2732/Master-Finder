@@ -62,6 +62,10 @@ export class NavbarComponent implements AfterViewInit, OnInit {
     this.router.navigate(['/perfil-worker']);
   }
 
+  perfil_client() {
+    this.router.navigate(['/perfil-client']);
+  }
+
   soporte() {
     this.router.navigate(['/soporte']);
   }

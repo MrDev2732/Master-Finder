@@ -37,6 +37,12 @@
                 <span #sidenavLinkText class="sidenav-link-text">Perfil Trabajador</span>
             </a>
         </li>
+        <li class="sidenav-nav-item" [class.hidden-initially]="!isAuthenticated || !authChecked">
+            <a class="sidenav-nav-link" (click)="perfil_client()" (click)="closeSidenav()" id="perfil-clientLink">
+                <i class='sidenav-link-icon bx bx-face'></i>
+                <span #sidenavLinkText class="sidenav-link-text">Perfil Cliente</span>
+            </a>
+        </li>
         <li class="sidenav-nav-item">
             <a class="sidenav-nav-link" (click)="soporte()" (click)="closeSidenav()">
                 <i class='sidenav-link-icon bx bx-help-circle' ></i>

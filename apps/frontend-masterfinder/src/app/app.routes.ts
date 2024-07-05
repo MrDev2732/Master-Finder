@@ -10,6 +10,7 @@ import { ProfilePostingComponent } from './components/profile-posting/profile-po
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { LoginClientComponent } from './components/login-client/login-client.component';
+import { PerfilClientComponent } from './components/perfil-client/perfil-client.component';
 
 
 export const appRoutes: Route[] = [
@@ -17,6 +18,7 @@ export const appRoutes: Route[] = [
     { path: 'login-worker', component: LoginWorkerComponent },
     { path: 'perfil-worker', component: PerfilWorkerComponent },
     { path: 'login-client', component: LoginClientComponent },
+    { path: 'perfil-client', component: PerfilClientComponent },
     { path: 'soporte', component: SoporteComponent },
     { path: 'filtros', component: FiltrosComponent },
     { path: 'detalle/:id', component: DetallePostingComponent },
