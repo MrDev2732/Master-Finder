@@ -8,6 +8,7 @@ import { AuthService } from '../../../services/auth.service';
 import { FiltrosService } from '../../../services/filtros.service';
 import Swal from 'sweetalert2';
 import { DomSanitizer } from '@angular/platform-browser';
+import { RatingService } from '../../../services/rating.service';
 
 @Component({
   selector: 'app-perfil-worker',
@@ -19,13 +20,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
   rating = 0;  // Calificación promedio inicial
   stars = [1, 2, 3, 4, 5];  // Representa cada estrella
+  workerData: any;
+  ratings: any[] = [];  // Array para almacenar las calificaciones del trabajador
 
-  rate(newRating: number) {
-    // Aquí deberías implementar la lógica para actualizar la calificación en el backend
-    console.log(`Nueva calificación: ${newRating}`);
-    // Supongamos que actualizas la calificación promedio después de recibir una nueva
-    this.rating = newRating; // Esto es solo un ejemplo, deberas calcular el promedio
-  }
 
   constructor(
     private http: HttpClient, 
@@ -33,16 +30,17 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
     private perfilService: PerfilService,
     private authService: AuthService,  // Inyecta AuthService
     private postingService: FiltrosService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private ratingService: RatingService,
   ) {}
 
   ngOnInit() {
     this.getWorkerData(),
     this.loadPostings();  // Llama a getWorkerData al inicializar el componente
+    this.loadWorkerRatings();  // Llama a loadWorkerRatings al inicializar el componente
   }
 
-  // Variable para almacenar los datos del worker
-  workerData: any;
+  
   showSubscriptionSection = true;
   postingToEdit: any = null;
   selectedFile: File | null = null;
@@ -51,18 +49,48 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
   publicacionSeleccionada: any = { job_type: '', description: '', image: null };
 
 
+  // Método para obtener las calificaciones del trabajador y calcular el promedio
+  loadWorkerRatings() {
+    if (this.workerData && this.workerData.id) {
+      this.ratingService.getWorkerRatings(this.workerData.id).subscribe(
+        (ratings: any[]) => {
+          this.ratings = ratings;
+          this.calculateAverageRating();
+        },
+        (error) => {
+          console.error('Error al cargar las calificaciones del trabajador:', error);
+        }
+      );
+    }
+  }
+
+  // Método para calcular el promedio de las calificaciones
+  calculateAverageRating() {
+    if (this.ratings.length > 0) {
+      const totalRating = this.ratings.reduce((sum, rating) => sum + rating.rating, 0);
+      this.rating = totalRating / this.ratings.length;
+    } else {
+      this.rating = 0;
+    }
+  }
+
   
-  // Método para obtener los datos del worker y asignarlos a la variable workerData
-  getWorkerData() {
-    this.perfilService.getWorker().subscribe(
-      (data: any) => {
-        this.workerData = data; // Asigna los datos del trabajador a workerData
-        this.showSubscriptionSection = !this.workerData.subscription; // Oculta la sección si el trabajador tiene suscripción
-      },
-      (error: any) => {
-        console.error('Error al obtener los datos del worker', error);
-      }
-    );
+getWorkerData() {
+  this.perfilService.getWorker().subscribe(
+    (data: any) => {
+      this.workerData = data;
+      this.showSubscriptionSection = !this.workerData.subscription;
+      this.loadWorkerRatings();  // Llama a loadWorkerRatings después de obtener los datos del trabajador
+    },
+    (error: any) => {
+      console.error('Error al obtener los datos del worker', error);
+    }
+  );
+}
+
+  rate(newRating: number) {
+    console.log(`Nueva calificación: ${newRating}`);
+    this.rating = newRating;
   }
 
   editarPublicacion(posting: any) {
