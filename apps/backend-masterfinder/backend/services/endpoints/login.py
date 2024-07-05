@@ -10,6 +10,7 @@ import jwt
 
 from backend.handlers.queries.worker import get_worker_by_email, update_reset_pass_token_by_email, get_worker_by_id, update_verify_by_id
 from backend.handlers.auth import create_token, verify_password, generate_token, send_email, verify_token
+from backend.handlers.queries.client import get_client_by_email
 from backend.database.session import get_db
 
 
@@ -22,8 +23,8 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 
-@router.post("/login", tags=["Auth"])
-def login(email: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):
+@router.post("/login-worker", tags=["Auth Worker"])
+def login_worker(email: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):
     try:
         user_data = get_worker_by_email(email, db)
         if user_data is None or not verify_password(password, user_data.password):
@@ -45,14 +46,7 @@ def login(email: Annotated[str, Form()], password: Annotated[str, Form()], db: S
         )
 
 
-@router.post("/logout", tags=["Auth"])
-def logout():
-    response = Response(content="Logout successful", status_code=200)
-    response.delete_cookie(key="access_token")
-    return response
-
-
-@router.put("/password", tags=["Auth"])
+@router.put("/password", tags=["Auth Worker"])
 def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
     try:
         user_data = get_worker_by_email(email, db)
@@ -63,7 +57,7 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
             )
         token, code = generate_token()
         logger.info(code)
-        #send_email(email, code)
+        send_email(email, code)
         update_reset_pass_token_by_email(email, token, db)
         return user_data.id
     except HTTPException as e:
@@ -77,7 +71,7 @@ def send_request(email: Annotated[str, Form()], db: Session = Depends(get_db)):
         )
 
 
-@router.get("/reset-token", tags=["Auth"])
+@router.get("/reset-token", tags=["Auth Worker"])
 def get_token(id: str, code: int, db: Session = Depends(get_db)):
     try:
         id = id.strip('"')
@@ -107,4 +101,27 @@ def get_token(id: str, code: int, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=401,
             detail="Invalid code or expired"
+        )
+
+
+@router.post("/login-client", tags=["Auth Client"])
+def login_client(email: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):
+    try:
+        client_data = get_client_by_email(email, db)
+        if client_data is None or not verify_password(password, client_data.password):
+            raise HTTPException(
+                status_code=401,
+                detail="Username or password no authorization"
+            )
+        token = create_token({"id": str(client_data.id)})
+        logger.info(f"Cliente autorizado: {token}")
+        return {"access_token": token}
+    except HTTPException as e:
+        logger.error(f"HTTP error: {e.detail}")
+        raise e
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Internal server error"
         )
