@@ -45,10 +45,15 @@ export class NavbarComponent implements AfterViewInit, OnInit {
       this.updateSidenavLinkTextDisplay();
     });
   }
-  login() {
+ 
+  loginWorker() {
     this.router.navigate(['/login-worker']);
   }
-
+  
+  loginClient() {
+    this.router.navigate(['/login-client']);
+  }
+  
   home() {
     this.router.navigate(['/']);
   }
