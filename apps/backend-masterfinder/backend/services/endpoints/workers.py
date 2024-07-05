@@ -5,7 +5,7 @@ from os import getenv
 from typing import Annotated
 import base64
 
-from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Header
+from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Header, Form
 from fastapi.encoders import jsonable_encoder
 from pydantic import EmailStr, constr
 from sqlalchemy.orm import Session
@@ -199,37 +199,38 @@ async def create_worker(
 
 @router.put("/worker", tags=["Workers"])
 async def update_worker(
-    access_token: Annotated[str, Header()],
-    contact_number: constr(min_length=7, max_length=15) = None,
-    email: EmailStr = None,
+    authorization: str = Header(...),  # Cambiado de access_token a authorization
+    contact_number: str = Form(None),
+    email: EmailStr = Form(None),
     image: UploadFile = File(None),
-    specialty: constr(max_length=150) = None,
-    location: constr(max_length=150) = None,
-    profile_description: constr(max_length=500) = None,  # Nueva columna
+    specialty: str = Form(None),
+    location: str = Form(None),
+    profile_description: str = Form(None),  # Nueva columna
     db: Session = Depends(get_db)
 ):
     try:
-        payload = jwt.decode(access_token, SECRET_KEY, algorithms=["HS256"])
+        token = authorization.split(" ")[1]  # Extrae el token del encabezado 'Bearer <token>'
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         id_str = payload.get("id")
         if id_str is None:
             raise HTTPException(
-                status_code=400,
+                status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Token does not contain id"
             )
         worker_id = uuid.UUID(id_str)  # Convertir la cadena de id a un objeto UUID
     except jwt.ExpiredSignatureError:
         raise HTTPException(
-            status_code=401,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token has expired"
         )
     except jwt.InvalidTokenError:
         raise HTTPException(
-            status_code=401,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token"
         )
     except ValueError:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="Invalid UUID format"
         )
 
