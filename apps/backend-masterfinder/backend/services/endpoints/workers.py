@@ -200,15 +200,12 @@ async def create_worker(
 @router.put("/worker", tags=["Workers"])
 async def update_worker(
     access_token: Annotated[str, Header()],
-    first_name: constr(min_length=1, max_length=50) = None,
-    last_name: constr(min_length=1, max_length=50) = None,
-    rut: constr(min_length=1, max_length=12) = None,
     contact_number: constr(min_length=7, max_length=15) = None,
     email: EmailStr = None,
-    password: constr(min_length=8) = None,
     image: UploadFile = File(None),
     specialty: constr(max_length=150) = None,
     location: constr(max_length=150) = None,
+    profile_description: constr(max_length=500) = None,  # Nueva columna
     db: Session = Depends(get_db)
 ):
     try:
@@ -238,28 +235,10 @@ async def update_worker(
 
     update_data = {}
 
-    if first_name is not None:
-        update_data["first_name"] = first_name
-    if last_name is not None:
-        update_data["last_name"] = last_name
-    if rut is not None:
-        if not validate_rut(rut):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Invalid RUT"
-            )
-        update_data["rut"] = rut
     if contact_number is not None:
         update_data["contact_number"] = contact_number
     if email is not None:
         update_data["email"] = email
-    if password is not None:
-        if not validate_password(password):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Invalid password"
-            )
-        update_data["password"] = hash_password(password)
     if image is not None:
         if image.content_type not in ["image/jpeg", "image/png"]:
             raise HTTPException(
@@ -277,6 +256,8 @@ async def update_worker(
         update_data["specialty"] = specialty
     if location is not None:
         update_data["location"] = location
+    if profile_description is not None:  # Nueva columna
+        update_data["profile_description"] = profile_description
 
     updated_worker = update_worker_by_id(worker_id, db, **update_data)
     if updated_worker is None:
@@ -291,7 +272,6 @@ async def update_worker(
             worker_dict[key] = value.decode('utf-8', errors='replace')  # Decodifica bytes a string
 
     return worker_dict
-
 
 @router.put("/password-worker", tags=["Workers"])
 async def update_password(
