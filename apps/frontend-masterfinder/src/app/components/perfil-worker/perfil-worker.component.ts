@@ -7,6 +7,7 @@ import { PerfilService } from '../../../services/perfil.service';
 import { AuthService } from '../../../services/auth.service';  // Importa AuthService
 import { FiltrosService } from '../../../services/filtros.service';
 import Swal from 'sweetalert2';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-perfil-worker',
@@ -31,7 +32,8 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
     private publicacionService: PublicacionService, 
     private perfilService: PerfilService,
     private authService: AuthService,  // Inyecta AuthService
-    private postingService: FiltrosService
+    private postingService: FiltrosService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -42,6 +44,12 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
   // Variable para almacenar los datos del worker
   workerData: any;
   showSubscriptionSection = true;
+  postingToEdit: any = null;
+  selectedFile: File | null = null;
+  newImageFile: File | null = null;
+  mostrarModalEditar = false;
+  publicacionSeleccionada: any = { job_type: '', description: '', image: null };
+
   // Método para obtener los datos del worker y asignarlos a la variable workerData
   getWorkerData() {
     this.perfilService.getWorker().subscribe(
@@ -54,6 +62,83 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
       }
     );
   }
+
+  editarPublicacion(posting: any) {
+    this.postingToEdit = { ...posting };
+  }
+
+  cancelarEdicion() {
+    this.postingToEdit = null;
+    this.newImageFile = null;
+  }
+
+
+  onFileSelectedEditar(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  onNewImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.size <= 2 * 1024 * 1024 && ['image/jpeg', 'image/png'].includes(file.type)) {
+      this.newImageFile = file;
+    } else {
+      console.error('Invalid file format or size');
+      this.newImageFile = null;
+    }
+  }
+
+
+  abrirModalEditar(publicacion: any) {
+    this.publicacionSeleccionada = { ...publicacion };
+    this.mostrarModalEditar = true;
+  }
+
+  cerrarModalEditar() {
+    this.mostrarModalEditar = false;
+    this.publicacionSeleccionada = { job_type: '', description: '', image: null };
+    this.selectedFile = null;
+  }
+
+
+  actualizarPublicacion() {
+    if (!this.publicacionSeleccionada.job_type || !this.publicacionSeleccionada.description) {
+      console.error('Todos los campos son obligatorios');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('posting_id', this.publicacionSeleccionada.id);
+    formData.append('job_type', this.publicacionSeleccionada.job_type);
+    formData.append('description', this.publicacionSeleccionada.description);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile);
+    }
+
+    this.postingService.updatePosting(formData).subscribe(
+      response => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Publicación actualizada',
+          text: 'La publicación ha sido actualizada exitosamente.',
+          confirmButtonText: 'Aceptar'
+        }).then(() => {
+          this.cerrarModalEditar();
+          this.loadPostings();
+        });
+      },
+      error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar',
+          text: 'No se pudo actualizar la publicación. Por favor, inténtelo nuevamente.',
+          confirmButtonText: 'Aceptar'
+        });
+        console.error('Error al actualizar la publicación', error);
+      }
+    );
+  }
+
+
 
   getStarWidth(index: number): number {
     const starNumber = index + 1;
