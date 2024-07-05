@@ -8,6 +8,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class PublicacionService {
   private apiUrl = 'http://localhost:8000/api/postings'; // URL base de tu API FastAPI
+  private apiUrlPosting = 'http://localhost:8000/api/workers'; // URL base de tu API FastAPI
 
   constructor(private http: HttpClient) { }
 
@@ -60,5 +61,9 @@ export class PublicacionService {
 
   deletePosting(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/posting/${id}`);
+  }
+
+  getWorkerRatings(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrlPosting}/worker/${id}/ratings`)
   }
 }

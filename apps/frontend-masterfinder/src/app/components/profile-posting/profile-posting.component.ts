@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Importa FormsModule
 import { ActivatedRoute } from '@angular/router';
 import { PerfilService } from '../../../services/perfil.service';
+import { PublicacionService } from '../../../services/publicacion.service'; // Importa el servicio
 import { RatingService } from '../../../services/rating.service';
 import Swal from 'sweetalert2'; // Asegúrate de que SweetAlert2 está importado
 
@@ -21,6 +22,7 @@ export class ProfilePostingComponent implements OnInit {
   showSubscriptionSection = true;
   
   public worker: any;
+  public ratings: any[] = []; // Array para almacenar las calificaciones
 
   rate(newRating: number) {
     // Aquí deberías implementar la lógica para actualizar la calificación en el backend
@@ -35,6 +37,7 @@ export class ProfilePostingComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private perfilService: PerfilService,
+    private publicacionService: PublicacionService, // Inyecta el servicio,
     private ratingService: RatingService
   ) {}
 
@@ -42,6 +45,7 @@ export class ProfilePostingComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadWorkerProfile(id);
+      this.loadWorkerRatings(id); // Llama a la función para cargar las calificaciones
     }
   }
 
@@ -75,8 +79,6 @@ export class ProfilePostingComponent implements OnInit {
     }
   }
 
-  
-
   loadWorkerProfile(id: string): void {
     this.perfilService.getWorkerById(id).subscribe({
       next: (data) => {
@@ -90,5 +92,19 @@ export class ProfilePostingComponent implements OnInit {
   }
 
   
+
+  loadWorkerRatings(id: string): void {
+    this.publicacionService.getWorkerRatings(id).subscribe({
+      next: (data) => {
+        this.ratings = data;
+        console.log('Calificaciones del trabajador:', this.ratings);
+      },
+      error: (error) => {
+        console.error('Error fetching worker ratings:', error);
+      }
+    });
+  }
+
+
 
 }
