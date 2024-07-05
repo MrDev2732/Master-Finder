@@ -19,7 +19,7 @@ export class LoginService {
     body.set('email', email);
     body.set('password', password);
 
-    return this.http.post(`${this.apiUrl}/login`, body.toString(), { headers, withCredentials: true, responseType: 'json' })
+    return this.http.post(`${this.apiUrl}/login-worker`, body.toString(), { headers, withCredentials: true, responseType: 'json' })
       .pipe(
         map(response => {
           // Procesar la respuesta HTML si es necesario

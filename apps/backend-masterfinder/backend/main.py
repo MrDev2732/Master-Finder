@@ -14,6 +14,7 @@ from backend.database.create_db import main as populate_db
 from backend.services.endpoints.login import router as login_worker_router
 from backend.services.endpoints.posting import router as posting_router
 from backend.services.endpoints.workers import router as worker_router
+from backend.services.endpoints.client import router as client_router
 
 jinja2_template = Jinja2Templates(directory="templates")
 
@@ -46,6 +47,7 @@ PREFIX = "/api"
 LOGIN = f"{PREFIX}/login"
 POSTINGS = f"{PREFIX}/postings"
 WORKERS = f"{PREFIX}/workers"
+CLIENTS = f"{PREFIX}/clients"
 
 # LOGIN WORKER
 app.include_router(login_worker_router, prefix=f"{LOGIN}")
@@ -55,6 +57,9 @@ app.include_router(posting_router, prefix=f"{POSTINGS}")
 
 # WORKERS
 app.include_router(worker_router, prefix=f"{WORKERS}")
+
+# CLIENTS
+app.include_router(client_router, prefix=f"{CLIENTS}")
 
 
 @app.on_event("startup")
@@ -74,8 +79,3 @@ def on_startup():
         with SessionLocal() as session:
             populate_db(session)
         logger.info("La base de datos ya está inicializada.")
-
-
-@app.get("/", response_class=HTMLResponse)
-def root(request: Request):
-    return jinja2_template.TemplateResponse("index.html", {"request": request})

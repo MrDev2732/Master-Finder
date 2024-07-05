@@ -73,5 +73,6 @@ def update_verify_by_id(id: uuid.UUID, db: Session):
     db.refresh(worker)
     return worker
 
+
 def get_postings_by_subscribed_workers(db: Session):
     return db.query(Posting).join(Posting.worker).filter(Worker.subscription == True).all()

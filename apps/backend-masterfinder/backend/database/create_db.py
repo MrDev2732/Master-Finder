@@ -51,7 +51,8 @@ def populate_clients(session: Session, n=10):
         client = Client(
             name=fake.name(),
             email=fake.unique.email(),
-            password=hash_password(fake.password())
+            password=hash_password('falopa'),
+            image=image_binary
         )
         session.add(client)
     session.commit()
