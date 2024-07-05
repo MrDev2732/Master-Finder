@@ -55,5 +55,22 @@
             <a [href]="'https://wa.me/+56' +  worker.contact_number" class="boton-redes whatsapp fab fa-whatsapp"><i class="icon-whatsapp"></i></a>
             <a href="https://www.instagram.com/" class="boton-redes instagram fab fa-instagram"><i class="icon-instagram"></i></a>
         </div>
+        <!-- Nuevo div para comentarios -->
+        <div class="comentarios-clientes">
+            <h3>Deja un comentario</h3>
+            <div class="estrellas-rating">
+                <div class="calificacion-numerica"></div>
+                <div class="estrellas">
+                    <span *ngFor="let star of stars; let i = index" 
+                          class="estrella"
+                          (click)="rate(i + 1)"
+                          [ngClass]="{'filled': rating >= i + 1, 'half-filled': rating > i && rating < i + 1}">
+                        &#9733;
+                    </span>
+                </div>
+            </div>
+            <textarea class="campo-texto" [(ngModel)]="comment" placeholder="Escribe tu comentario aquí..."></textarea>
+            <button type="button" class="boton-enviar" (click)="handleRating()">Enviar</button>
+        </div>
     </div>
   </section>

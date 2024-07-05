@@ -1,19 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // Importa FormsModule
 import { ActivatedRoute } from '@angular/router';
 import { PerfilService } from '../../../services/perfil.service';
+import { RatingService } from '../../../services/rating.service';
+import Swal from 'sweetalert2'; // Asegúrate de que SweetAlert2 está importado
 
 @Component({
   selector: 'app-profile-posting',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule], // Añade FormsModule aquí
   templateUrl: './profile-posting.component.html',
-  styleUrl: './profile-posting.component.scss',
+  styleUrls: ['./profile-posting.component.scss'],
 })
 export class ProfilePostingComponent implements OnInit {
 
   rating = 0;  // Calificación promedio inicial
   stars = [1, 2, 3, 4, 5];  // Representa cada estrella
+  comment = '';  // Comentario del usuario
   showSubscriptionSection = true;
   
   public worker: any;
@@ -26,15 +30,48 @@ export class ProfilePostingComponent implements OnInit {
   }
 
 
+
+
   constructor(
     private route: ActivatedRoute,
-    private perfilService: PerfilService
+    private perfilService: PerfilService,
+    private ratingService: RatingService
   ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadWorkerProfile(id);
+    }
+  }
+
+  handleRating(): void { 
+    if (this.worker && this.worker.id) {
+      this.ratingService.createRating(this.worker.id, this.rating, this.comment).subscribe({
+        next: (response) => {
+          console.log('Calificación enviada con éxito:', response);
+          Swal.fire({ // Alerta de éxito
+            icon: 'success',
+            title: '¡Éxito!',
+            text: 'Calificación enviada con éxito.',
+          });
+          this.comment = ''; // Limpia el área de texto del comentario
+        },
+        error: (error) => {
+          console.error('Error al enviar la calificación:', error);
+          Swal.fire({ // Alerta de error
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo enviar la calificación.',
+          });
+        }
+      });
+    } else {
+      Swal.fire({ // Alerta si no hay datos del trabajador
+        icon: 'info',
+        title: 'Información',
+        text: 'No se ha seleccionado ningún trabajador.',
+      });
     }
   }
 
@@ -51,5 +88,7 @@ export class ProfilePostingComponent implements OnInit {
       }
     });
   }
+
+  
 
 }
