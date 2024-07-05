@@ -5,15 +5,8 @@
             <div class="perfil-usuario-avatar card-box">
                 <img *ngIf="worker" [src]="'data:image/jpeg;base64,' + worker.image" alt="Imagen de Posting" class="card-img">
                 <span *ngIf="worker?.subscription"></span>
-                <button type="button" class="boton-avatar">
-                  <i class="far fa-image"></i>
-                </button>
               </div>
               
-                        
-            <button type="button" class="boton-portada">
-                <i class="far fa-image"></i> Cambiar fondo
-            </button>
         </div>
     </div>
     <div class="perfil-usuario-body" data-aos="zoom-out" data-aos-duration="2000">
@@ -23,15 +16,14 @@
             <p class="texto" *ngIf="worker"> {{worker.profile_description}}</p>
   
             <div class="estrellas-rating">
-              <div class="calificacion-numerica">{{ rating | number: '1.1-1' }}</div>
-              <div class="estrellas">
-                <span *ngFor="let star of stars; let i = index" 
+                <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" 
                       class="estrella"
-                      (click)="rate(i + 1)"
-                      [ngClass]="{'filled': rating >= i + 1, 'half-filled': rating > i && rating < i + 1}">
-                  &#9733;
+                      [ngClass]="{
+                        'filled': calificacionpromedio >= i + 1, 
+                        'half-filled': calificacionpromedio > i && calificacionpromedio < i + 1
+                      }">
+                    &#9733;
                 </span>
-              </div>
             </div>
             
         </div>
@@ -56,30 +48,62 @@
             <a href="https://www.instagram.com/" class="boton-redes instagram fab fa-instagram"><i class="icon-instagram"></i></a>
         </div>
         <!-- Nuevo div para comentarios -->
-        <div class="comentarios-clientes">
-            <h3>Deja un comentario</h3>
-            <div class="estrellas-rating">
+
+
+        <div class="comentarios-clientes" *ngIf="isClient" [ngClass]="{'fade-out': true, 'fade-out-active': fadeOut}">
+            <div *ngIf="showThankYouMessage" >
+              <p style="text-align: center;">Gracias por tu reseña.</p>
+            </div>
+            <div *ngIf="!showThankYouMessage">
+              <h3>Deja un comentario</h3>
+              <div class="estrellas-rating">
                 <div class="calificacion-numerica"></div>
                 <div class="estrellas">
-                    <span *ngFor="let star of stars; let i = index" 
-                          class="estrella"
-                          (click)="rate(i + 1)"
-                          [ngClass]="{'filled': rating >= i + 1, 'half-filled': rating > i && rating < i + 1}">
-                        &#9733;
-                    </span>
+                  <span *ngFor="let star of stars; let i = index" 
+                        class="estrella"
+                        (click)="rate(i + 1)"
+                        [ngClass]="{'filled': rating >= i + 1, 'half-filled': rating > i && rating < i + 1}">
+                    &#9733;
+                  </span>
                 </div>
+              </div>
+              <textarea class="campo-texto" [(ngModel)]="comment" placeholder="Escribe tu comentario aquí..."></textarea>
+              <button type="button" class="boton-enviar" (click)="handleRating()">Enviar</button>
             </div>
-            <textarea class="campo-texto" [(ngModel)]="comment" placeholder="Escribe tu comentario aquí..."></textarea>
-            <button type="button" class="boton-enviar" (click)="handleRating()">Enviar</button>
-        </div>
+          </div>
+          
+
+
+          
+
     </div>
+
+</section>
+
+<br>
+<br>
+
+<section class="perfil-usuario-ratings-section">
     <div class="perfil-usuario-ratings" *ngIf="ratings.length > 0">
         <h3>Calificaciones del Trabajador</h3>
         <ul>
             <li *ngFor="let rating of ratings">
-                <p><strong>Calificación:</strong> {{ rating.rating }}</p>
-                <p><strong>Comentario:</strong> {{ rating.content }}</p>
+                <div class="rating-container" data-aos="zoom-out" data-aos-duration="2000">
+                    <div class="rating-header">
+                        <span class="rating-stars">
+                            <ng-container *ngFor="let star of stars; let i = index">
+                                <span [ngClass]="{'filled': i < rating.rating}">&#9733;</span>
+                            </ng-container>
+                        </span>
+                    </div>
+                    <div class="rating-body">
+                        <p class="rating-comment">{{ rating.content }}</p>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
+    <p style="text-align: center;" *ngIf="ratings.length == 0">No hay calificaciones disponibles para este trabajador.</p>
 </section>
+
+<br>
