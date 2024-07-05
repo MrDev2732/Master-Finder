@@ -71,7 +71,6 @@ class Client(Base, BaseModel):
     image = Column(LargeBinary, nullable=True)
 
     ratings = relationship('Rating', back_populates='client')
-    comments = relationship('Comment', back_populates='client')
 
 
 class Posting(Base, BaseModel):
@@ -85,29 +84,21 @@ class Posting(Base, BaseModel):
     worker = relationship('Worker', back_populates='postings')
 
 
-
 class Rating(Base, BaseModel):
     __tablename__ = 'rating'
 
     worker_id = Column(UUID(as_uuid=True), ForeignKey('worker.id'), nullable=False)
     client_id = Column(UUID(as_uuid=True), ForeignKey('client.id'), nullable=False)
     rating = Column(Integer, nullable=False)
-    comment_id = Column(UUID(as_uuid=True), ForeignKey('comment.id'), nullable=True)
+    content = Column(String, nullable=False)  # Campo de contenido del comentario
 
     worker = relationship('Worker', back_populates='ratings')
     client = relationship('Client', back_populates='ratings')
-    comment = relationship('Comment', back_populates='rating')
 
-
-class Comment(Base, BaseModel):
-    __tablename__ = 'comment'
-
-    client_id = Column(UUID(as_uuid=True), ForeignKey('client.id'), nullable=False)
-    worker_id = Column(UUID(as_uuid=True), ForeignKey('worker.id'), nullable=False)
-    content = Column(String, nullable=False)
-
-    client = relationship('Client', back_populates='comments')
-    rating = relationship('Rating', uselist=False, back_populates='comment')
+    def to_dict(self) -> dict:
+        data = super().to_dict()
+        data['content'] = self.content  # Añadir contenido del comentario al diccionario
+        return data
 
 
 class Transaction(Base, BaseModel):
