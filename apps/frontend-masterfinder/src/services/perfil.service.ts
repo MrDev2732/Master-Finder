@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 })
 export class PerfilService {
   private apiUrl = 'http://localhost:8000/api/workers';
+  private apiUrlClient = 'http://localhost:8000/api/clients';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -27,6 +28,12 @@ export class PerfilService {
 
   getSubscribedWorkers(): Observable<any> {
     return this.http.get<any>(this.apiUrl + '/subscribed-workers');
+  }
+
+  getClient(): Observable<any> {
+    const token = this.authService.getToken(); // Asegúrate de que este método exista en AuthService
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(this.apiUrlClient + '/client', { headers }); // Asegrate de que el tipo de retorno sea Observable<any>
   }
 
   updateWorker(data: FormData): Observable<any> {
