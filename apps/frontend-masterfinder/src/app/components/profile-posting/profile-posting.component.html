@@ -73,4 +73,13 @@
             <button type="button" class="boton-enviar" (click)="handleRating()">Enviar</button>
         </div>
     </div>
-  </section>
+    <div class="perfil-usuario-ratings" *ngIf="ratings.length > 0">
+        <h3>Calificaciones del Trabajador</h3>
+        <ul>
+            <li *ngFor="let rating of ratings">
+                <p><strong>Calificación:</strong> {{ rating.rating }}</p>
+                <p><strong>Comentario:</strong> {{ rating.content }}</p>
+            </li>
+        </ul>
+    </div>
+</section>
