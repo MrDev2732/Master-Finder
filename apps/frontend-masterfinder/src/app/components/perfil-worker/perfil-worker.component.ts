@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';  // Importa FormsModule
-import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PublicacionService } from '../../../services/publicacion.service';
 import { PerfilService } from '../../../services/perfil.service';
-import { AuthService } from '../../../services/auth.service';  // Importa AuthService
+import { AuthService } from '../../../services/auth.service';
 import { FiltrosService } from '../../../services/filtros.service';
 import Swal from 'sweetalert2';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -50,6 +50,8 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
   mostrarModalEditar = false;
   publicacionSeleccionada: any = { job_type: '', description: '', image: null };
 
+
+  
   // Método para obtener los datos del worker y asignarlos a la variable workerData
   getWorkerData() {
     this.perfilService.getWorker().subscribe(
@@ -284,11 +286,6 @@ export class PerfilWorkerComponent implements OnInit {  // Implementa OnInit
     });
 }
 
-
-
-
-
-
 /* Eliminar y Actualizar publicaciones */
 eliminarPublicacion(postingId: string): void {
   Swal.fire({
@@ -329,5 +326,69 @@ togglePublications() {
   this.showPublications = !this.showPublications;
 }
 
+// Variables para la edición del perfil
+editProfileData = {
+  contact_number: '',
+  email: '',
+  specialty: '',
+  location: '',
+  profile_description: ''
+};
+mostrarModalEditarPerfil = false;
+selectedProfileImage: File | null = null; // Nueva variable para la imagen de perfil
 
+// Método para abrir el modal de edición del perfil
+abrirModalEditarPerfil() {
+  this.editProfileData = { ...this.workerData };
+  this.mostrarModalEditarPerfil = true;
+}
+
+// Método para cerrar el modal de edición del perfil
+cerrarModalEditarPerfil() {
+  this.mostrarModalEditarPerfil = false;
+}
+
+// Método para manejar la selección de la imagen de perfil
+onProfileImageSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedProfileImage = file;
+  }
+}
+
+// Método para actualizar los datos del perfil
+actualizarPerfil() {
+  const formData = new FormData();
+  formData.append('contact_number', this.editProfileData.contact_number);
+  formData.append('email', this.editProfileData.email);
+  formData.append('specialty', this.editProfileData.specialty);
+  formData.append('location', this.editProfileData.location);
+  formData.append('profile_description', this.editProfileData.profile_description);
+  if (this.selectedProfileImage) {
+    formData.append('image', this.selectedProfileImage);
+  }
+
+  this.perfilService.updateWorker(formData).subscribe(
+    response => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Perfil actualizado',
+        text: 'El perfil ha sido actualizado exitosamente.',
+        confirmButtonText: 'Aceptar'
+      }).then(() => {
+        this.cerrarModalEditarPerfil();
+        this.getWorkerData(); // Recargar los datos del trabajador
+      });
+    },
+    error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al actualizar',
+        text: 'No se pudo actualizar el perfil. Por favor, inténtelo nuevamente.',
+        confirmButtonText: 'Aceptar'
+      });
+      console.error('Error al actualizar el perfil', error);
+    }
+  );
+}
 }
