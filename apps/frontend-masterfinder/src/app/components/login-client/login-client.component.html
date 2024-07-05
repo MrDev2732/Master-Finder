@@ -5,38 +5,15 @@
         <div class="form-container sign-up">
           <form (ngSubmit)="register()" #registerForm="ngForm" >
             <h1>Crear Cuenta</h1>
-            <input type="text" placeholder="Nombre" [(ngModel)]="newWorker.first_name" name="first_name" required minlength="2" maxlength="30">
+            <input type="text" placeholder="Nombre" [(ngModel)]="newClient.first_name" name="first_name" required minlength="2" maxlength="30">
             <small *ngIf="registerForm.controls['first_name']?.errors?.['minlength'] || registerForm.controls['first_name']?.errors?.['maxlength']">El nombre debe tener entre 2 y 30 caracteres.</small>
-  
-            <input type="text" placeholder="Apellido" [(ngModel)]="newWorker.last_name" name="last_name" required minlength="2" maxlength="30">
-            <small *ngIf="registerForm.controls['last_name']?.errors?.['minlength'] || registerForm.controls['last_name']?.errors?.['maxlength']">El apellido debe tener entre 2 y 30 caracteres.</small>
-  
-            <input type="text" placeholder="Rut" [(ngModel)]="newWorker.rut" name="rut" required pattern="[0-9]{7,8}-[0-9Kk]">
-            <small *ngIf="registerForm.controls['rut']?.errors?.['pattern']">El RUT debe tener un formato válido (ej. 12345678-9).</small>
-  
-            <input type="text" placeholder="Telefono" [(ngModel)]="newWorker.contact_number" name="contact_number" required pattern="[+]?[0-9]{9,12}">
-            <small *ngIf="registerForm.controls['contact_number']?.errors?.['pattern']">El teléfono debe tener entre 9 y 12 dígitos.</small>
-  
-            <input type="email" placeholder="Email" [(ngModel)]="newWorker.email" name="email" required>
+
+            <input type="email" placeholder="Email" [(ngModel)]="newClient.email" name="email" required>
             <small *ngIf="registerForm.controls['email']?.errors?.['email']">Por favor ingresa un correo electrónico válido.</small>
   
-            <input type="password" placeholder="Password" [(ngModel)]="newWorker.password" name="password" required minlength="6">
+            <input type="password" placeholder="Password" [(ngModel)]="newClient.password" name="password" required minlength="6">
             <small *ngIf="registerForm.controls['password']?.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres 1 mayuscula y un simbolo.</small>
-  
-            <select [(ngModel)]="newWorker.location" name="location" required>
-              <option value="" disabled>Seleccione una comuna</option>
-              <option value="Maipu">Maipu</option>
-              <option value="Cerrillos">Cerrillos</option>
-              <option value="Pudahuel">Pudahuel</option>
-            </select>
-  
-            <select [(ngModel)]="newWorker.specialty" name="specialty" required>
-              <option value="" disabled>Seleccione una especialidad</option>
-              <option value="Electricista">Electricista</option>
-              <option value="Zapatero">Zapatero</option>
-              <option value="Albañil">Albañil</option>
-            </select>
-  
+
             <button type="submit" [disabled]="registerForm.invalid">Crear Cuenta</button>
           </form>
         </div>

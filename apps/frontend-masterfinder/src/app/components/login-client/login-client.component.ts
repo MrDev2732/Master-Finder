@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoginService } from '../../../services/login.service';
 import { Router } from '@angular/router';
-import { Worker } from '../../interfaces/worker';
+import { Client } from '../../interfaces/client';
 import { RegisterService } from '../../../services/register.service';
 import { AuthService } from '../../../services/auth.service';
 import Swal from 'sweetalert2';
@@ -21,16 +21,11 @@ export class LoginClientComponent {
   email: string = '';
   password: string = '';
 
-  Worker: Worker[] = [];
-  newWorker: Worker = {
+  Client: Client[] = [];
+  newClient: Client = {
     first_name: '',
-    last_name: '',
-    rut: '',
-    contact_number: '',
     email: '',
     password: '',
-    specialty: '',
-    location: '',
   };
 
   @ViewChild('container', { static: false}) container!: ElementRef;
@@ -86,12 +81,12 @@ export class LoginClientComponent {
   }
 
   register() {
-    if (!this.newWorker.first_name || !this.newWorker.last_name || !this.newWorker.rut || !this.newWorker.contact_number || !this.newWorker.email || !this.newWorker.password || !this.newWorker.location || !this.newWorker.specialty) {
+    if (!this.newClient.first_name || !this.newClient.email || !this.newClient.password) {
       console.error('Faltan campos requeridos');
       return;
     }
 
-    this.registerService.registerWorker(this.newWorker).subscribe({
+    this.registerService.registerClient(this.newClient).subscribe({
       next: (response) => {
         console.log('Registro exitoso', response);
         Swal.fire({
@@ -113,15 +108,10 @@ export class LoginClientComponent {
   }
 
   resetForm() {
-    this.newWorker = {
+    this.newClient = {
       first_name: '',
-      last_name: '',
-      rut: '',
-      contact_number: '',
       email: '',
       password: '',
-      specialty: '',
-      location: '',
     };
   }
 
