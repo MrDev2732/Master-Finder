@@ -5,7 +5,7 @@ from PIL import Image
 from faker import Faker
 from sqlalchemy.orm import Session
 
-from backend.database.models import Worker, Client, Posting, Rating, Comment, Transaction
+from backend.database.models import Worker, Client, Posting, Rating, Transaction
 from backend.handlers.auth import hash_password
 
 
@@ -78,22 +78,10 @@ def populate_ratings(session: Session, n=10):
         rating = Rating(
             worker_id=fake.random_element(workers).id,
             client_id=fake.random_element(clients).id,
-            rating=fake.random_int(min=1, max=5)
+            rating=fake.random_int(min=1, max=5),
+            content=fake.text()  # Added comment content
         )
         session.add(rating)
-    session.commit()
-
-
-def populate_comments(session: Session, n=10):
-    clients = session.query(Client).all()
-    workers = session.query(Worker).all()
-    for _ in range(n):
-        comment = Comment(
-            client_id=fake.random_element(clients).id,
-            worker_id=fake.random_element(workers).id,
-            content=fake.text()
-        )
-        session.add(comment)
     session.commit()
 
 
@@ -117,5 +105,4 @@ def main(session: Session):
     populate_clients(session)
     populate_postings(session)
     populate_ratings(session)
-    populate_comments(session)
     populate_transactions(session)
