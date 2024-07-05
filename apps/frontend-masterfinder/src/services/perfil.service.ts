@@ -28,4 +28,10 @@ export class PerfilService {
   getSubscribedWorkers(): Observable<any> {
     return this.http.get<any>(this.apiUrl + '/subscribed-workers');
   }
+
+  updateWorker(data: FormData): Observable<any> {
+    const token = this.authService.getToken(); // Asegúrate de que este método exista en AuthService
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/worker`, data, { headers });
+  }
 }
