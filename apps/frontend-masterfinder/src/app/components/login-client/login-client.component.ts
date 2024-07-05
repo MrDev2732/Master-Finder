@@ -9,15 +9,15 @@ import { AuthService } from '../../../services/auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-login-worker',
+  selector: 'app-login-client',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './login-worker.component.html',
-  styleUrls: ['./login-worker.component.scss'],
+  templateUrl: './login-client.component.html',
+  styleUrl: './login-client.component.scss',
   providers: [LoginService]
 })
 
-export class LoginWorkerComponent {
+export class LoginClientComponent {
   email: string = '';
   password: string = '';
 
@@ -37,7 +37,7 @@ export class LoginWorkerComponent {
   constructor(private loginService: LoginService, private router: Router, private registerService: RegisterService, private authService: AuthService) {}
 
   login() {
-    this.loginService.loginWorker(this.email, this.password).subscribe({
+    this.loginService.loginClient(this.email, this.password).subscribe({
       next: (response) => {
         if (response.access_token) {
           this.authService.login(response.access_token);
@@ -129,3 +129,4 @@ export class LoginWorkerComponent {
     this.router.navigate(['/reset-password']);
   }
 }
+

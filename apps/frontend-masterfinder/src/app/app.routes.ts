@@ -9,12 +9,14 @@ import { DetallePostingComponent } from './components/detalle-posting/detalle-po
 import { ProfilePostingComponent } from './components/profile-posting/profile-posting.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { LoginClientComponent } from './components/login-client/login-client.component';
 
 
 export const appRoutes: Route[] = [
     { path: '', component: HomeComponent },
     { path: 'login-worker', component: LoginWorkerComponent },
     { path: 'perfil-worker', component: PerfilWorkerComponent },
+    { path: 'login-client', component: LoginClientComponent },
     { path: 'soporte', component: SoporteComponent },
     { path: 'filtros', component: FiltrosComponent },
     { path: 'detalle/:id', component: DetallePostingComponent },

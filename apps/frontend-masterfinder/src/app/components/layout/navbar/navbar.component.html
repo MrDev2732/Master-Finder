@@ -14,9 +14,15 @@
             </a>
         </li>
         <li class="sidenav-nav-item" *ngIf="!isAuthenticated || !authChecked">
-            <a class="sidenav-nav-link" (click)="login()" (click)="closeSidenav()" id="loginOrRegisterLink">
+            <a class="sidenav-nav-link" (click)="loginWorker()" (click)="closeSidenav()" id="loginOrRegisterLink">
               <i class="sidenav-link-icon bx bx-log-in-circle"></i>
-              <span #sidenavLinkText class="sidenav-link-text">Inicio Sesion o Registro</span>
+              <span #sidenavLinkText class="sidenav-link-text">Inicio Sesion o Registro Trabajador</span>
+            </a>
+        </li>
+        <li class="sidenav-nav-item" *ngIf="!isAuthenticated || !authChecked">
+            <a class="sidenav-nav-link" (click)="loginClient()" (click)="closeSidenav()" id="loginOrRegisterLink">
+              <i class="sidenav-link-icon bx bx-log-in"></i>
+              <span #sidenavLinkText class="sidenav-link-text">Inicio Sesion o Registro Cliente</span>
             </a>
         </li>
         <li class="sidenav-nav-item">
