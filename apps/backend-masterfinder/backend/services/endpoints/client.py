@@ -1,3 +1,5 @@
+
+    
 import os
 import logging
 import uuid
@@ -5,7 +7,7 @@ from os import getenv
 from typing import Annotated
 import base64
 
-from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Header
+from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Header, Query
 from fastapi.encoders import jsonable_encoder
 from pydantic import EmailStr, constr
 from sqlalchemy.orm import Session
@@ -15,7 +17,7 @@ from backend.handlers.auth import hash_password, validate_password, validate_rut
 from backend.database.create_db import compress_image
 from backend.database.session import get_db
 from backend.database.models import Client
-from backend.handlers.queries.rating import create_rating
+from backend.handlers.queries.rating import create_rating, get_ratings_by_worker_id
 from backend.handlers.queries.client import (
     get_all_clients, get_client_by_email, get_client_by_id
 )
@@ -181,3 +183,56 @@ async def create_rating_endpoint(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e)
         )
+
+
+@router.get("/get-ratings", tags=["Ratings"])
+async def get_ratings(worker_id: str = Query(...), db: Session = Depends(get_db)):
+    try:
+        ratings = get_ratings_by_worker_id(worker_id, db)
+        return jsonable_encoder(ratings)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
+    
+@router.get("/check-user-type", tags=["Auth"])
+async def check_user_type(authorization: str = Header(...), db: Session = Depends(get_db)):
+    try:
+        token = authorization.split(" ")[1]  # Extrae el token del encabezado 'Bearer <token>'
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        user_id_str = payload.get("id")
+        if user_id_str is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Token does not contain id"
+            )
+        user_id = uuid.UUID(user_id_str)  # Convertir la cadena de id a un objeto UUID
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token has expired"
+        )
+    except jwt.InvalidTokenError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token"
+        )
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid UUID format"
+        )
+
+    client = get_client_by_id(user_id, db)
+    if client:
+        return {"isClient": True}
+
+    else:
+        return {"isClient": False}
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="User not found"
+    )
+
