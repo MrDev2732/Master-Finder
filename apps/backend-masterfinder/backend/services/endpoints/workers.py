@@ -18,7 +18,7 @@ from backend.database.models import Worker
 from backend.handlers.queries.worker import (
     get_worker_by_id, get_subscribed_workers, get_postings_by_subscribed_workers, get_worker_for_create, update_worker_by_id, get_all_workers, update_password_by_id
 )
-
+from backend.handlers.queries.rating import get_ratings_by_worker_id  # Importar la función para obtener ratings
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.ERROR)
@@ -322,4 +322,25 @@ async def update_password(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error"
+        )
+
+@router.get("/worker/{id}/ratings", tags=["Ratings"])
+async def get_worker_ratings(id: uuid.UUID, db: Session = Depends(get_db)):
+    try:
+        ratings = get_ratings_by_worker_id(str(id), db)
+        if not ratings:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="No ratings found for this worker"
+            )
+        ratings_serializable = []
+        for rating in ratings:
+            rating_dict = rating.__dict__.copy()
+            ratings_serializable.append(rating_dict)
+        return jsonable_encoder(ratings_serializable)
+    except Exception as e:
+        logger.error(f"Error fetching ratings for worker {id}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal Server Error"
         )
