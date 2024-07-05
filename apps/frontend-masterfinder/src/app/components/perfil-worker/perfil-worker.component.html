@@ -1,80 +1,78 @@
 <section class="seccion-perfil-usuario">
-  <div class="perfil-usuario-header">
-      <div class="perfil-usuario-portada">
-          <img src="../../../assets/electricoss.webp" alt="img-avatar">
-          <div class="perfil-usuario-avatar card-box">
-              <img *ngIf="workerData?.image" [src]="'data:image/jpeg;base64,' + workerData.image" alt="Imagen de Posting" class="card-img">
-              <span *ngIf="workerData?.subscription"></span>
-              <button type="button" class="boton-avatar">
-                  <i class="far fa-image"></i>
-              </button>
-          </div>
-          <button type="button" class="boton-portada">
-              <i class="far fa-image"></i> Cambiar fondo
-          </button>
-      </div>
-  </div>
-  <div class="perfil-usuario-body" *ngIf="workerData" data-aos="zoom-out" data-aos-duration="2000">
-      <div class="perfil-usuario-bio">
-          <h3 class="titulo">{{workerData.first_name}}  {{workerData.last_name}}</h3>
-          <p class="texto">{{workerData.profile_description}}</p>
-          <div class="estrellas-rating">
-              <div class="calificacion-numerica">{{ rating | number: '1.1-1' }}</div>
-              <div class="estrellas">
-                  <span *ngFor="let star of stars; let i = index" 
-                        class="estrella"
-                        (click)="rate(i + 1)"
-                        [ngClass]="{'filled': rating >= i + 1, 'half-filled': rating > i && rating < i + 1}">
-                      &#9733;
-                  </span>
-              </div>
-          </div>
-      </div>
-      <div class="perfil-usuario-footer">
-          <ul class="lista-datos">
-              <li><i class="icono fas fa-map-signs"></i> Rut: {{workerData.rut}}</li>
-              <li><i class="icono fas fa-phone-alt"></i> Telefono: {{workerData.contact_number}}</li>
-              <li><i class="icono fas fa-briefcase"></i> Especialidad: {{workerData.specialty}}</li>
-          </ul>
-          <ul class="lista-datos">
-              <li><i class="icono fas fa-map-marker-alt"></i> Comuna: {{workerData.location}}</li>
-              <li><i class="icono fas fa-calendar-alt"></i> Cuenta creada el: {{workerData.created_date | date: 'dd/MM/yyyy'}}</li>
-              <li><i class="icono fas fa-inbox"></i> Email: {{workerData.email}}</li>
-          </ul>
-      </div>
-      <div class="redes-sociales">
-          <a href="https://www.facebook.com/" class="boton-redes facebook fab fa-facebook-f"><i class="icon-facebook"></i></a>
-          <a [href]="'https://wa.me/+56' + workerData.contact_number" class="boton-redes whatsapp fab fa-whatsapp"><i class="icon-whatsapp"></i></a>
-          <a href="https://www.instagram.com/" class="boton-redes instagram fab fa-instagram"><i class="icon-instagram"></i></a>
-      </div>
-  </div>
+    <div class="perfil-usuario-header">
+        <div class="perfil-usuario-portada">
+            <img src="../../../assets/electricoss.webp" alt="img-avatar">
+            <div class="perfil-usuario-avatar card-box">
+                <img *ngIf="workerData?.image" [src]="'data:image/jpeg;base64,' + workerData.image" alt="Imagen de Posting" class="card-img">
+                <span *ngIf="workerData?.subscription"></span>
+                <button type="button" class="boton-avatar">
+                    <i class="far fa-image"></i>
+                </button>
+            </div>
+            <button type="button" class="boton-portada">
+                <i class="far fa-image"></i> Cambiar fondo
+            </button>
+        </div>
+    </div>
+    <div class="perfil-usuario-body" *ngIf="workerData" data-aos="zoom-out" data-aos-duration="2000">
+        <div class="perfil-usuario-bio">
+            <h3 class="titulo">{{workerData.first_name}}  {{workerData.last_name}}</h3>
+            <p class="texto">{{workerData.profile_description}}</p>
+            <div class="estrellas-rating">
+                <div class="calificacion-numerica">{{ rating | number: '1.1-1' }}</div>
+                <div class="estrellas">
+                    <span *ngFor="let star of stars; let i = index" 
+                          class="estrella"
+                          (click)="rate(i + 1)"
+                          [ngClass]="{'filled': rating >= i + 1, 'half-filled': rating > i && rating < i + 1}">
+                        &#9733;
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="perfil-usuario-footer">
+            <ul class="lista-datos">
+                <li><i class="icono fas fa-map-signs"></i> Rut: {{workerData.rut}}</li>
+                <li><i class="icono fas fa-phone-alt"></i> Telefono: {{workerData.contact_number}}</li>
+                <li><i class="icono fas fa-briefcase"></i> Especialidad: {{workerData.specialty}}</li>
+            </ul>
+            <ul class="lista-datos">
+                <li><i class="icono fas fa-map-marker-alt"></i> Comuna: {{workerData.location}}</li>
+                <li><i class="icono fas fa-calendar-alt"></i> Cuenta creada el: {{workerData.created_date | date: 'dd/MM/yyyy'}}</li>
+                <li><i class="icono fas fa-inbox"></i> Email: {{workerData.email}}</li>
+            </ul>
+        </div>
+        <div class="redes-sociales">
+            <a href="https://www.facebook.com/" class="boton-redes facebook fab fa-facebook-f"><i class="icon-facebook"></i></a>
+            <a [href]="'https://wa.me/+56' + workerData.contact_number" class="boton-redes whatsapp fab fa-whatsapp"><i class="icon-whatsapp"></i></a>
+            <a href="https://www.instagram.com/" class="boton-redes instagram fab fa-instagram"><i class="icon-instagram"></i></a>
+        </div>
+    </div>
 </section>
 
 <section class="seccion-perfil-usuario" *ngIf="showSubscriptionSection">
-  <div class="subscription-container">
-      <div class="subscription-card highlighted">
-          <div class="logo-container">
-            <i class='bx bxs-star'></i>
-          </div>
-          <h2 class="subscription-title">Plan Premium</h2>
-          <p class="subscription-price">$12000/mes</p>
-          <ul class="subscription-features">
-              <li>-Publicaciones en primeros lugares</li>
-              <li>-Mayor visibilidad</li>
-              <li>-Destacado de perfil de usario</li>
-          </ul>
-          <div class="button-container">
-              <button class="subscribe-button" onclick="window.location.href='../../payment/'">Suscribirse</button>
-          </div>
-      </div>
-  </div>
+    <div class="subscription-container">
+        <div class="subscription-card highlighted">
+            <div class="logo-container">
+                <i class='bx bxs-star'></i>
+            </div>
+            <h2 class="subscription-title">Plan Premium</h2>
+            <p class="subscription-price">$12000/mes</p>
+            <ul class="subscription-features">
+                <li>-Publicaciones en primeros lugares</li>
+                <li>-Mayor visibilidad</li>
+                <li>-Destacado de perfil de usario</li>
+            </ul>
+            <div class="button-container">
+                <button class="subscribe-button" onclick="window.location.href='../../payment/'">Suscribirse</button>
+            </div>
+        </div>
+    </div>
 </section>
-
 
 <button (click)="togglePublications()" class="manage-button">Gestionar Publicaciones</button>
 
 <section [ngClass]="{'show': showPublications, 'hide': !showPublications}" class="fcrearpublicacion">
-    <!-- Modal para crear una nueva publicación -->
     <form (ngSubmit)="crearPublicacion()" #publicacionForm="ngForm">
         <div class="form-group">
             <label>Seleccione especialidad</label>
@@ -104,7 +102,6 @@
     </form>
 
     <div class="postings-section">
-        <!-- Listado de publicaciones -->
         <h2>Listado de Publicaciones</h2>
         <div *ngFor="let posting of postings" class="card posting-card">
             <img *ngIf="posting.image" [src]="'data:image/jpeg;base64,' + posting.image" alt="Imagen de Posting" class="card-img-top">
@@ -112,10 +109,40 @@
                 <h5 class="card-title">{{ posting.job_type }}</h5>
                 <p class="card-text">{{ posting.description }}</p>
                 <div class="button-group">
-                    <button class="btn-update">Actualizar</button>
+                    <button class="btn-update" (click)="abrirModalEditar(posting)">Actualizar</button>
                     <button class="btn-delete" (click)="eliminarPublicacion(posting.id)">Eliminar</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal" [class.show]="mostrarModalEditar">
+        <div class="modal-content">
+            <span class="close" (click)="cerrarModalEditar()">&times;</span>
+            <h2>Actualizar Publicación</h2>
+            <form (ngSubmit)="actualizarPublicacion()">
+                <div class="form-group">
+                    <label>Seleccione especialidad</label>
+                    <select [(ngModel)]="publicacionSeleccionada.job_type" name="jobType" required>
+                        <option value="Carpintería">Carpintería</option>
+                        <option value="Electricidad">Electricidad</option>
+                        <option value="Gasfitería">Gasfitería</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Descripción:</label>
+                    <textarea id="description" [(ngModel)]="publicacionSeleccionada.description" name="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="file">Archivos:</label>
+                    <input type="file" id="image" (change)="onFileSelectedEditar($event)" multiple class="form-control">
+                    <div *ngFor="let file of files; let i = index" class="file-list">
+                        <span>{{ file.name }}</span>
+                        <button type="button" (click)="eliminarArchivo(i)">Eliminar</button>
+                    </div>
+                </div>
+                <button type="submit">Guardar Cambios</button>
+            </form>
         </div>
     </div>
 </section>
