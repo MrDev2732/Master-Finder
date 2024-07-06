@@ -32,9 +32,9 @@
 
           <select [(ngModel)]="newWorker.specialty" name="specialty" required>
             <option value="" disabled>Seleccione una especialidad</option>
-            <option value="Electricista">Electricista</option>
-            <option value="Zapatero">Zapatero</option>
-            <option value="Albañil">Albañil</option>
+            <option value="Electricista">Carpinteria</option>
+            <option value="Zapatero">Electricidad</option>
+            <option value="Albañil">Gasfiteria</option>
           </select>
 
           <button type="submit" [disabled]="registerForm.invalid">Crear Cuenta</button>
@@ -73,7 +73,7 @@
             <button class="hidden" (click)="onLogin()">Iniciar Sesión</button>
           </div>
           <div class="toggle-panel toggle-right">
-            <h1>Hola, Amigo!</h1>
+            <h1>Como trabajador!</h1>
             <p>Regístrate con tus datos personales para usar todos los servicios del sitio</p>
             <button class="hidden" (click)="onRegister()">Registrarse</button>
           </div>
