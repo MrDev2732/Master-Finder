@@ -77,4 +77,12 @@ export class AuthService {
     const token = sessionStorage.getItem('access_token');
     return token ? token : '';
   }
+
+  setUserType(type: string) {
+    localStorage.setItem('userType', type);
+  }
+
+  getUserType(): string {
+    return localStorage.getItem('userType') || '';
+  }
 }
