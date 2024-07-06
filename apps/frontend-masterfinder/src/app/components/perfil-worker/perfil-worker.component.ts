@@ -412,7 +412,7 @@ actualizarPerfil() {
       Swal.fire({
         icon: 'error',
         title: 'Error al actualizar',
-        text: 'No se pudo actualizar el perfil. Por favor, inténtelo nuevamente.',
+        text: 'No se pudo actualizar el perfil. Por favor, inténtelo nuevamente. Utilice formato jpg para la foto',
         confirmButtonText: 'Aceptar'
       });
       console.error('Error al actualizar el perfil', error);

@@ -36,6 +36,7 @@ export class LoginClientComponent {
       next: (response) => {
         if (response.access_token) {
           this.authService.login(response.access_token);
+          this.authService.setUserType('client'); // Guardar el tipo de usuario
           // Mostrar la alerta de bienvenida
           Swal.fire({
             icon: 'success',
@@ -119,4 +120,3 @@ export class LoginClientComponent {
     this.router.navigate(['/reset-password']);
   }
 }
-
