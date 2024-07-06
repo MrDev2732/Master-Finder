@@ -25,6 +25,7 @@ export class NavbarComponent implements AfterViewInit, OnInit {
   screemWidth = 0;
   isAuthenticated: boolean = false;
   authChecked: boolean = false;
+  userType: string = '';
 
   constructor( private router: Router,
                 private loginService: LoginService,
@@ -44,6 +45,8 @@ export class NavbarComponent implements AfterViewInit, OnInit {
       this.authChecked = checked;
       this.updateSidenavLinkTextDisplay();
     });
+    // Obtener el tipo de usuario desde el servicio de autenticación
+    this.userType = this.authService.getUserType();
   }
  
   loginWorker() {
@@ -141,6 +144,7 @@ export class NavbarComponent implements AfterViewInit, OnInit {
     // Establecer los estados a false para ocultar inmediatamente los elementos relevantes
     this.isAuthenticated = false;
     this.authChecked = false;
+    this.userType = ''; // Limpiar el tipo de usuario
     this.updateSidenavLinkTextDisplay(); // Actualizar la visibilidad antes de proceder con el logout
     this.changeDetectorRef.detectChanges(); // Forzar la actualización de la UI
 

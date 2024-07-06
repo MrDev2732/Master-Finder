@@ -31,13 +31,13 @@
                 <span #sidenavLinkText class="sidenav-link-text">Filtrar Busqueda</span>
             </a>
         </li>
-        <li class="sidenav-nav-item" [class.hidden-initially]="!isAuthenticated || !authChecked">
+        <li class="sidenav-nav-item" [class.hidden-initially]="!isAuthenticated || userType !== 'worker'">
             <a class="sidenav-nav-link" (click)="perfil_worker()" (click)="closeSidenav()" id="perfil-workerLink">
                 <i class='sidenav-link-icon bx bx-face'></i>
                 <span #sidenavLinkText class="sidenav-link-text">Perfil Trabajador</span>
             </a>
         </li>
-        <li class="sidenav-nav-item" [class.hidden-initially]="!isAuthenticated || !authChecked">
+        <li class="sidenav-nav-item" [class.hidden-initially]="!isAuthenticated || userType !== 'client'">
             <a class="sidenav-nav-link" (click)="perfil_client()" (click)="closeSidenav()" id="perfil-clientLink">
                 <i class='sidenav-link-icon bx bx-face'></i>
                 <span #sidenavLinkText class="sidenav-link-text">Perfil Cliente</span>
