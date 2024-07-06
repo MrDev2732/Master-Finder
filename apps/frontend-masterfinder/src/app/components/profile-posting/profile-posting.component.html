@@ -11,10 +11,10 @@
     </div>
     <div class="perfil-usuario-body" data-aos="zoom-out" data-aos-duration="2000">
         <div class="perfil-usuario-bio">
-          
+            
             <h3 class="titulo" *ngIf="worker">{{worker.first_name}}  {{worker.last_name}}</h3>
-            <p class="texto" *ngIf="worker"> {{worker.profile_description}}</p>
-  
+            <p class="texto"  *ngIf="worker"> {{worker.profile_description}}</p>
+
             <div class="estrellas-rating">
                 <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" 
                       class="estrella"
