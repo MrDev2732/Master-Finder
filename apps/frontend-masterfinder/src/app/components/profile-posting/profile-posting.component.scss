@@ -121,6 +121,17 @@
     text-align: center;
 }
 
+
+.perfil-usuario-bio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+
  .lista-datos {
     width: 50%;
     list-style: none;
