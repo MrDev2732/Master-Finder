@@ -41,6 +41,7 @@ export class LoginWorkerComponent {
       next: (response) => {
         if (response.access_token) {
           this.authService.login(response.access_token);
+          this.authService.setUserType('worker'); // Guardar el tipo de usuario
           // Mostrar la alerta de bienvenida
           Swal.fire({
             icon: 'success',
