@@ -94,6 +94,10 @@ body{
     outline: none;
 }
 
+input.ng-invalid.ng-touched {
+    border: 2px solid red;
+}
+
 .form-container{
     position: absolute;
     top: 0;
