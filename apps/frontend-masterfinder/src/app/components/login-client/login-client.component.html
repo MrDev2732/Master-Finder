@@ -11,8 +11,8 @@
             <input type="email" placeholder="Email" [(ngModel)]="newClient.email" name="email" required>
             <small *ngIf="registerForm.controls['email']?.errors?.['email']">Por favor ingresa un correo electrónico válido.</small>
   
-            <input type="password" placeholder="Password" [(ngModel)]="newClient.password" name="password" required minlength="6">
-            <small *ngIf="registerForm.controls['password']?.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres 1 mayuscula y un simbolo.</small>
+            <input type="password" placeholder="Password" [(ngModel)]="newClient.password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}">
+            <small *ngIf="registerForm.controls['password']?.errors?.['pattern']">La contraseña debe tener al menos 8 caracteres, 1 mayúscula y un símbolo.</small>
 
             <button type="submit" [disabled]="registerForm.invalid">Crear Cuenta</button>
           </form>
