@@ -39,7 +39,7 @@ def populate_workers(session: Session, n=10):
             password=hash_password('falopa'),
             image=image_binary,
             specialty=fake.random_element(['Carpintería', 'Electricidad', 'Gasfitería']),
-            location=fake.city(),
+            location=fake.random_element(['Maipú', 'Pudahuel', 'Cerrillos']),
             reset_pass_token=None
         )
         session.add(worker)

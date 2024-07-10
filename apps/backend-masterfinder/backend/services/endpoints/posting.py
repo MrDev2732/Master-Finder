@@ -29,7 +29,7 @@ def get_postings(db: Session = Depends(get_db)):
         postings = get_all_postings(db)
         # Convertir los datos a un formato seguro
         safe_postings = []
-        for posting in postings:
+        for posting, location in postings:
             safe_posting = {}
             posting_dict = vars(posting)
             for key, value in posting_dict.items():
@@ -37,11 +37,13 @@ def get_postings(db: Session = Depends(get_db)):
                     safe_posting[key] = base64.b64encode(value).decode('utf-8')
                 else:
                     safe_posting[key] = value
+            safe_posting['location'] = location  # Agregar la ubicación del trabajador
             safe_postings.append(safe_posting)
         return jsonable_encoder(safe_postings)
     except Exception as e:
         logger.error(f"Error fetching postings: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
+
 
 @router.get("/posting/{posting_id}", tags=["Posting"])
 def get_posting_by_id(posting_id: str, db: Session = Depends(get_db)):

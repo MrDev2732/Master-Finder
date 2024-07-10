@@ -2,12 +2,18 @@ import uuid
 import base64
 
 from sqlalchemy.orm import Session
+from sqlalchemy.orm import joinedload
 
-from backend.database.models import Posting
+from backend.database.models import Posting, Worker
 
 
 def get_all_postings(db: Session):
-    return db.query(Posting).all()
+    return db.query(
+        Posting,
+        Worker.location
+    ).join(
+        Worker, Posting.worker_id == Worker.id
+    ).all()
 
 
 def update_posting_by_id(posting_id: str, job_type: str = None, description: str = None, image: str = None, db: Session = None):
