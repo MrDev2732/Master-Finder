@@ -58,6 +58,22 @@
         </div>
       </div>
       
+      <!-- Filtro para Ubicación -->
+      <div class="accordion-item">
+        <button class="accordion-button" (click)="toggleAccordion('location')">
+          Ubicación
+          <i class='bx bx-filter' style="font-size: 1.5em; align-content: end; justify-content: end;"></i>
+        </button>
+        <div class="accordion-content" [class.active]="activeAccordion === 'location'">
+          <select [(ngModel)]="selectedLocation" (ngModelChange)="onFilterSubmit()" class="location-selector">
+            <option value="">Todas las ubicaciones</option>
+            <option *ngFor="let location of locations" [value]="location">
+              {{ location }}
+            </option>
+          </select>
+        </div>
+      </div>
+
       <!-- Aquí puedes agregar más filtros en el futuro -->
 
     </div>
