@@ -21,7 +21,9 @@ export class FiltrosComponent implements OnInit, OnDestroy {
 
   public postings: any[] = [];
   public selectedJobType: string = '';
+  public selectedLocation: string = '';
   public jobTypes: string[] = ['Carpintería', 'Electricidad', 'Gasfitería'];
+  public locations: string[] = ['Maipú', 'Pudahuel', 'Cerrillos']
   activeAccordion: string | null = null;
   postingspremium: any[] = [];
   errorMessage: string = 'errooor!';
@@ -99,7 +101,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
   }
 
   onFilterSubmit(): void {
-    this.loadPostings(this.selectedJobType);
+    this.loadPostings(this.selectedJobType, this.selectedLocation);
   }
 
   // Función para obtener como máximo 20 postings más recientes
@@ -110,7 +112,7 @@ export class FiltrosComponent implements OnInit, OnDestroy {
     return sortedData.slice(0, Math.min(count, 20));
   }
 
-  loadPostings(jobType?: string): void {
+  loadPostings(jobType?: string, location?: string): void {
     this.postingService.getAllPostings().subscribe({
       next: (data) => { 
         data.sort((a, b) => {
@@ -118,11 +120,14 @@ export class FiltrosComponent implements OnInit, OnDestroy {
         });
 
         if (jobType) {
-          // Asegúrate de que 'job_type' es el nombre correcto del campo en los datos recibidos
-          this.postings = data.filter(posting => posting.job_type === jobType);
-        } else {
-          this.postings = data;
+          data = data.filter(posting => posting.job_type === jobType);
         }
+
+        if (location) {
+          data = data.filter(posting => posting.location === location);
+        }
+
+        this.postings = data;
       },
       error: (error) => {
         console.error('Error fetching postings:', error);
