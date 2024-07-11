@@ -41,42 +41,34 @@
     <!-- Acordeón para Tipo de Producto -->
     <div class="accordion">
       <div class="accordion-item">
-        <button class="accordion-button" (click)="toggleAccordion('jobType')">
-
-          Tipo de Especialidad
-
-          <i class='bx bx-filter' style="font-size: 1.5em; align-content: end; justify-content: end;"></i>
-
-        </button>
-        <div class="accordion-content" [class.active]="activeAccordion === 'jobType'">
-          <select [(ngModel)]="selectedJobType" (ngModelChange)="onFilterSubmit()" class="job-type-selector">
-            <option value="">Todos los tipos de trabajo</option>
-            <option *ngFor="let jobType of jobTypes" [value]="jobType">
-              {{ jobType }}
-            </option>
-          </select>
-        </div>
+         <button class="accordion-button" (click)="toggleAccordion('filters')">
+            Filtros
+            <i class='bx bx-filter'></i>
+         </button>
+         <div class="accordion-content" [class.active]="activeAccordion === 'filters'">
+            <div class="filter-group">
+               <label for="jobType" style="justify-content: flex-start; display: flex;">Tipo de Especialidad: </label>
+               <select id="jobType" [(ngModel)]="selectedJobType" (ngModelChange)="onFilterSubmit()" class="job-type-selector">
+                  <option value="">Todos los tipos de trabajo</option>
+                  <option *ngFor="let jobType of jobTypes" [value]="jobType">
+                     {{ jobType }}
+                  </option>
+               </select>
+            </div>
+            <div class="filter-group" style="margin-top: 10px;">
+               <label for="location" style="justify-content: flex-start; display: flex;">Ubicación: </label>
+               <select id="location" [(ngModel)]="selectedLocation" (ngModelChange)="onFilterSubmit()" class="job-type-selector">
+                  <option value="">Todas las ubicaciones</option>
+                  <option *ngFor="let location of locations" [value]="location">
+                     {{ location }}
+                  </option>
+               </select>
+            </div>
+         </div>
       </div>
-      
-      <!-- Filtro para Ubicación -->
-      <div class="accordion-item">
-        <button class="accordion-button" (click)="toggleAccordion('location')">
-          Ubicación
-          <i class='bx bx-filter' style="font-size: 1.5em; align-content: end; justify-content: end;"></i>
-        </button>
-        <div class="accordion-content" [class.active]="activeAccordion === 'location'">
-          <select [(ngModel)]="selectedLocation" (ngModelChange)="onFilterSubmit()" class="location-selector">
-            <option value="">Todas las ubicaciones</option>
-            <option *ngFor="let location of locations" [value]="location">
-              {{ location }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Aquí puedes agregar más filtros en el futuro -->
-
-    </div>
+   </div>
+   
+   
   </div>
 
   <div class="postings-section">
