@@ -1,5 +1,3 @@
-
-
 .container {
   background: linear-gradient(to right, #c9d6ff, #e2e2e2);
   padding: 2rem;
@@ -44,10 +42,14 @@
   display: none;
   padding: 1rem;
   background: #f9f9f9;
+  max-height: 0; // Inicialmente no visible
+  overflow: hidden;
+  transition: max-height 0.8s ease-in-out; // Transición suave
 }
 
 .accordion-content.active {
   display: block;
+  max-height: 500px; // Ajusta según el contenido máximo que pueda tener
 }
 
 .job-type-selector {
@@ -67,8 +69,6 @@
   gap: 2rem;
   justify-items: center;
 }
-
-
 
 .posting-card:hover {
   transform: translateY(-5px);
@@ -97,9 +97,6 @@
   object-position: center; /* Centra la imagen dentro del cuadro */
 }
 
-
-
-
 .card-title {
   font-size: 1.2rem;
   font-weight: bold;
@@ -119,7 +116,6 @@
   -webkit-box-orient: vertical;
   max-height: 10rem; /* Ajusta esta altura según el tamaño de la fuente y el espaciado */
   line-height: 1.5rem; /* Ajusta esta altura según el tamaño de la fuente */
-
 }
 
 @media (max-width: 768px) {
@@ -145,9 +141,6 @@
   -webkit-text-fill-color: transparent;
   animation: gradient-animation 3s ease infinite;
 }
-
-
-
 
 .carousel-container {
   position: relative;
@@ -178,9 +171,6 @@
   z-index: 2;
 }
 
-
-
-
 .carousel-inner {
   display: flex;
   transition: transform 0.5s ease-in-out;
@@ -203,7 +193,6 @@
   height: 100%;
 }
 
-
 .card-body {
   flex: 1;
   overflow: hidden;
@@ -216,8 +205,6 @@
   font-weight: bold;
   margin-bottom: 10px;
 }
-
-
 
 .descriptionc {
   display: -webkit-box;
@@ -256,11 +243,6 @@
     }
   }
 }
-
-
-
-
-
 
 .tcarrusel {
   text-align: center;
