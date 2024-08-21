@@ -36,7 +36,7 @@ def populate_workers(session: Session, n=10):
             email=fake.unique.email(),
             subscription=fake.boolean(),
             profile_description=fake.text(),
-            password=hash_password('falopa'),
+            password=hash_password('password'),
             image=image_binary,
             specialty=fake.random_element(['Carpintería', 'Electricidad', 'Gasfitería']),
             location=fake.random_element(['Maipú', 'Pudahuel', 'Cerrillos']),
@@ -51,7 +51,7 @@ def populate_clients(session: Session, n=10):
         client = Client(
             name=fake.name(),
             email=fake.unique.email(),
-            password=hash_password('falopa'),
+            password=hash_password('password'),
             image=image_binary
         )
         session.add(client)
